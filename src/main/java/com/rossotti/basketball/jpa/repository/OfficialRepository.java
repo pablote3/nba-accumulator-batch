@@ -14,7 +14,7 @@ public interface OfficialRepository extends Repository<Official, Long> {
 
 	Official findOne(Long id);
 
-	Official save(Official official);
+	void save(Official official);
 
 	void delete(Long id);
 

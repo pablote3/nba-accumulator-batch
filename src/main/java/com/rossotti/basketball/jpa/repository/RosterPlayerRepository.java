@@ -14,7 +14,7 @@ public interface RosterPlayerRepository extends Repository<RosterPlayer, Long> {
 
 	RosterPlayer findOne(Long id);
 
-	RosterPlayer save(RosterPlayer player);
+	void save(RosterPlayer player);
 
 	void delete(Long id);
 

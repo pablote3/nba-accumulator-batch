@@ -14,7 +14,7 @@ public interface GameRepository extends Repository<Game, Long> {
 
 	Game findOne(Long id);
 
-	Game save(Game player);
+	void save(Game player);
 
 	void delete(Long id);
 

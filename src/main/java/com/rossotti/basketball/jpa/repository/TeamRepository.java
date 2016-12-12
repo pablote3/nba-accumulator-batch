@@ -14,7 +14,7 @@ public interface TeamRepository extends Repository<Team, Long> {
 
 	Team findOne(Long id);
 
-	Team save(Team team);
+	void save(Team team);
 
 	void delete(Long id);
 

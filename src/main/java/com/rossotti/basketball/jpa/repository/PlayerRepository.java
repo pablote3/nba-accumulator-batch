@@ -12,7 +12,7 @@ public interface PlayerRepository extends Repository<Player, Long> {
 
 	Player findOne(Long id);
 
-	Player save(Player player);
+	void save(Player player);
 
 	void delete(Long id);
 
