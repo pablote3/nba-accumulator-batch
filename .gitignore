@@ -1,4 +1,11 @@
-target/
+#IntelliJ
 /.idea/
-*.iml
-/.mvn/
+
+#Eclipse
+#.classpath
+#.project
+#/.settings/
+
+#Ignore
+/target/
+/src/main/resources/service.properties
