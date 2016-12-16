@@ -1,7 +1,6 @@
 package com.rossotti.basketball.app.service;
 
 import com.rossotti.basketball.app.exception.PropertyException;
-import com.rossotti.basketball.client.dto.ClientSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -18,6 +17,11 @@ import java.util.concurrent.atomic.AtomicReference;
 public class PropertyService {
 	@Autowired
 	private Environment env;
+
+	public enum ClientSource {
+		File,
+		Api
+	}
 
 	public String getProperty_String(String propertyName) {
 		String property = env.getProperty(propertyName);

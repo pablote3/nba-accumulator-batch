@@ -2,7 +2,7 @@ package com.rossotti.basketball.app;
 
 import com.rossotti.basketball.app.exception.PropertyException;
 import com.rossotti.basketball.app.service.PropertyService;
-import com.rossotti.basketball.client.dto.ClientSource;
+import com.rossotti.basketball.app.service.PropertyService.ClientSource;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
