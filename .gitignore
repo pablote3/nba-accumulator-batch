@@ -9,3 +9,5 @@
 #Ignore
 /target/
 /src/main/resources/service.properties
+/nba-accumulator-batch.iml
+/.mvn/
