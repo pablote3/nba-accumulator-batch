@@ -1,5 +1,6 @@
 package com.rossotti.basketball.client.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rossotti.basketball.app.exception.PropertyException;
 import com.rossotti.basketball.app.service.PropertyService;
 import com.rossotti.basketball.client.dto.*;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.stereotype.Service;
 
 import java.io.FileOutputStream;
@@ -24,6 +26,7 @@ public class RestStatsService {
 	private final RestClientService restClientService;
 
 	private final Logger logger = LoggerFactory.getLogger(RestStatsService.class);
+	ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
 
 	@Autowired
 	public RestStatsService(RestClientService restClientService, PropertyService propertyService) {
@@ -55,32 +58,7 @@ public class RestStatsService {
 		return gameDTO;
 	}
 
-	public RosterDTO retrieveRoster(String event) {
-		RosterDTO rosterDTO;
-		try {
-//          String baseUrl = propertyService.getProperty_Http("xmlstats.urlRoster");
-			String baseUrl = "https://erikberg.com/nba/roster/";
-			String eventUrl = baseUrl + event + ".json";
-			ResponseEntity<RosterDTO> entity = restClientService.getRestTemplate().exchange(eventUrl, HttpMethod.GET, restClientService.getEntity(), RosterDTO.class);
-
-			StatusCodeDTO statusCode = getStatusCode(entity);
-			if (statusCode.equals(StatusCodeDTO.Found)) {
-				rosterDTO = entity.getBody();
-			}
-			else {
-				rosterDTO = new RosterDTO();
-			}
-			rosterDTO.setStatusCode(statusCode);
-		}
-		catch (PropertyException pe) {
-			logger.info("Property exception = " + pe);
-			rosterDTO = new RosterDTO();
-			rosterDTO.setStatusCode(StatusCodeDTO.ServerException);
-		}
-		return rosterDTO;
-	}
-
-	public RosterDTO saveRosterJson(String event, LocalDate asOfDate) {
+	public RosterDTO retrieveRoster(String event, LocalDate asOfDate) {
 		RosterDTO rosterDTO = new RosterDTO();
 		try {
 //			String baseUrl = propertyService.getProperty_Http("xmlstats.urlRoster");
@@ -92,12 +70,10 @@ public class RestStatsService {
 
 			StatusCodeDTO statusCode = getStatusCode(entity);
 			if (statusCode.equals(StatusCodeDTO.Found)) {
+				rosterDTO = objectMapper.readValue(entity.getBody(), RosterDTO.class);
 				OutputStream outputStream = new FileOutputStream(file, false);
-				outputStream.write(entity.getBody());
+//				outputStream.write(entity.getBody());
 				outputStream.close();
-			}
-			else {
-				rosterDTO = new RosterDTO();
 			}
 			rosterDTO.setStatusCode(statusCode);
 		}
