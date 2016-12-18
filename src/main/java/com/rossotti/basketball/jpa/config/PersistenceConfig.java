@@ -17,7 +17,7 @@ import java.util.Properties;
 @Configuration
 @EnableJpaRepositories(basePackages = {"com.rossotti.basketball.jpa.repository"})
 @EnableTransactionManagement
-public class PersistenceContext {
+public class PersistenceConfig {
 
 	@Bean
 	DataSource dataSource(Environment env) {
