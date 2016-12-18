@@ -19,7 +19,7 @@ public class RestClientService {
 		this.propertyService = propertyService;
 	}
 
-	public HttpEntity<String> getEntity() throws PropertyException {
+	private HttpEntity<String> getEntity() throws PropertyException {
 		String accessToken = propertyService.getProperty_String("xmlstats.accessToken");
 		String userAgent = propertyService.getProperty_String("xmlstats.userAgent");
 
@@ -30,9 +30,13 @@ public class RestClientService {
 		return entity;
 	}
 
-	public RestTemplate getRestTemplate() {
+	private RestTemplate getRestTemplate() {
 		RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder();
 		restTemplateBuilder.additionalMessageConverters(new MappingJackson2HttpMessageConverter());
 		return restTemplateBuilder.build();
+	}
+
+	public ResponseEntity<byte[]> getJson(String eventUrl) {
+		return getRestTemplate().exchange(eventUrl, HttpMethod.GET, getEntity(), byte[].class);
 	}
 }

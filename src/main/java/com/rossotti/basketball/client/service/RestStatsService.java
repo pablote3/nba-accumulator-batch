@@ -35,44 +35,66 @@ public class RestStatsService {
 	}
 
 	public GameDTO retrieveBoxScore(String event) {
-		GameDTO gameDTO;
+		GameDTO gameDTO = new GameDTO();
 		try {
 			String baseUrl = propertyService.getProperty_Http("xmlstats.urlBoxScore");
 			String eventUrl = baseUrl + event + ".json";
-			ResponseEntity<GameDTO> entity = restClientService.getRestTemplate().exchange(eventUrl, HttpMethod.GET, restClientService.getEntity(), GameDTO.class);
+			ResponseEntity<byte[]> entity = restClientService.getJson(eventUrl);
 
 			StatusCodeDTO statusCode = getStatusCode(entity);
 			if (statusCode.equals(StatusCodeDTO.Found)) {
-				gameDTO = entity.getBody();
-			}
-			else {
-				gameDTO = new GameDTO();
+				gameDTO = objectMapper.readValue(entity.getBody(), GameDTO.class);
 			}
 			gameDTO.setStatusCode(statusCode);
 		}
+		catch (IOException ioe) {
+			logger.info("IO exception = " + ioe);
+			gameDTO.setStatusCode(StatusCodeDTO.ServerException);
+		}
 		catch (PropertyException pe) {
 			logger.info("Property exception = " + pe);
-			gameDTO = new GameDTO();
 			gameDTO.setStatusCode(StatusCodeDTO.ServerException);
 		}
 		return gameDTO;
 	}
 
+	public StandingsDTO retrieveStandings(String event) {
+		StandingsDTO standingsDTO = new StandingsDTO();
+		try {
+			String baseUrl = propertyService.getProperty_Http("xmlstats.urlStandings");
+			String eventUrl = baseUrl + event + ".json";
+			ResponseEntity<byte[]> entity = restClientService.getJson(eventUrl);
+
+			StatusCodeDTO statusCode = getStatusCode(entity);
+			if (statusCode.equals(StatusCodeDTO.Found)) {
+				standingsDTO = objectMapper.readValue(entity.getBody(), StandingsDTO.class);
+			}
+			standingsDTO.setStatusCode(statusCode);
+		}
+		catch (IOException ioe) {
+			logger.info("IO exception = " + ioe);
+			standingsDTO.setStatusCode(StatusCodeDTO.ServerException);
+		}
+		catch (PropertyException pe) {
+			logger.info("Property exception = " + pe);
+			standingsDTO.setStatusCode(StatusCodeDTO.ServerException);
+		}
+		return standingsDTO;
+	}
+
 	public RosterDTO retrieveRoster(String event, LocalDate asOfDate) {
 		RosterDTO rosterDTO = new RosterDTO();
 		try {
-//			String baseUrl = propertyService.getProperty_Http("xmlstats.urlRoster");
-			String baseUrl = "https://erikberg.com/nba/roster/";
-//			String file = propertyService.getProperty_Path("xmlstats.fileRoster") + "/" + event + "-" + DateTimeUtil.getStringDateNaked(asOfDate) + ".json";
-			String file = "/home/pablote/pdrive/pwork/spring/accumulator/datafiles/fileRoster/" + event + "-" + DateTimeUtil.getStringDateNaked(asOfDate) + ".json";
+			String baseUrl = propertyService.getProperty_Http("xmlstats.urlRoster");
+			String file = propertyService.getProperty_Path("xmlstats.fileRoster") + "/" + event + "-" + DateTimeUtil.getStringDateNaked(asOfDate) + ".json";
 			String eventUrl = baseUrl + event + ".json";
-			ResponseEntity<byte[]> entity = restClientService.getRestTemplate().exchange(eventUrl, HttpMethod.GET, restClientService.getEntity(), byte[].class);
+			ResponseEntity<byte[]> entity = restClientService.getJson(eventUrl);
 
 			StatusCodeDTO statusCode = getStatusCode(entity);
 			if (statusCode.equals(StatusCodeDTO.Found)) {
 				rosterDTO = objectMapper.readValue(entity.getBody(), RosterDTO.class);
 				OutputStream outputStream = new FileOutputStream(file, false);
-//				outputStream.write(entity.getBody());
+				outputStream.write(entity.getBody());
 				outputStream.close();
 			}
 			rosterDTO.setStatusCode(statusCode);
@@ -86,30 +108,6 @@ public class RestStatsService {
 			rosterDTO.setStatusCode(StatusCodeDTO.ServerException);
 		}
 		return rosterDTO;
-	}
-
-	public StandingsDTO retrieveStandings(String event) {
-		StandingsDTO standingsDTO;
-		try {
-			String baseUrl = propertyService.getProperty_Http("xmlstats.urlStandings");
-			String eventUrl = baseUrl + event + ".json";
-			ResponseEntity<StandingsDTO> entity = restClientService.getRestTemplate().exchange(eventUrl, HttpMethod.GET, restClientService.getEntity(), StandingsDTO.class);
-
-			StatusCodeDTO statusCode = getStatusCode(entity);
-			if (statusCode.equals(StatusCodeDTO.Found)) {
-				standingsDTO = entity.getBody();
-			}
-			else {
-				standingsDTO = new StandingsDTO();
-			}
-			standingsDTO.setStatusCode(statusCode);
-		}
-		catch (PropertyException pe) {
-			logger.info("Property exception = " + pe);
-			standingsDTO = new StandingsDTO();
-			standingsDTO.setStatusCode(StatusCodeDTO.ServerException);
-		}
-		return standingsDTO;
 	}
 
 	private StatusCodeDTO getStatusCode(ResponseEntity entity) {

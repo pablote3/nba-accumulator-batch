@@ -1,9 +1,7 @@
 package com.rossotti.basketball.client.service;
 
 //import com.rossotti.basketball.util.ThreadSleep;
-import com.rossotti.basketball.client.dto.RosterDTO;
-import com.rossotti.basketball.client.dto.StatsDTO;
-import com.rossotti.basketball.client.dto.StatusCodeDTO;
+import com.rossotti.basketball.client.dto.*;
 import org.junit.Assert;
 //import org.junit.Before;
 import org.junit.Ignore;
@@ -29,14 +27,31 @@ public class RestClientServiceTest {
 //		ThreadSleep.sleep(0);
 //	}
 
-//	@Ignore
+	@Ignore
 	@Test
-	public void retrieveRoster_200() throws IOException {
-//		String baseUrl = "https://erikberg.com/nba/roster/";
+	public void retrieveRoster_200() {
 		String event = "toronto-raptors";
-		StatsDTO stats = restStatsService.retrieveRoster(event, LocalDate.of(2016, 12, 15));
-		Assert.assertEquals(RosterDTO.class, stats.getClass());
-		Assert.assertEquals(StatusCodeDTO.Found, stats.getStatusCode());
+		RosterDTO roster = restStatsService.retrieveRoster(event, LocalDate.of(2016, 12, 15));
+		Assert.assertEquals(StatusCodeDTO.Found, roster.getStatusCode());
+		Assert.assertEquals(15, roster.players.length);
+	}
+
+	@Ignore
+	@Test
+	public void retrieveStandings_200() {
+		String event = "20141028";
+		StandingsDTO standings = restStatsService.retrieveStandings(event);
+		Assert.assertEquals(StatusCodeDTO.Found, standings.getStatusCode());
+		Assert.assertEquals(30, standings.standing.length);
+	}
+
+	@Ignore
+	@Test
+	public void retrieveBoxScore_200() {
+		String event = "20150415-utah-jazz-at-houston-rockets";
+		GameDTO game = restStatsService.retrieveBoxScore(event);
+		Assert.assertEquals(StatusCodeDTO.Found, game.getStatusCode());
+		Assert.assertEquals(3, game.officials.length);
 	}
 
 //	@Test
