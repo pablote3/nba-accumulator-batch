@@ -19,16 +19,16 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class FileStatsServiceTest {
 	@Mock
-	PropertyService propertyService;
+	private PropertyService propertyService;
 
 	@Mock
-	FileClientService fileClientService;
+	private FileClientService fileClientService;
 
 	@InjectMocks
 	private FileStatsService fileStatsService;
 
 	@Test
-	public void retrieveBoxScore_propertyException() {
+	public void retrieveBoxScore_PropertyException() {
 		when(propertyService.getProperty_Path(anyString()))
 			.thenThrow(new PropertyException("propertyName"));
 		GameDTO game = fileStatsService.retrieveBoxScore("20150415-utah-jazz-at-houston-rockets");
@@ -36,37 +36,37 @@ public class FileStatsServiceTest {
 	}
 
 	@Test
-	public void retrieveBoxScore_notFound() {
+	public void retrieveBoxScore_NotFound() {
 		when(propertyService.getProperty_Path(anyString()))
 			.thenReturn("/home/pablote/");
-		when(fileClientService.retrieveStats(anyString(), anyString(), (StatsDTO) anyObject()))
+		when(fileClientService.retrieveStats(anyString(), anyString(), anyObject()))
 			.thenReturn(createMockStatsDTO(new GameDTO(), StatusCodeDTO.NotFound));
 		GameDTO game = fileStatsService.retrieveBoxScore("20150415-utah-jazz-at-houston-rockets");
 		Assert.assertTrue(game.isNotFound());
 	}
 
 	@Test
-	public void retrieveBoxScore_clientException() {
+	public void retrieveBoxScore_ClientException() {
 		when(propertyService.getProperty_Path(anyString()))
 			.thenReturn("/home/pablote/");
-		when(fileClientService.retrieveStats(anyString(), anyString(), (StatsDTO) anyObject()))
+		when(fileClientService.retrieveStats(anyString(), anyString(), anyObject()))
 			.thenReturn(createMockStatsDTO(new GameDTO(), StatusCodeDTO.ClientException));
 		GameDTO game = fileStatsService.retrieveBoxScore("20150415-utah-jazz-at-houston-rockets");
 		Assert.assertTrue(game.isClientException());
 	}
 
 	@Test
-	public void retrieveBoxScore_found() {
+	public void retrieveBoxScore_Found() {
 		when(propertyService.getProperty_Path(anyString()))
 			.thenReturn("/home/pablote/");
-		when(fileClientService.retrieveStats(anyString(), anyString(), (StatsDTO) anyObject()))
+		when(fileClientService.retrieveStats(anyString(), anyString(), anyObject()))
 			.thenReturn(createMockStatsDTO(new GameDTO(), StatusCodeDTO.Found));
 		GameDTO game = fileStatsService.retrieveBoxScore("20150415-utah-jazz-at-houston-rockets");
 		Assert.assertTrue(game.isFound());
 	}
 
 	@Test
-	public void retrieveRoster_propertyException() {
+	public void retrieveRoster_PropertyException() {
 		when(propertyService.getProperty_Path(anyString()))
 			.thenThrow(new PropertyException("propertyName"));
 		RosterDTO roster = fileStatsService.retrieveRoster("toronto-raptors", LocalDate.of(2015, 4, 15));
@@ -74,37 +74,37 @@ public class FileStatsServiceTest {
 	}
 
 	@Test
-	public void retrieveRoster_notFound() {
+	public void retrieveRoster_NotFound() {
 		when(propertyService.getProperty_Path(anyString()))
 			.thenReturn("/home/pablote/");
-		when(fileClientService.retrieveStats(anyString(), anyString(), (StatsDTO) anyObject()))
+		when(fileClientService.retrieveStats(anyString(), anyString(), anyObject()))
 			.thenReturn(createMockStatsDTO(new RosterDTO(), StatusCodeDTO.NotFound));
 		RosterDTO roster = fileStatsService.retrieveRoster("toronto-raptors-20150415", LocalDate.of(2015, 4, 15));
 		Assert.assertTrue(roster.isNotFound());
 	}
 
 	@Test
-	public void retrieveRoster_clientException() {
+	public void retrieveRoster_ClientException() {
 		when(propertyService.getProperty_Path(anyString()))
 			.thenReturn("/home/pablote/");
-		when(fileClientService.retrieveStats(anyString(), anyString(), (StatsDTO) anyObject()))
+		when(fileClientService.retrieveStats(anyString(), anyString(), anyObject()))
 			.thenReturn(createMockStatsDTO(new RosterDTO(), StatusCodeDTO.ClientException));
 		RosterDTO roster = fileStatsService.retrieveRoster("toronto-raptors", LocalDate.of(2015, 4, 15));
 		Assert.assertTrue(roster.isClientException());
 	}
 
 	@Test
-	public void retrieveRoster_found() {
+	public void retrieveRoster_Found() {
 		when(propertyService.getProperty_Path(anyString()))
 			.thenReturn("/home/pablote/");
-		when(fileClientService.retrieveStats(anyString(), anyString(), (StatsDTO) anyObject()))
+		when(fileClientService.retrieveStats(anyString(), anyString(), anyObject()))
 			.thenReturn(createMockStatsDTO(new RosterDTO(), StatusCodeDTO.Found));
 		RosterDTO roster = fileStatsService.retrieveRoster("toronto-raptors", LocalDate.of(2015, 4, 15));
 		Assert.assertTrue(roster.isFound());
 	}
 
 	@Test
-	public void retrieveStandings_propertyException() {
+	public void retrieveStandings_PropertyException() {
 		when(propertyService.getProperty_Path(anyString()))
 			.thenThrow(new PropertyException("propertyName"));
 		StandingsDTO standings = fileStatsService.retrieveStandings("20141028");
@@ -112,30 +112,30 @@ public class FileStatsServiceTest {
 	}
 
 	@Test
-	public void retrieveStandings_notFound() {
+	public void retrieveStandings_NotFound() {
 		when(propertyService.getProperty_Path(anyString()))
 			.thenReturn("/home/pablote/");
-		when(fileClientService.retrieveStats(anyString(), anyString(), (StatsDTO) anyObject()))
+		when(fileClientService.retrieveStats(anyString(), anyString(), anyObject()))
 			.thenReturn(createMockStatsDTO(new StandingsDTO(), StatusCodeDTO.NotFound));
 		StandingsDTO standings = fileStatsService.retrieveStandings("20141028");
 		Assert.assertTrue(standings.isNotFound());
 	}
 
 	@Test
-	public void retrieveStandings_clientException() {
+	public void retrieveStandings_ClientException() {
 		when(propertyService.getProperty_Path(anyString()))
 			.thenReturn("/home/pablote/");
-		when(fileClientService.retrieveStats(anyString(), anyString(), (StatsDTO) anyObject()))
+		when(fileClientService.retrieveStats(anyString(), anyString(), anyObject()))
 			.thenReturn(createMockStatsDTO(new StandingsDTO(), StatusCodeDTO.ClientException));
 		StandingsDTO standings = fileStatsService.retrieveStandings("20141028");
 		Assert.assertTrue(standings.isClientException());
 	}
 
 	@Test
-	public void retrieveStandings_found() {
+	public void retrieveStandings_Found() {
 		when(propertyService.getProperty_Path(anyString()))
 			.thenReturn("/home/pablote/");
-		when(fileClientService.retrieveStats(anyString(), anyString(), (StatsDTO) anyObject()))
+		when(fileClientService.retrieveStats(anyString(), anyString(), anyObject()))
 			.thenReturn(createMockStatsDTO(new StandingsDTO(), StatusCodeDTO.Found));
 		StandingsDTO standings = fileStatsService.retrieveStandings("20141028");
 		Assert.assertTrue(standings.isFound());
