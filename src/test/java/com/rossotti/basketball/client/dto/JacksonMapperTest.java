@@ -1,10 +1,11 @@
-package com.rossotti.basketball.client.service;
+package com.rossotti.basketball.client.dto;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rossotti.basketball.client.dto.GameDTO;
 import com.rossotti.basketball.client.dto.RosterDTO;
 import com.rossotti.basketball.client.dto.StandingsDTO;
 import com.rossotti.basketball.client.dto.StatsDTO;
+import com.rossotti.basketball.client.service.FileClientService;
 import com.rossotti.basketball.jpa.service.GameService;
 import org.junit.Assert;
 import org.junit.Test;
