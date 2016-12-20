@@ -1,4 +1,4 @@
-package com.rossotti.basketball.app.service;
+package com.rossotti.basketball.util.service;
 
 import com.rossotti.basketball.app.exception.PropertyException;
 import org.springframework.beans.factory.annotation.Autowired;

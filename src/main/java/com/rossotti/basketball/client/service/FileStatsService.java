@@ -1,12 +1,12 @@
 package com.rossotti.basketball.client.service;
 
 import com.rossotti.basketball.app.exception.PropertyException;
-import com.rossotti.basketball.app.service.PropertyService;
+import com.rossotti.basketball.util.service.PropertyService;
 import com.rossotti.basketball.client.dto.GameDTO;
 import com.rossotti.basketball.client.dto.RosterDTO;
 import com.rossotti.basketball.client.dto.StandingsDTO;
 import com.rossotti.basketball.client.dto.StatusCodeDTO;
-import com.rossotti.basketball.util.DateTimeUtil;
+import com.rossotti.basketball.util.function.DateTimeConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +44,7 @@ public class FileStatsService {
 		RosterDTO rosterDTO = new RosterDTO();
 		try {
 			String path = propertyService.getProperty_Path("xmlstats.fileRoster");
-			String dateEvent = event + "-" + DateTimeUtil.getStringDateNaked(asOfDate);
+			String dateEvent = event + "-" + DateTimeConverter.getStringDateNaked(asOfDate);
 			rosterDTO = (RosterDTO)fileClientService.retrieveStats(path, dateEvent, rosterDTO);
 		}
 		catch (PropertyException pe) {

@@ -1,4 +1,4 @@
-package com.rossotti.basketball.util;
+package com.rossotti.basketball.util.function;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 
-public class DateTimeUtil {
+public class DateTimeConverter {
 
 	private static final DateTimeFormatter dateNakedFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -45,12 +45,12 @@ public class DateTimeUtil {
 	}
 
 	static public LocalDateTime getLocalDateTimeMin(LocalDate localDate) {
-		String stringDate = DateTimeUtil.getStringDate(localDate);
+		String stringDate = DateTimeConverter.getStringDate(localDate);
 		return LocalDateTime.parse(stringDate + "T00:00");
 	}
 
 	static public LocalDateTime getLocalDateTimeMax(LocalDate localDate) {
-		String stringDate = DateTimeUtil.getStringDate(localDate);
+		String stringDate = DateTimeConverter.getStringDate(localDate);
 		return LocalDateTime.parse(stringDate + "T23:59");
 	}
 

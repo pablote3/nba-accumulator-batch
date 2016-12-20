@@ -7,7 +7,7 @@ import com.rossotti.basketball.jpa.model.Game;
 import com.rossotti.basketball.jpa.model.GameOfficial;
 import com.rossotti.basketball.jpa.repository.GameRepository;
 import com.rossotti.basketball.jpa.service.GameService;
-import com.rossotti.basketball.util.DateTimeUtil;
+import com.rossotti.basketball.util.function.DateTimeConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,7 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	public Game findByTeamKeyAndAsOfDate(String teamKey, LocalDate asOfDate) {
-		Game game = gameRepository.findByTeamKeyAndFromDateAndToDate(teamKey, DateTimeUtil.getLocalDateTimeMin(asOfDate), DateTimeUtil.getLocalDateTimeMax(asOfDate));
+		Game game = gameRepository.findByTeamKeyAndFromDateAndToDate(teamKey, DateTimeConverter.getLocalDateTimeMin(asOfDate), DateTimeConverter.getLocalDateTimeMax(asOfDate));
 		if (game != null) {
 			game.setStatusCode(StatusCodeDAO.Found);
 		}
@@ -40,17 +40,17 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	public List<Game> findByTeamKeyAndAsOfDateSeason(String teamKey, LocalDate asOfDate) {
-		return gameRepository.findByTeamKeyAndFromDateAndToDateSeason(teamKey, DateTimeUtil.getLocalDateTimeSeasonMin(asOfDate), DateTimeUtil.getLocalDateTimeMax(asOfDate));
+		return gameRepository.findByTeamKeyAndFromDateAndToDateSeason(teamKey, DateTimeConverter.getLocalDateTimeSeasonMin(asOfDate), DateTimeConverter.getLocalDateTimeMax(asOfDate));
 	}
 
 	@Override
 	public List<Game> findByAsOfDate(LocalDate asOfDate) {
-		return gameRepository.findByFromDateAndToDate(DateTimeUtil.getLocalDateTimeMin(asOfDate), DateTimeUtil.getLocalDateTimeMax(asOfDate));
+		return gameRepository.findByFromDateAndToDate(DateTimeConverter.getLocalDateTimeMin(asOfDate), DateTimeConverter.getLocalDateTimeMax(asOfDate));
 	}
 
 	@Override
 	public LocalDateTime findPreviousByTeamKeyAsOfDate(String teamKey, LocalDate asOfDate) {
-		List<LocalDateTime> gameDateTime = gameRepository.findPreviousByTeamKeyAndAsOfDate(teamKey, DateTimeUtil.getLocalDateTimeMin(asOfDate));
+		List<LocalDateTime> gameDateTime = gameRepository.findPreviousByTeamKeyAndAsOfDate(teamKey, DateTimeConverter.getLocalDateTimeMin(asOfDate));
 		if (gameDateTime != null && gameDateTime.size() > 0) {
 			return gameDateTime.get(0);
 		}
@@ -73,7 +73,7 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	public Game create(Game createGame) {
-		Game game = findByTeamKeyAndAsOfDate(createGame.getBoxScoreAway().getTeam().getTeamKey(), DateTimeUtil.getLocalDate(createGame.getGameDateTime()));
+		Game game = findByTeamKeyAndAsOfDate(createGame.getBoxScoreAway().getTeam().getTeamKey(), DateTimeConverter.getLocalDate(createGame.getGameDateTime()));
 		if (game.isNotFound()) {
 			gameRepository.save(createGame);
 			createGame.setStatusCode(StatusCodeDAO.Created);
@@ -86,7 +86,7 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	public Game update(Game updateGame) {
-		Game findGame = findByTeamKeyAndAsOfDate(updateGame.getBoxScoreAway().getTeam().getTeamKey(), DateTimeUtil.getLocalDate(updateGame.getGameDateTime()));
+		Game findGame = findByTeamKeyAndAsOfDate(updateGame.getBoxScoreAway().getTeam().getTeamKey(), DateTimeConverter.getLocalDate(updateGame.getGameDateTime()));
 		if (findGame.isFound()) {
 			if (!findGame.getBoxScoreHome().getTeam().getTeamKey().equals(updateGame.getBoxScoreHome().getTeam().getTeamKey())) {
 				findGame.setStatusCode(StatusCodeDAO.NotFound);
