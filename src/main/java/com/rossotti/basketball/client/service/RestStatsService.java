@@ -82,6 +82,10 @@ public class RestStatsService {
 			}
 			standingsDTO.setStatusCode(statusCode);
 		}
+		catch (FileException fe) {
+			logger.info("File exception = " + fe);
+			standingsDTO.setStatusCode(StatusCodeDTO.ServerException);
+		}
 		catch (IOException ioe) {
 			logger.info("IO exception = " + ioe);
 			standingsDTO.setStatusCode(StatusCodeDTO.ServerException);
@@ -109,6 +113,10 @@ public class RestStatsService {
 				}
 			}
 			rosterDTO.setStatusCode(statusCode);
+		}
+		catch (FileException fe) {
+			logger.info("File exception = " + fe);
+			rosterDTO.setStatusCode(StatusCodeDTO.ServerException);
 		}
 		catch (IOException ioe) {
 			logger.info("IO exception = " + ioe);

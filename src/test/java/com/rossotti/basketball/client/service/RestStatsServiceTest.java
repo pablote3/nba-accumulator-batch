@@ -14,9 +14,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.time.LocalDate;
 
 import static org.mockito.Matchers.any;
@@ -87,7 +84,7 @@ public class RestStatsServiceTest {
 	}
 
 	@Test
-	public void retrieveBoxScore_Found_PersistFalse() {
+	public void retrieveBoxScore_Found_NoPersist() {
 		when(propertyService.getProperty_Http(anyString()))
 			.thenReturn("https://");
 		when(restClientService.getJson(anyString()))
@@ -97,7 +94,7 @@ public class RestStatsServiceTest {
 	}
 
 	@Test
-	public void retrieveBoxScore_PropertyException_PersistTrue() {
+	public void retrieveBoxScore_PropertyException_Persist() {
 		when(propertyService.getProperty_Http(anyString()))
 			.thenReturn("https://");
 		when(restClientService.getJson(anyString()))
@@ -109,7 +106,7 @@ public class RestStatsServiceTest {
 	}
 
 	@Test
-	public void retrieveBoxScore_FileException_PersistTrue() {
+	public void retrieveBoxScore_FileException_Persist() {
 		when(propertyService.getProperty_Http(anyString()))
 			.thenReturn("https://");
 		when(restClientService.getJson(anyString()))
@@ -123,7 +120,7 @@ public class RestStatsServiceTest {
 	}
 
 	@Test
-	public void retrieveBoxScore_Found_PersistTrue() {
+	public void retrieveBoxScore_Found_Persist() {
 		when(propertyService.getProperty_Http(anyString()))
 			.thenReturn("https://");
 		when(restClientService.getJson(anyString()))
@@ -136,61 +133,199 @@ public class RestStatsServiceTest {
 		Assert.assertTrue(game.isFound());
 	}
 
-//	@Test
-//	public void retrieveRoster_PropertyException_PropertyService() {
-//		when(propertyService.getProperty_Http(anyString()))
-//			.thenThrow(new PropertyException("propertyName"));
-//		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", LocalDate.of(2016, 3, 11));
-//		Assert.assertTrue(roster.isServerException());
-//	}
-//
-//	@Test
-//	public void retrieveRoster_PropertyException_ClientService() {
-//		when(propertyService.getProperty_Http(anyString()))
-//			.thenReturn("https://");
-//		when(restClientService.getJson(anyString()))
-//			.thenThrow(new PropertyException("propertyName"));
-//		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", LocalDate.of(2016, 3, 11));
-//		Assert.assertTrue(roster.isServerException());
-//	}
-//
-//	@Test
-//	public void retrieveRoster_NotFound() {
-//		when(propertyService.getProperty_Http(anyString()))
-//			.thenReturn("https://");
-//		when(restClientService.getJson(anyString()))
-//			.thenReturn(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-//		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", LocalDate.of(2016, 3, 11));
-//		Assert.assertTrue(roster.isNotFound());
-//	}
-//
-//	@Test
-//	public void retrieveRoster_Unauthorized() {
-//		when(propertyService.getProperty_Http(anyString()))
-//			.thenReturn("https://");
-//		when(restClientService.getJson(anyString()))
-//			.thenReturn(new ResponseEntity<>(HttpStatus.UNAUTHORIZED));
-//		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", LocalDate.of(2016, 3, 11));
-//		Assert.assertTrue(roster.isNotFound());
-//	}
-//
-//	@Test
-//	public void retrieveRoster_IOException() {
-//		when(propertyService.getProperty_Http(anyString()))
-//			.thenReturn("https://");
-//		when(restClientService.getJson(anyString()))
-//			.thenReturn(new ResponseEntity<>("test".getBytes(), HttpStatus.OK));
-//		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", LocalDate.of(2016, 3, 11));
-//		Assert.assertTrue(roster.isServerException());
-//	}
+	@Test
+	public void retrieveRoster_PropertyException_PropertyService() {
+		when(propertyService.getProperty_Http(anyString()))
+			.thenThrow(new PropertyException("propertyName"));
+		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", false, LocalDate.of(2016, 3, 11));
+		Assert.assertTrue(roster.isServerException());
+	}
 
-//	@Test
-//	public void retrieveRoster_Found() {
-//		when(propertyService.getProperty_Http(anyString()))
-//			.thenReturn("https://");
-//		when(restClientService.getJson(anyString()))
-//			.thenReturn(new ResponseEntity<>(getBytes(getClass().getClassLoader().getResourceAsStream("mockClient/rosterClient.json")), HttpStatus.OK));
-//		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", LocalDate.of(2016, 3, 11));
-//		Assert.assertTrue(roster.isFound());
-//	}
+	@Test
+	public void retrieveRoster_PropertyException_ClientService() {
+		when(propertyService.getProperty_Http(anyString()))
+			.thenReturn("https://");
+		when(restClientService.getJson(anyString()))
+			.thenThrow(new PropertyException("propertyName"));
+		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", false, LocalDate.of(2016, 3, 11));
+		Assert.assertTrue(roster.isServerException());
+	}
+
+	@Test
+	public void retrieveRoster_NotFound() {
+		when(propertyService.getProperty_Http(anyString()))
+			.thenReturn("https://");
+		when(restClientService.getJson(anyString()))
+			.thenReturn(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", false, LocalDate.of(2016, 3, 11));
+		Assert.assertTrue(roster.isNotFound());
+	}
+
+	@Test
+	public void retrieveRoster_Unauthorized() {
+		when(propertyService.getProperty_Http(anyString()))
+			.thenReturn("https://");
+		when(restClientService.getJson(anyString()))
+			.thenReturn(new ResponseEntity<>(HttpStatus.UNAUTHORIZED));
+		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", false, LocalDate.of(2016, 3, 11));
+		Assert.assertTrue(roster.isNotFound());
+	}
+
+	@Test
+	public void retrieveRoster_IOException() {
+		when(propertyService.getProperty_Http(anyString()))
+			.thenReturn("https://");
+		when(restClientService.getJson(anyString()))
+			.thenReturn(new ResponseEntity<>("test".getBytes(), HttpStatus.OK));
+		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", false, LocalDate.of(2016, 3, 11));
+		Assert.assertTrue(roster.isServerException());
+	}
+
+	@Test
+	public void retrieveRoster_Found_NoPersist() {
+		when(propertyService.getProperty_Http(anyString()))
+			.thenReturn("https://");
+		when(restClientService.getJson(anyString()))
+			.thenReturn(new ResponseEntity<>(StreamConverter.getBytes(getClass().getClassLoader().getResourceAsStream("mockClient/rosterClient.json")), HttpStatus.OK));
+		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", false, LocalDate.of(2016, 3, 11));
+		Assert.assertTrue(roster.isFound());
+	}
+
+	@Test
+	public void retrieveRoster_PropertyException_Persist() {
+		when(propertyService.getProperty_Http(anyString()))
+			.thenReturn("https://");
+		when(restClientService.getJson(anyString()))
+			.thenReturn(new ResponseEntity<>(StreamConverter.getBytes(getClass().getClassLoader().getResourceAsStream("mockClient/rosterClient.json")), HttpStatus.OK));
+		when(propertyService.getProperty_Path(anyString()))
+			.thenThrow(new PropertyException("propertyName"));
+		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", true, LocalDate.of(2016, 3, 11));
+		Assert.assertTrue(roster.isServerException());
+	}
+
+	@Test
+	public void retrieveRoster_FileException_Persist() {
+		when(propertyService.getProperty_Http(anyString()))
+			.thenReturn("https://");
+		when(restClientService.getJson(anyString()))
+			.thenReturn(new ResponseEntity<>(StreamConverter.getBytes(getClass().getClassLoader().getResourceAsStream("mockClient/rosterClient.json")), HttpStatus.OK));
+		when(propertyService.getProperty_Path(anyString()))
+			.thenReturn("//");
+		when(fileService.fileStreamWriter(anyString(), any(byte[].class)))
+			.thenThrow(new FileException("IO Exception"));
+		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", true, LocalDate.of(2016, 3, 11));
+		Assert.assertTrue(roster.isServerException());
+	}
+
+	@Test
+	public void retrieveRoster_Found_Persist() {
+		when(propertyService.getProperty_Http(anyString()))
+			.thenReturn("https://");
+		when(restClientService.getJson(anyString()))
+			.thenReturn(new ResponseEntity<>(StreamConverter.getBytes(getClass().getClassLoader().getResourceAsStream("mockClient/rosterClient.json")), HttpStatus.OK));
+		when(propertyService.getProperty_Path(anyString()))
+			.thenReturn("//");
+		when(fileService.fileStreamWriter(anyString(), any(byte[].class)))
+			.thenReturn(true);
+		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", true, LocalDate.of(2016, 3, 11));
+		Assert.assertTrue(roster.isFound());
+	}
+
+	@Test
+	public void retrieveStandings_PropertyException_PropertyService() {
+		when(propertyService.getProperty_Http(anyString()))
+			.thenThrow(new PropertyException("propertyName"));
+		StandingsDTO standings = restStatsService.retrieveStandings("20160311", false);
+		Assert.assertTrue(standings.isServerException());
+	}
+
+	@Test
+	public void retrieveStandings_PropertyException_ClientService() {
+		when(propertyService.getProperty_Http(anyString()))
+			.thenReturn("https://");
+		when(restClientService.getJson(anyString()))
+			.thenThrow(new PropertyException("propertyName"));
+		StandingsDTO standings = restStatsService.retrieveStandings("20160311", false);
+		Assert.assertTrue(standings.isServerException());
+	}
+
+	@Test
+	public void retrieveStandings_NotFound() {
+		when(propertyService.getProperty_Http(anyString()))
+			.thenReturn("https://");
+		when(restClientService.getJson(anyString()))
+			.thenReturn(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+		StandingsDTO standings = restStatsService.retrieveStandings("20160311", false);
+		Assert.assertTrue(standings.isNotFound());
+	}
+
+	@Test
+	public void retrieveStandings_Unauthorized() {
+		when(propertyService.getProperty_Http(anyString()))
+			.thenReturn("https://");
+		when(restClientService.getJson(anyString()))
+			.thenReturn(new ResponseEntity<>(HttpStatus.UNAUTHORIZED));
+		StandingsDTO standings = restStatsService.retrieveStandings("20160311", false);
+		Assert.assertTrue(standings.isNotFound());
+	}
+
+	@Test
+	public void retrieveStandings_IOException() {
+		when(propertyService.getProperty_Http(anyString()))
+			.thenReturn("https://");
+		when(restClientService.getJson(anyString()))
+			.thenReturn(new ResponseEntity<>("test".getBytes(), HttpStatus.OK));
+		StandingsDTO standings = restStatsService.retrieveStandings("20160311", false);
+		Assert.assertTrue(standings.isServerException());
+	}
+
+	@Test
+	public void retrieveStandings_Found_NoPersist() {
+		when(propertyService.getProperty_Http(anyString()))
+			.thenReturn("https://");
+		when(restClientService.getJson(anyString()))
+			.thenReturn(new ResponseEntity<>(StreamConverter.getBytes(getClass().getClassLoader().getResourceAsStream("mockClient/standingsClient.json")), HttpStatus.OK));
+		StandingsDTO standings = restStatsService.retrieveStandings("20160311", false);
+		Assert.assertTrue(standings.isFound());
+	}
+
+	@Test
+	public void retrieveStandings_PropertyException_Persist() {
+		when(propertyService.getProperty_Http(anyString()))
+			.thenReturn("https://");
+		when(restClientService.getJson(anyString()))
+			.thenReturn(new ResponseEntity<>(StreamConverter.getBytes(getClass().getClassLoader().getResourceAsStream("mockClient/standingsClient.json")), HttpStatus.OK));
+		when(propertyService.getProperty_Path(anyString()))
+			.thenThrow(new PropertyException("propertyName"));
+		StandingsDTO standings = restStatsService.retrieveStandings("20160311", true);
+		Assert.assertTrue(standings.isServerException());
+	}
+
+	@Test
+	public void retrieveStandings_FileException_Persist() {
+		when(propertyService.getProperty_Http(anyString()))
+			.thenReturn("https://");
+		when(restClientService.getJson(anyString()))
+			.thenReturn(new ResponseEntity<>(StreamConverter.getBytes(getClass().getClassLoader().getResourceAsStream("mockClient/standingsClient.json")), HttpStatus.OK));
+		when(propertyService.getProperty_Path(anyString()))
+			.thenReturn("//");
+		when(fileService.fileStreamWriter(anyString(), any(byte[].class)))
+			.thenThrow(new FileException("IO Exception"));
+		StandingsDTO standings = restStatsService.retrieveStandings("20160311", true);
+		Assert.assertTrue(standings.isServerException());
+	}
+
+	@Test
+	public void retrieveStandings_Found_Persist() {
+		when(propertyService.getProperty_Http(anyString()))
+			.thenReturn("https://");
+		when(restClientService.getJson(anyString()))
+			.thenReturn(new ResponseEntity<>(StreamConverter.getBytes(getClass().getClassLoader().getResourceAsStream("mockClient/standingsClient.json")), HttpStatus.OK));
+		when(propertyService.getProperty_Path(anyString()))
+			.thenReturn("//");
+		when(fileService.fileStreamWriter(anyString(), any(byte[].class)))
+			.thenReturn(true);
+		StandingsDTO standings = restStatsService.retrieveStandings("20160311", true);
+		Assert.assertTrue(standings.isFound());
+	}
 }
