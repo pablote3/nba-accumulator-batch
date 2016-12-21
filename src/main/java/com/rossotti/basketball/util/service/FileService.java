@@ -1,5 +1,7 @@
 package com.rossotti.basketball.util.service;
 
+import com.rossotti.basketball.app.exception.FileException;
+import com.rossotti.basketball.app.exception.PropertyException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -8,20 +10,20 @@ import java.io.*;
 
 @Service
 public class FileService {
-
 	private final Logger logger = LoggerFactory.getLogger(FileService.class);
 
-	public void fileStreamWriter(String fileName, byte[] data) {
+	public boolean fileStreamWriter(String fileName, byte[] data) {
 		try {
 			OutputStream outputStream = new FileOutputStream(fileName, false);
 			outputStream.write(data);
 			outputStream.close();
+			return true;
 		}
 		catch (FileNotFoundException fnf) {
-			logger.info("FileNotFoundException writing file = " + fnf);
+			throw new FileException("FileNotFoundException");
 		}
 		catch (IOException ioe) {
-			logger.info("IO exception writing file = " + ioe);
+			throw new FileException("IOException");
 		}
 	}
 
