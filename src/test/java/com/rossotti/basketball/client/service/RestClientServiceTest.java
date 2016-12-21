@@ -30,7 +30,7 @@ public class RestClientServiceTest {
 	@Test
 	public void retrieveRoster_200() {
 		String event = "toronto-raptors";
-		RosterDTO roster = restStatsService.retrieveRoster(event, LocalDate.of(2016, 12, 15));
+		RosterDTO roster = restStatsService.retrieveRoster(event, false, LocalDate.of(2016, 12, 15));
 		Assert.assertEquals(StatusCodeDTO.Found, roster.getStatusCode());
 		Assert.assertEquals(15, roster.players.length);
 	}
@@ -39,7 +39,7 @@ public class RestClientServiceTest {
 	@Test
 	public void retrieveStandings_200() {
 		String event = "20141028";
-		StandingsDTO standings = restStatsService.retrieveStandings(event);
+		StandingsDTO standings = restStatsService.retrieveStandings(event, false);
 		Assert.assertEquals(StatusCodeDTO.Found, standings.getStatusCode());
 		Assert.assertEquals(30, standings.standing.length);
 	}
@@ -48,7 +48,7 @@ public class RestClientServiceTest {
 	@Test
 	public void retrieveBoxScore_200() {
 		String event = "20150415-utah-jazz-at-houston-rockets";
-		GameDTO game = restStatsService.retrieveBoxScore(event);
+		GameDTO game = restStatsService.retrieveBoxScore(event, false);
 		Assert.assertEquals(StatusCodeDTO.Found, game.getStatusCode());
 		Assert.assertEquals(3, game.officials.length);
 	}
