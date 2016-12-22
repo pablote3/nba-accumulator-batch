@@ -15,8 +15,12 @@ import java.util.concurrent.atomic.AtomicReference;
 @Configuration
 @PropertySource("classpath:/service.properties")
 public class PropertyService {
+	private final Environment env;
+
 	@Autowired
-	private Environment env;
+	public PropertyService(Environment env) {
+		this.env = env;
+	}
 
 	public enum ClientSource {
 		File,
@@ -49,7 +53,7 @@ public class PropertyService {
 
 	public ClientSource getProperty_ClientSource(String propertyName) {
 		String property = getProperty_String(propertyName);
-		AtomicReference<ClientSource> clientSource = new AtomicReference<ClientSource>();
+		AtomicReference<ClientSource> clientSource = new AtomicReference<>();
 		try {
 			clientSource.set(ClientSource.valueOf(property));
 		} catch (IllegalArgumentException e) {

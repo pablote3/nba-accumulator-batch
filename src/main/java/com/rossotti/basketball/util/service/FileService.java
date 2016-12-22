@@ -41,6 +41,7 @@ public class FileService {
 		}
 		finally {
 			try {
+				assert fileReader != null;
 				fileReader.close();
 			}
 			catch (IOException ioe) {

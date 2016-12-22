@@ -26,8 +26,7 @@ public class RestClientService {
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
 		headers.set(HttpHeaders.USER_AGENT, userAgent);
-		HttpEntity<String> entity = new HttpEntity<String>(headers);
-		return entity;
+		return new HttpEntity<>(headers);
 	}
 
 	private RestTemplate getRestTemplate() {

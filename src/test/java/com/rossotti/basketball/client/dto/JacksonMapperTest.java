@@ -1,13 +1,8 @@
 package com.rossotti.basketball.client.dto;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rossotti.basketball.client.dto.GameDTO;
-import com.rossotti.basketball.client.dto.RosterDTO;
-import com.rossotti.basketball.client.dto.StandingsDTO;
-import com.rossotti.basketball.client.service.FileClientService;
 import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import java.io.IOException;
@@ -17,13 +12,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 public class JacksonMapperTest {
-
-	private FileClientService fileClientService;
-
-	@Autowired
-	public void setFileClientService(FileClientService fileClientService) {
-		this.fileClientService = fileClientService;
-	}
 
 	ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
 

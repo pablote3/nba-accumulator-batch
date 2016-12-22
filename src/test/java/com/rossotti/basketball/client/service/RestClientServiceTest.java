@@ -1,10 +1,8 @@
 package com.rossotti.basketball.client.service;
 
-//import com.rossotti.basketball.util.ThreadSleep;
 import com.rossotti.basketball.client.dto.*;
 import com.rossotti.basketball.util.function.ThreadSleep;
 import org.junit.Assert;
-//import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,11 +22,6 @@ public class RestClientServiceTest {
 
 	@Autowired
 	private RestClientService restClientService;
-
-//	@Before
-//	public void setUp() {
-//		ThreadSleep.sleep(0);
-//	}
 
 	@Ignore
 	@Test
