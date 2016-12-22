@@ -5,6 +5,8 @@ import org.junit.Test;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 public class DateTimeConverterTest {
 
@@ -51,9 +53,15 @@ public class DateTimeConverterTest {
 	}
 
 	@Test
-	public void getLocalDateTime() {
+	public void getLocalDateTime_FromLocalDateTime() {
 		LocalDateTime dateTime = DateTimeConverter.getLocalDateTime("2014-06-30T10:30");
 		Assert.assertEquals(LocalDateTime.of(2014, 6, 30, 10, 30), dateTime);
+	}
+
+	@Test
+	public void getLocalDateTime_FromZonedDateTime() {
+		LocalDateTime dateTime = DateTimeConverter.getLocalDateTime(ZonedDateTime.parse("2015-11-29T18:00:00-05:00"));
+		Assert.assertEquals(LocalDateTime.of(2015, 11, 29, 18, 0), dateTime);
 	}
 	
 	@Test

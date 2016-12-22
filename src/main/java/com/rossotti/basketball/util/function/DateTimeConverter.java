@@ -2,6 +2,8 @@ package com.rossotti.basketball.util.function;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
@@ -43,6 +45,8 @@ public class DateTimeConverter {
 	static public LocalDateTime getLocalDateTime(String strDateTime) {
 		return LocalDateTime.parse(strDateTime);
 	}
+
+	static public LocalDateTime getLocalDateTime(ZonedDateTime zonedDateTime) { return LocalDateTime.ofInstant(zonedDateTime.toInstant(), ZoneId.of("US/Eastern")); }
 
 	static public LocalDateTime getLocalDateTimeMin(LocalDate localDate) {
 		String stringDate = DateTimeConverter.getStringDate(localDate);

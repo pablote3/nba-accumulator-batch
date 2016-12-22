@@ -1,6 +1,7 @@
 package com.rossotti.basketball.client.dto;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rossotti.basketball.util.function.DateTimeConverter;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -36,7 +37,7 @@ public class JacksonMapperTest {
 		Assert.assertEquals(0f, game.home_stats[0].getFree_throw_percentage(), 0.0f);
 		Assert.assertEquals("Zarba", game.officials[0].getLast_name());
 		Assert.assertEquals("completed", game.event_information.getStatus());
-		Assert.assertEquals(LocalDateTime.of(2015, 11, 29, 18, 0), LocalDateTime.ofInstant(game.event_information.getStart_date_time().toInstant(), ZoneId.of("US/Eastern")));
+		Assert.assertEquals(LocalDateTime.of(2015, 11, 29, 18, 0), DateTimeConverter.getLocalDateTime(game.event_information.getStart_date_time()));
 		Assert.assertTrue(game.away_totals.getThree_point_field_goals_attempted().equals((short)24));
 		baseJson.close();
 	}
