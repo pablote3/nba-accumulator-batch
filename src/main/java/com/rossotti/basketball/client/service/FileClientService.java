@@ -2,7 +2,7 @@ package com.rossotti.basketball.client.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rossotti.basketball.client.dto.StatsDTO;
-import com.rossotti.basketball.client.dto.StatusCodeDTO;
+import com.rossotti.basketball.client.dto.StatsDTO.StatusCodeDTO;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.stereotype.Service;
 

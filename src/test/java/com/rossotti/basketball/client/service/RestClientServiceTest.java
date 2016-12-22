@@ -1,6 +1,9 @@
 package com.rossotti.basketball.client.service;
 
-import com.rossotti.basketball.client.dto.*;
+import com.rossotti.basketball.client.dto.GameDTO;
+import com.rossotti.basketball.client.dto.RosterDTO;
+import com.rossotti.basketball.client.dto.StandingsDTO;
+import com.rossotti.basketball.client.dto.StatsDTO.StatusCodeDTO;
 import com.rossotti.basketball.util.function.ThreadSleep;
 import org.junit.Assert;
 import org.junit.Ignore;

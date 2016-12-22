@@ -1,8 +1,12 @@
 package com.rossotti.basketball.client.service;
 
 import com.rossotti.basketball.app.exception.PropertyException;
+import com.rossotti.basketball.client.dto.GameDTO;
+import com.rossotti.basketball.client.dto.RosterDTO;
+import com.rossotti.basketball.client.dto.StandingsDTO;
+import com.rossotti.basketball.client.dto.StatsDTO;
 import com.rossotti.basketball.util.service.PropertyService;
-import com.rossotti.basketball.client.dto.*;
+import com.rossotti.basketball.client.dto.StatsDTO.StatusCodeDTO;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

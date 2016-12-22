@@ -1,6 +1,12 @@
 package com.rossotti.basketball.client.dto;
 
 public class StatsDTO {
+	public enum StatusCodeDTO {
+		Found,
+		NotFound,
+		ClientException,
+		ServerException
+	}
 	private StatusCodeDTO statusCode;
 	public StatusCodeDTO getStatusCode() {
 		return statusCode;

@@ -5,7 +5,7 @@ import com.rossotti.basketball.util.service.PropertyService;
 import com.rossotti.basketball.client.dto.GameDTO;
 import com.rossotti.basketball.client.dto.RosterDTO;
 import com.rossotti.basketball.client.dto.StandingsDTO;
-import com.rossotti.basketball.client.dto.StatusCodeDTO;
+import com.rossotti.basketball.client.dto.StatsDTO.StatusCodeDTO;
 import com.rossotti.basketball.util.function.DateTimeConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
