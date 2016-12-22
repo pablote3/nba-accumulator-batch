@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public interface GameService extends CrudService<Game> {
+public interface GameJpaService extends CrudService<Game> {
 	Game findByTeamKeyAndAsOfDate(String teamKey, LocalDate asOfDate);
 	List<Game> findByTeamKeyAndAsOfDateSeason(String teamKey, LocalDate asOfDate);
 	List<Game> findByAsOfDate(LocalDate asOfDate);

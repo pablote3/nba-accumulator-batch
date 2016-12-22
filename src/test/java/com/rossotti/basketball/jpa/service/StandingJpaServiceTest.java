@@ -15,18 +15,18 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class StandingServiceTest {
+public class StandingJpaServiceTest {
 
-	private StandingService standingService;
+	private StandingJpaService standingJpaService;
 
 	@Autowired
-	public void setStandingService(StandingService standingService) {
-		this.standingService = standingService;
+	public void setStandingJpaService(StandingJpaService standingJpaService) {
+		this.standingJpaService = standingJpaService;
 	}
 
 	@Test
 	public void getById() {
-		Standing standing = standingService.getById(1L);
+		Standing standing = standingJpaService.getById(1L);
 		Assert.assertEquals("1st", standing.getOrdinalRank());
 		Assert.assertEquals("Chicago Zephyr\'s", standing.getTeam().getFullName());
 		Assert.assertTrue(standing.isFound());
@@ -34,102 +34,102 @@ public class StandingServiceTest {
 
 	@Test
 	public void listAll() {
-		List<Standing> standings = (List<Standing>)standingService.listAll();
+		List<Standing> standings = (List<Standing>) standingJpaService.listAll();
 		Assert.assertTrue(standings.size() >= 4);
 	}
 
 	@Test
 	public void findByTeamKey_Found() {
-		List<Standing> standings = standingService.findByTeamKey("st-louis-bomber's");
+		List<Standing> standings = standingJpaService.findByTeamKey("st-louis-bomber's");
 		Assert.assertEquals(2, standings.size());
 	}
 
 	@Test
 	public void findByTeamKey_NotFound() {
-		List<Standing> standings = standingService.findByTeamKey("st-louis-bomber");
+		List<Standing> standings = standingJpaService.findByTeamKey("st-louis-bomber");
 		Assert.assertEquals(0, standings.size());
 	}
 
 	@Test
 	public void findByAsOfDate_Found() {
-		List<Standing> standings = standingService.findByAsOfDate(LocalDate.of(2015, 10, 30));
+		List<Standing> standings = standingJpaService.findByAsOfDate(LocalDate.of(2015, 10, 30));
 		Assert.assertEquals(2, standings.size());
 	}
 
 	@Test
 	public void findByAsOfDate_NotFound() {
-		List<Standing> standings = standingService.findByAsOfDate(LocalDate.of(2015, 10, 29));
+		List<Standing> standings = standingJpaService.findByAsOfDate(LocalDate.of(2015, 10, 29));
 		Assert.assertEquals(0, standings.size());
 	}
 
 	@Test
 	public void findByTeamKeyAsOfDate_Found() {
-		Standing standing = standingService.findByTeamKeyAndAsOfDate("chicago-zephyr's", LocalDate.of(2015, 10, 30));
+		Standing standing = standingJpaService.findByTeamKeyAndAsOfDate("chicago-zephyr's", LocalDate.of(2015, 10, 30));
 		Assert.assertEquals("1st", standing.getOrdinalRank());
 		Assert.assertTrue(standing.isFound());
 	}
 
 	@Test
 	public void findByTeamKeyAsOfDate_NotFound_TeamKey() {
-		Standing standing = standingService.findByTeamKeyAndAsOfDate("chicago-zephyr", LocalDate.of(2015, 10, 30));
+		Standing standing = standingJpaService.findByTeamKeyAndAsOfDate("chicago-zephyr", LocalDate.of(2015, 10, 30));
 		Assert.assertTrue(standing.isNotFound());
 	}
 
 	@Test
 	public void findByTeamKeyAsOfDate_NotFound_AsOfDate() {
-		Standing standing = standingService.findByTeamKeyAndAsOfDate("chicago-zephyr's", LocalDate.of(2015, 10, 29));
+		Standing standing = standingJpaService.findByTeamKeyAndAsOfDate("chicago-zephyr's", LocalDate.of(2015, 10, 29));
 		Assert.assertTrue(standing.isNotFound());
 	}
 
 	@Test
 	public void create_Created() {
-		Standing createStanding = standingService.create(createMockStanding(21L, "utah-jazz", LocalDate.of(2012, 7, 1), "10th"));
-		Standing findStanding = standingService.findByTeamKeyAndAsOfDate("utah-jazz", LocalDate.of(2012, 7, 1));
+		Standing createStanding = standingJpaService.create(createMockStanding(21L, "utah-jazz", LocalDate.of(2012, 7, 1), "10th"));
+		Standing findStanding = standingJpaService.findByTeamKeyAndAsOfDate("utah-jazz", LocalDate.of(2012, 7, 1));
 		Assert.assertTrue(createStanding.isCreated());
 		Assert.assertTrue(findStanding.getConferenceWins().equals((short)7));
 	}
 
 	@Test
 	public void create_Existing() {
-		Standing createStanding = standingService.create(createMockStanding(1L, "chicago-zephyr's", LocalDate.of(2015, 10, 30), "10th"));
+		Standing createStanding = standingJpaService.create(createMockStanding(1L, "chicago-zephyr's", LocalDate.of(2015, 10, 30), "10th"));
 		Assert.assertTrue(createStanding.isFound());
 	}
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void create_MissingRequiredData() {
-		standingService.create(createMockStanding(1L, "chicago-zephyr's", LocalDate.of(2016, 10, 30), null));
+		standingJpaService.create(createMockStanding(1L, "chicago-zephyr's", LocalDate.of(2016, 10, 30), null));
 	}
 
 	@Test
 	public void update_Updated() {
-		Standing updateStanding = standingService.update(createMockStanding(3L, "st-louis-bomber's", LocalDate.of(2015, 10, 31), "10th"));
-		Standing standing = standingService.findByTeamKeyAndAsOfDate("st-louis-bomber's", LocalDate.of(2015, 10, 31));
+		Standing updateStanding = standingJpaService.update(createMockStanding(3L, "st-louis-bomber's", LocalDate.of(2015, 10, 31), "10th"));
+		Standing standing = standingJpaService.findByTeamKeyAndAsOfDate("st-louis-bomber's", LocalDate.of(2015, 10, 31));
 		Assert.assertEquals("10th", standing.getOrdinalRank());
 		Assert.assertTrue(updateStanding.isUpdated());
 	}
 
 	@Test
 	public void update_NotFound() {
-		Standing standing = standingService.update(createMockStanding(3L, "st-louis-bomber's", LocalDate.of(2015, 11, 11), "10th"));
+		Standing standing = standingJpaService.update(createMockStanding(3L, "st-louis-bomber's", LocalDate.of(2015, 11, 11), "10th"));
 		Assert.assertTrue(standing.isNotFound());
 	}
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void update_MissingRequiredData() {
-		standingService.update(createMockStanding(3L, "st-louis-bomber's", LocalDate.of(2015, 10, 31), null));
+		standingJpaService.update(createMockStanding(3L, "st-louis-bomber's", LocalDate.of(2015, 10, 31), null));
 	}
 
 	@Test
 	public void delete_Deleted() {
-		Standing deleteStanding = standingService.delete(6L);
-		Standing findStanding = standingService.getById(6L);
+		Standing deleteStanding = standingJpaService.delete(6L);
+		Standing findStanding = standingJpaService.getById(6L);
 		Assert.assertNull(findStanding);
 		Assert.assertTrue(deleteStanding.isDeleted());
 	}
 
 	@Test
 	public void delete_NotFound() {
-		Standing deleteStanding = standingService.delete(101L);
+		Standing deleteStanding = standingJpaService.delete(101L);
 		Assert.assertTrue(deleteStanding.isNotFound());
 	}
 

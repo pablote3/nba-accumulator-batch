@@ -6,7 +6,7 @@ import com.rossotti.basketball.jpa.model.BoxScoreStats;
 import com.rossotti.basketball.jpa.model.Game;
 import com.rossotti.basketball.jpa.model.GameOfficial;
 import com.rossotti.basketball.jpa.repository.GameRepository;
-import com.rossotti.basketball.jpa.service.GameService;
+import com.rossotti.basketball.jpa.service.GameJpaService;
 import com.rossotti.basketball.util.function.DateTimeConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class GameServiceImpl implements GameService {
+public class GameJpaServiceImpl implements GameJpaService {
 
 	private GameRepository gameRepository;
 

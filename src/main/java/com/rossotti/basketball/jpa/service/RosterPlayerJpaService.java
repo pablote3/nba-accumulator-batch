@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
-public interface RosterPlayerService extends CrudService<RosterPlayer> {
+public interface RosterPlayerJpaService extends CrudService<RosterPlayer> {
 
 	RosterPlayer findByLastNameAndFirstNameAndBirthdateAndAsOfDate(String lastName, String firstName, LocalDate birthdate, LocalDate asOfDate);
 

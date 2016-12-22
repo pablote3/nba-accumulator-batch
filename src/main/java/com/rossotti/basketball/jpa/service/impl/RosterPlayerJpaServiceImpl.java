@@ -3,7 +3,7 @@ package com.rossotti.basketball.jpa.service.impl;
 import com.rossotti.basketball.jpa.model.AbstractDomainClass.StatusCodeDAO;
 import com.rossotti.basketball.jpa.model.RosterPlayer;
 import com.rossotti.basketball.jpa.repository.RosterPlayerRepository;
-import com.rossotti.basketball.jpa.service.RosterPlayerService;
+import com.rossotti.basketball.jpa.service.RosterPlayerJpaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class RosterPlayerServiceImpl implements RosterPlayerService {
+public class RosterPlayerJpaServiceImpl implements RosterPlayerJpaService {
 
 	private RosterPlayerRepository rosterPlayerRepository;
 

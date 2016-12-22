@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
-public interface TeamService extends CrudService<Team> {
+public interface TeamJpaService extends CrudService<Team> {
 	List<Team> findByTeamKey(String teamKey);
 	List<Team> findByDate(LocalDate asOfDate);
 	Team findByTeamKeyAndAsOfDate(String teamKey, LocalDate asOfDate);

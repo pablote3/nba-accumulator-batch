@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
-public interface PlayerService extends CrudService<Player> {
+public interface PlayerJpaService extends CrudService<Player> {
 	List<Player> findByLastNameAndFirstName(String lastName, String firstName);
 	Player findByLastNameAndFirstNameAndBirthdate(String lastName, String firstName, LocalDate birthdate);
 }

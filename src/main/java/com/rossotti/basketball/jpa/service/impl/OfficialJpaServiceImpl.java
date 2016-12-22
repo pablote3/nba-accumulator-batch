@@ -3,7 +3,7 @@ package com.rossotti.basketball.jpa.service.impl;
 import com.rossotti.basketball.jpa.model.AbstractDomainClass.StatusCodeDAO;
 import com.rossotti.basketball.jpa.model.Official;
 import com.rossotti.basketball.jpa.repository.OfficialRepository;
-import com.rossotti.basketball.jpa.service.OfficialService;
+import com.rossotti.basketball.jpa.service.OfficialJpaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class OfficialServiceImpl implements OfficialService {
+public class OfficialJpaServiceImpl implements OfficialJpaService {
 
 	private OfficialRepository officialRepository;
 
