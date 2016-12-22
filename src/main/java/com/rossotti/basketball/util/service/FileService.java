@@ -1,6 +1,6 @@
 package com.rossotti.basketball.util.service;
 
-import com.rossotti.basketball.app.exception.FileException;
+import com.rossotti.basketball.util.service.exception.FileException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

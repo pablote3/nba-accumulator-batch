@@ -1,4 +1,4 @@
-package com.rossotti.basketball.app.exception;
+package com.rossotti.basketball.util.service.exception;
 
 /**
  * Exception thrown when unable to handle file.

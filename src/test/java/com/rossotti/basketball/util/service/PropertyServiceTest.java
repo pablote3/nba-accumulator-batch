@@ -1,7 +1,6 @@
 package com.rossotti.basketball.util.service;
 
-import com.rossotti.basketball.app.exception.PropertyException;
-import com.rossotti.basketball.util.service.PropertyService;
+import com.rossotti.basketball.util.service.exception.PropertyException;
 import com.rossotti.basketball.util.service.PropertyService.ClientSource;
 import org.junit.Assert;
 import org.junit.Test;

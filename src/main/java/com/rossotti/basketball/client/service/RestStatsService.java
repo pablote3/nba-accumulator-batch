@@ -1,8 +1,8 @@
 package com.rossotti.basketball.client.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rossotti.basketball.app.exception.FileException;
-import com.rossotti.basketball.app.exception.PropertyException;
+import com.rossotti.basketball.util.service.exception.FileException;
+import com.rossotti.basketball.util.service.exception.PropertyException;
 import com.rossotti.basketball.client.dto.GameDTO;
 import com.rossotti.basketball.client.dto.RosterDTO;
 import com.rossotti.basketball.client.dto.StandingsDTO;

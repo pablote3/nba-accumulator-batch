@@ -1,7 +1,7 @@
 package com.rossotti.basketball.client.service;
 
-import com.rossotti.basketball.app.exception.FileException;
-import com.rossotti.basketball.app.exception.PropertyException;
+import com.rossotti.basketball.util.service.exception.FileException;
+import com.rossotti.basketball.util.service.exception.PropertyException;
 import com.rossotti.basketball.util.function.StreamConverter;
 import com.rossotti.basketball.util.service.FileService;
 import com.rossotti.basketball.util.service.PropertyService;

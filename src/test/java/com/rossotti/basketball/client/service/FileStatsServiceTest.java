@@ -1,6 +1,6 @@
 package com.rossotti.basketball.client.service;
 
-import com.rossotti.basketball.app.exception.PropertyException;
+import com.rossotti.basketball.util.service.exception.PropertyException;
 import com.rossotti.basketball.client.dto.GameDTO;
 import com.rossotti.basketball.client.dto.RosterDTO;
 import com.rossotti.basketball.client.dto.StandingsDTO;
