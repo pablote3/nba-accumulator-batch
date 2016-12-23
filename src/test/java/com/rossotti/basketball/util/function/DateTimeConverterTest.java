@@ -63,6 +63,12 @@ public class DateTimeConverterTest {
 		LocalDateTime dateTime = DateTimeConverter.getLocalDateTime(ZonedDateTime.parse("2015-11-29T18:00:00-05:00"));
 		Assert.assertEquals(LocalDateTime.of(2015, 11, 29, 18, 0), dateTime);
 	}
+
+	@Test
+	public void getLocalDate_FromZonedDateTime() {
+		LocalDate date = DateTimeConverter.getLocalDate(ZonedDateTime.parse("2015-11-29T18:00:00-05:00"));
+		Assert.assertEquals(LocalDate.of(2015, 11, 29), date);
+	}
 	
 	@Test
 	public void getLocalDateTimeMin() {

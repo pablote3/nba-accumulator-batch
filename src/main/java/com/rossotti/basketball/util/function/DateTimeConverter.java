@@ -48,6 +48,8 @@ public class DateTimeConverter {
 
 	static public LocalDateTime getLocalDateTime(ZonedDateTime zonedDateTime) { return LocalDateTime.ofInstant(zonedDateTime.toInstant(), ZoneId.of("US/Eastern")); }
 
+	static public LocalDate getLocalDate(ZonedDateTime zonedDateTime) { return LocalDateTime.ofInstant(zonedDateTime.toInstant(), ZoneId.of("US/Eastern")).toLocalDate(); }
+
 	static public LocalDateTime getLocalDateTimeMin(LocalDate localDate) {
 		String stringDate = DateTimeConverter.getStringDate(localDate);
 		return LocalDateTime.parse(stringDate + "T00:00");
