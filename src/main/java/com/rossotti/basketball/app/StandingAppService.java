@@ -91,13 +91,6 @@ public class StandingAppService {
 		return standingJpaService.create(standing);
 	}
 
-	public List<Standing> createTeamStandings(List<Standing> standings) {
-		for (int i = 0; i < standings.size(); i++) {
-			standings.set(i, standingJpaService.create(standings.get(i)));
-		}
-		return standings;
-	}
-
 	public Standing updateStanding(Standing standing) {
 		return standingJpaService.update(standing);
 	}
@@ -116,19 +109,18 @@ public class StandingAppService {
 	public Map<String, StandingRecord> buildStandingsMap(List<Standing> standings, LocalDate asOfDate) {
 		Map<String, StandingRecord> standingsMap = new HashMap<>();
 		//create map with team games won/played
-		for (int i = 0; i < standings.size(); i++) {
-			StandingRecord standingRecord = new StandingRecord((int)standings.get(i).getGamesWon(), (int)standings.get(i).getGamesPlayed(), 0, 0);
-			standingsMap.put(standings.get(i).getTeam().getTeamKey(), standingRecord);
+		for (Standing standing1 : standings) {
+			StandingRecord standingRecord = new StandingRecord((int) standing1.getGamesWon(), (int) standing1.getGamesPlayed(), 0, 0);
+			standingsMap.put(standing1.getTeam().getTeamKey(), standingRecord);
 		}
 
 		//update map summing opponent games won/played
-		for (int i = 0; i < standings.size(); i++) {
-			String teamKey = standings.get(i).getTeam().getTeamKey();
+		for (Standing standing : standings) {
+			String teamKey = standing.getTeam().getTeamKey();
 			Integer opptGamesWon = 0;
 			Integer opptGamesPlayed = 0;
 			List<Game> completeGames = gameJpaService.findByTeamKeyAndAsOfDateSeason(teamKey, asOfDate);
-			for (int j = 0; j < completeGames.size(); j++) {
-				Game completedGame = completeGames.get(j);
+			for (Game completedGame : completeGames) {
 				int opptBoxScoreId = completedGame.getBoxScores().get(0).getTeam().getTeamKey().equals(teamKey) ? 1 : 0;
 				String opptTeamKey = completedGame.getBoxScores().get(opptBoxScoreId).getTeam().getTeamKey();
 				opptGamesWon = opptGamesWon + standingsMap.get(opptTeamKey).getGamesWon();
@@ -136,7 +128,7 @@ public class StandingAppService {
 
 				String completedGameDate = DateTimeConverter.getStringDate(completedGame.getGameDateTime());
 				logger.debug('\n' + ("  StandingsMap " + teamKey + " " + completedGameDate + " " + opptTeamKey +
-									" Games Won/Played: " + standingsMap.get(opptTeamKey).getGamesWon() + " - " + standingsMap.get(opptTeamKey).getGamesPlayed()));
+						" Games Won/Played: " + standingsMap.get(opptTeamKey).getGamesWon() + " - " + standingsMap.get(opptTeamKey).getGamesPlayed()));
 			}
 			standingsMap.get(teamKey).setOpptGamesWon(opptGamesWon);
 			standingsMap.get(teamKey).setOpptGamesPlayed(opptGamesPlayed);
@@ -145,12 +137,12 @@ public class StandingAppService {
 	}
 
 	public Map<String, StandingRecord> buildHeadToHeadMap(String teamKey, LocalDate asOfDate, Map<String, StandingRecord> standingsMap) {
-		Map<String, StandingRecord> headToHeadMap = new HashMap<String, StandingRecord>();
+		Map<String, StandingRecord> headToHeadMap = new HashMap<>();
 		List<Game> completeGames = gameJpaService.findByTeamKeyAndAsOfDateSeason(teamKey, asOfDate);
 
-		for (int i = 0; i < completeGames.size(); i++) {
-			int opptBoxScoreId = completeGames.get(i).getBoxScores().get(0).getTeam().getTeamKey().equals(teamKey) ? 1 : 0;
-			BoxScore opptBoxScore = completeGames.get(i).getBoxScores().get(opptBoxScoreId);
+		for (Game completeGame : completeGames) {
+			int opptBoxScoreId = completeGame.getBoxScores().get(0).getTeam().getTeamKey().equals(teamKey) ? 1 : 0;
+			BoxScore opptBoxScore = completeGame.getBoxScores().get(opptBoxScoreId);
 			String opptTeamKey = opptBoxScore.getTeam().getTeamKey();
 			Integer opptHeadToHeadResult = opptBoxScore.getResult() != null && opptBoxScore.getResult().equals(BoxScore.Result.Win) ? 1 : 0;
 			if (headToHeadMap.get(opptTeamKey) == null) {
@@ -174,9 +166,9 @@ public class StandingAppService {
 		Integer opptOpptGamesPlayed = 0;
 		List<Game> completeGames = gameJpaService.findByTeamKeyAndAsOfDateSeason(teamKey, asOfDate);
 
-		for (int i = 0; i < completeGames.size(); i++) {
-			int opptBoxScoreId = completeGames.get(i).getBoxScores().get(0).getTeam().getTeamKey().equals(teamKey) ? 1 : 0;
-			opptBoxScore = completeGames.get(i).getBoxScores().get(opptBoxScoreId);
+		for (Game completeGame : completeGames) {
+			int opptBoxScoreId = completeGame.getBoxScores().get(0).getTeam().getTeamKey().equals(teamKey) ? 1 : 0;
+			opptBoxScore = completeGame.getBoxScores().get(opptBoxScoreId);
 			String opptTeamKey = opptBoxScore.getTeam().getTeamKey();
 
 			opptGamesWon = opptGamesWon + standingsMap.get(opptTeamKey).getGamesWon() - headToHeadMap.get(opptTeamKey).getGamesWon();
@@ -186,11 +178,11 @@ public class StandingAppService {
 
 			logger.debug('\n' + "SubTeamStanding " + opptTeamKey);
 			logger.debug('\n' + "  Opponent Games Won/Played: " + opptGamesWon + " - " + opptGamesPlayed + " = " +
-									standingsMap.get(opptTeamKey).getGamesWon() + " - " + standingsMap.get(opptTeamKey).getGamesPlayed() + " minus " +
-									headToHeadMap.get(opptTeamKey).getGamesWon() + " - " + headToHeadMap.get(opptTeamKey).getGamesPlayed());
+				standingsMap.get(opptTeamKey).getGamesWon() + " - " + standingsMap.get(opptTeamKey).getGamesPlayed() + " minus " +
+				headToHeadMap.get(opptTeamKey).getGamesWon() + " - " + headToHeadMap.get(opptTeamKey).getGamesPlayed());
 			logger.debug('\n' + "  OpptOppt Games Won/Played: " + opptOpptGamesWon + " - " + opptOpptGamesPlayed + " = " +
-									standingsMap.get(opptTeamKey).getOpptGamesWon() + " - " + standingsMap.get(opptTeamKey).getOpptGamesPlayed() + " minus " +
-									headToHeadMap.get(opptTeamKey).getOpptGamesWon() + " - " + headToHeadMap.get(opptTeamKey).getOpptGamesPlayed());
+				standingsMap.get(opptTeamKey).getOpptGamesWon() + " - " + standingsMap.get(opptTeamKey).getOpptGamesPlayed() + " minus " +
+				headToHeadMap.get(opptTeamKey).getOpptGamesWon() + " - " + headToHeadMap.get(opptTeamKey).getOpptGamesPlayed());
 
 			if (opptGamesWon > opptGamesPlayed) {
 				//head to head wins exceed opponent wins, should only occur until wins start to occur
