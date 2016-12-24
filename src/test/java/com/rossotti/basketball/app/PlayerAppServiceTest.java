@@ -28,7 +28,7 @@ public class PlayerAppServiceTest {
 	private PlayerAppService playerAppService;
 
 	@Test
-	public void findByPlayerNameBirthdaten_notFound() {
+	public void findByPlayerNameBirthdate_notFound() {
 		when(playerJpaService.findByLastNameAndFirstNameAndBirthdate(anyString(), anyString(), anyObject()))
 			.thenReturn(createMockPlayer("Simmons", "Richard", StatusCodeDAO.NotFound));
 		Player player = playerAppService.findByPlayerNameBirthdate("Simmons", "Richard", LocalDate.of(1995, 11, 26));
