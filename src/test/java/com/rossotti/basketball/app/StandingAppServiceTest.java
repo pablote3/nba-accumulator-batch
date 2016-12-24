@@ -1,5 +1,7 @@
 package com.rossotti.basketball.app;
 
+import com.rossotti.basketball.app.model.StandingRecord;
+import com.rossotti.basketball.app.service.StandingAppService;
 import com.rossotti.basketball.client.dto.StandingDTO;
 import com.rossotti.basketball.client.dto.StandingsDTO;
 import com.rossotti.basketball.jpa.exception.DuplicateEntityException;

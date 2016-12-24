@@ -1,5 +1,6 @@
 package com.rossotti.basketball.app;
 
+import com.rossotti.basketball.app.service.RosterPlayerAppService;
 import com.rossotti.basketball.client.dto.BoxScorePlayerDTO;
 import com.rossotti.basketball.client.dto.RosterPlayerDTO;
 import com.rossotti.basketball.jpa.exception.DuplicateEntityException;

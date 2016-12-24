@@ -1,5 +1,6 @@
-package com.rossotti.basketball.app;
+package com.rossotti.basketball.app.service;
 
+import com.rossotti.basketball.app.model.StandingRecord;
 import com.rossotti.basketball.client.dto.StandingDTO;
 import com.rossotti.basketball.client.dto.StandingsDTO;
 import com.rossotti.basketball.jpa.exception.NoSuchEntityException;

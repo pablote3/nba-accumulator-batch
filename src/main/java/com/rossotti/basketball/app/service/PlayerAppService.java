@@ -1,4 +1,4 @@
-package com.rossotti.basketball.app;
+package com.rossotti.basketball.app.service;
 
 import com.rossotti.basketball.jpa.model.Player;
 import com.rossotti.basketball.jpa.service.PlayerJpaService;

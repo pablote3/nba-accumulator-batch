@@ -1,4 +1,4 @@
-package com.rossotti.basketball.app;
+package com.rossotti.basketball.app.service;
 
 import com.rossotti.basketball.jpa.exception.NoSuchEntityException;
 import com.rossotti.basketball.jpa.model.Team;

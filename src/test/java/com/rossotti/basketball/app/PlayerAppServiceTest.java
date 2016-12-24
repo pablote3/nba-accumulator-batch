@@ -1,5 +1,6 @@
 package com.rossotti.basketball.app;
 
+import com.rossotti.basketball.app.service.PlayerAppService;
 import com.rossotti.basketball.jpa.exception.DuplicateEntityException;
 import com.rossotti.basketball.jpa.model.Player;
 import com.rossotti.basketball.jpa.model.AbstractDomainClass.StatusCodeDAO;

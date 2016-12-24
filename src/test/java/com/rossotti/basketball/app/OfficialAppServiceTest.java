@@ -1,5 +1,6 @@
 package com.rossotti.basketball.app;
 
+import com.rossotti.basketball.app.service.OfficialAppService;
 import com.rossotti.basketball.client.dto.OfficialDTO;
 import com.rossotti.basketball.jpa.exception.NoSuchEntityException;
 import com.rossotti.basketball.jpa.model.GameOfficial;

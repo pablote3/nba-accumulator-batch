@@ -1,5 +1,6 @@
 package com.rossotti.basketball.app;
 
+import com.rossotti.basketball.app.service.TeamAppService;
 import com.rossotti.basketball.jpa.exception.NoSuchEntityException;
 import com.rossotti.basketball.jpa.model.Team;
 import com.rossotti.basketball.jpa.model.AbstractDomainClass.StatusCodeDAO;
