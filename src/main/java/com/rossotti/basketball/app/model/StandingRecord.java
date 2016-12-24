@@ -1,4 +1,4 @@
-package com.rossotti.basketball.jpa.model;
+package com.rossotti.basketball.app.model;
 
 public class StandingRecord {
 	private Integer gamesWon;
