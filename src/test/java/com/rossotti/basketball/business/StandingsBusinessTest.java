@@ -5,7 +5,7 @@ import com.rossotti.basketball.app.model.StandingRecord;
 import com.rossotti.basketball.jpa.exception.NoSuchEntityException;
 import com.rossotti.basketball.jpa.model.AbstractDomainClass.StatusCodeDAO;
 import com.rossotti.basketball.app.service.StandingAppService;
-import com.rossotti.basketball.business.model.BusinessStandings;
+import com.rossotti.basketball.business.model.StandingsBusiness;
 import com.rossotti.basketball.business.service.StandingBusinessService;
 import com.rossotti.basketball.client.dto.StandingDTO;
 import com.rossotti.basketball.client.dto.StandingsDTO;
@@ -63,7 +63,7 @@ public class StandingsBusinessTest {
 	public void propertyService_propertyException() {
 		when(propertyService.getProperty_ClientSource(anyString()))
 			.thenThrow(new PropertyException("propertyName"));
-		BusinessStandings standings = standingsBusinessService.rankStandings("2014-10-28");
+		StandingsBusiness standings = standingsBusinessService.rankStandings("2014-10-28");
 		Assert.assertTrue(standings.isServerError());
 	}
 
@@ -73,7 +73,7 @@ public class StandingsBusinessTest {
 			.thenReturn(ClientSource.File);
 		when(fileStatsService.retrieveStandings(anyString()))
 			.thenReturn(createMockStandingsDTO_StatusCode(StatusCode.NotFound));
-		BusinessStandings standings = standingsBusinessService.rankStandings("2014-10-28");
+		StandingsBusiness standings = standingsBusinessService.rankStandings("2014-10-28");
 		Assert.assertTrue(standings.isClientError());
 	}
 
@@ -83,7 +83,7 @@ public class StandingsBusinessTest {
 			.thenReturn(ClientSource.File);
 		when(fileStatsService.retrieveStandings(anyString()))
 			.thenReturn(createMockStandingsDTO_StatusCode(StatusCode.ClientException));
-		BusinessStandings standings = standingsBusinessService.rankStandings("2014-10-28");
+		StandingsBusiness standings = standingsBusinessService.rankStandings("2014-10-28");
 		Assert.assertTrue(standings.isClientError());
 	}
 
@@ -93,7 +93,7 @@ public class StandingsBusinessTest {
 			.thenReturn(ClientSource.File);
 		when(fileStatsService.retrieveStandings(anyString()))
 			.thenReturn(createMockStandingsDTO_StatusCode(StatusCode.Found));
-		BusinessStandings standings = standingsBusinessService.rankStandings("2014-10-28");
+		StandingsBusiness standings = standingsBusinessService.rankStandings("2014-10-28");
 		Assert.assertTrue(standings.isClientError());
 	}
 
@@ -103,7 +103,7 @@ public class StandingsBusinessTest {
 			.thenReturn(ClientSource.Api);
 		when(restStatsService.retrieveStandings(anyString(), anyBoolean()))
 			.thenReturn(createMockStandingsDTO_StatusCode(StatusCode.NotFound));
-		BusinessStandings standings = standingsBusinessService.rankStandings("2014-10-28");
+		StandingsBusiness standings = standingsBusinessService.rankStandings("2014-10-28");
 		Assert.assertTrue(standings.isClientError());
 	}
 
@@ -113,7 +113,7 @@ public class StandingsBusinessTest {
 			.thenReturn(ClientSource.Api);
 		when(restStatsService.retrieveStandings(anyString(), anyBoolean()))
 			.thenReturn(createMockStandingsDTO_StatusCode(StatusCode.ClientException));
-		BusinessStandings standings = standingsBusinessService.rankStandings("2014-10-28");
+		StandingsBusiness standings = standingsBusinessService.rankStandings("2014-10-28");
 		Assert.assertTrue(standings.isClientError());
 	}
 
@@ -123,7 +123,7 @@ public class StandingsBusinessTest {
 			.thenReturn(ClientSource.Api);
 		when(restStatsService.retrieveStandings(anyString(), anyBoolean()))
 			.thenReturn(createMockStandingsDTO_StatusCode(StatusCode.Found));
-		BusinessStandings standings = standingsBusinessService.rankStandings("2014-10-28");
+		StandingsBusiness standings = standingsBusinessService.rankStandings("2014-10-28");
 		Assert.assertTrue(standings.isClientError());
 	}
 
@@ -135,7 +135,7 @@ public class StandingsBusinessTest {
 			.thenReturn(createMockStandingsDTO_StatusCode(StatusCode.Found));
 		when(standingAppService.getStandings(anyObject()))
 			.thenThrow(new NoSuchEntityException(Team.class));
-		BusinessStandings standings = standingsBusinessService.rankStandings("2014-10-28");
+		StandingsBusiness standings = standingsBusinessService.rankStandings("2014-10-28");
 		Assert.assertTrue(standings.isClientError());
 	}
 
@@ -155,7 +155,7 @@ public class StandingsBusinessTest {
 			.thenReturn(new StandingRecord(5, 10, 20, 40));
 		when(standingAppService.createStanding(anyObject()))
 			.thenReturn(createMockStanding_StatusCode(StatusCodeDAO.Found));
-		BusinessStandings standings = standingsBusinessService.rankStandings("2014-10-28");
+		StandingsBusiness standings = standingsBusinessService.rankStandings("2014-10-28");
 		Assert.assertTrue(standings.isServerError());
 	}
 
@@ -175,7 +175,7 @@ public class StandingsBusinessTest {
 			.thenReturn(new StandingRecord(5, 10, 20, 40));
 		when(standingAppService.createStanding(anyObject()))
 			.thenReturn(createMockStanding_StatusCode(StatusCodeDAO.Created));
-		BusinessStandings standings = standingsBusinessService.rankStandings("2014-10-28");
+		StandingsBusiness standings = standingsBusinessService.rankStandings("2014-10-28");
 		Assert.assertTrue(standings.isCompleted());
 	}
 

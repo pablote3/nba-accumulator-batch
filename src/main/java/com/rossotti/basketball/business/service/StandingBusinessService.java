@@ -1,7 +1,7 @@
 package com.rossotti.basketball.business.service;
 
 import com.rossotti.basketball.app.service.StandingAppService;
-import com.rossotti.basketball.business.model.BusinessStandings;
+import com.rossotti.basketball.business.model.StandingsBusiness;
 import com.rossotti.basketball.business.model.StatusCodeBusiness.StatusCode;
 import com.rossotti.basketball.client.dto.StandingsDTO;
 import com.rossotti.basketball.client.service.FileStatsService;
@@ -46,8 +46,8 @@ public class StandingBusinessService {
 		this.standingAppService = standingAppService;
 	}
 
-	public BusinessStandings rankStandings(String asOfDateString) {
-		BusinessStandings businessStandings = new BusinessStandings();
+	public StandingsBusiness rankStandings(String asOfDateString) {
+		StandingsBusiness standingsBusiness = new StandingsBusiness();
 		try {
 			StandingsDTO standingsDTO;
 			ClientSource clientSource = propertyService.getProperty_ClientSource("accumulator.source.standings");
@@ -97,41 +97,41 @@ public class StandingBusinessService {
 					}
 
 					logger.info("StandingsCount: " + standings.size() + " Completed: route to outputChannel");
-					businessStandings.setStandings(standingAppService.findStandings(asOfDate));
-					businessStandings.setStatusCode(StatusCode.Completed);
+					standingsBusiness.setStandings(standingAppService.findStandings(asOfDate));
+					standingsBusiness.setStatusCode(StatusCode.Completed);
 				}
 				else {
 					logger.info("Client exception - standings found with empty list");
-					businessStandings.setStatusCode(StatusCode.ClientError);
+					standingsBusiness.setStatusCode(StatusCode.ClientError);
 				}
 			}
 			else if (standingsDTO.isNotFound()) {
 				logger.info("Unable to find standings");
-				businessStandings.setStatusCode(StatusCode.ClientError);
+				standingsBusiness.setStatusCode(StatusCode.ClientError);
 			}
 			else {
 				logger.info("Client error retrieving standings");
-				businessStandings.setStatusCode(StatusCode.ClientError);
+				standingsBusiness.setStatusCode(StatusCode.ClientError);
 			}
 		}
 		catch (NoSuchEntityException nse) {
 			if (nse.getEntityClass().equals(Team.class)) {
 				logger.info("Team not found");
 			}
-			businessStandings.setStatusCode(StatusCode.ClientError);
+			standingsBusiness.setStatusCode(StatusCode.ClientError);
 		}
 		catch (PropertyException pe) {
 			logger.info("Property exception = " + pe);
-			businessStandings.setStatusCode(StatusCode.ServerError);
+			standingsBusiness.setStatusCode(StatusCode.ServerError);
 		}
 		catch (Exception e) {
 			logger.info("Unexpected exception = " + e);
-			businessStandings.setStatusCode(StatusCode.ServerError);
+			standingsBusiness.setStatusCode(StatusCode.ServerError);
 		}
-		return businessStandings;
+		return standingsBusiness;
 	}
 
-	public BusinessStandings rankStandings(List<Game> games) {
+	public StandingsBusiness rankStandings(List<Game> games) {
 		if (games.size() > 0) {
 			return rankStandings(DateTimeConverter.getStringDate(games.get(0).getGameDateTime()));
 		}
