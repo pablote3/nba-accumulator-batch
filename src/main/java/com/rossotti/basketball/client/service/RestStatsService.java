@@ -8,7 +8,7 @@ import com.rossotti.basketball.client.dto.RosterDTO;
 import com.rossotti.basketball.client.dto.StandingsDTO;
 import com.rossotti.basketball.util.service.FileService;
 import com.rossotti.basketball.util.service.PropertyService;
-import com.rossotti.basketball.client.dto.StatsDTO.StatusCodeDTO;
+import com.rossotti.basketball.client.dto.StatusCodeDTO.StatusCode;
 import com.rossotti.basketball.util.function.DateTimeConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,23 +47,23 @@ public class RestStatsService {
 				String fileName = propertyService.getProperty_Path("xmlstats.fileBoxScore") + "/" + event + ".json";
 				fileService.fileStreamWriter(fileName, entity.getBody());
 			}
-			StatusCodeDTO statusCode = getStatusCode(entity);
-			if (statusCode.equals(StatusCodeDTO.Found)) {
+			StatusCode statusCode = getStatusCode(entity);
+			if (statusCode.equals(StatusCode.Found)) {
 				gameDTO = objectMapper.readValue(entity.getBody(), GameDTO.class);
 			}
 			gameDTO.setStatusCode(statusCode);
 		}
 		catch (FileException fe) {
 			logger.info("File exception = " + fe);
-			gameDTO.setStatusCode(StatusCodeDTO.ServerException);
+			gameDTO.setStatusCode(StatusCode.ServerException);
 		}
 		catch (IOException ioe) {
 			logger.info("IO exception = " + ioe);
-			gameDTO.setStatusCode(StatusCodeDTO.ServerException);
+			gameDTO.setStatusCode(StatusCode.ServerException);
 		}
 		catch (PropertyException pe) {
 			logger.info("Property exception = " + pe);
-			gameDTO.setStatusCode(StatusCodeDTO.ServerException);
+			gameDTO.setStatusCode(StatusCode.ServerException);
 		}
 		return gameDTO;
 	}
@@ -78,8 +78,8 @@ public class RestStatsService {
 				String fileName = propertyService.getProperty_Path("xmlstats.fileStandings") + "/" + event + ".json";
 				fileService.fileStreamWriter(fileName, entity.getBody());
 			}
-			StatusCodeDTO statusCode = getStatusCode(entity);
-			if (statusCode.equals(StatusCodeDTO.Found)) {
+			StatusCode statusCode = getStatusCode(entity);
+			if (statusCode.equals(StatusCode.Found)) {
 				standingsDTO = objectMapper.readValue(entity.getBody(), StandingsDTO.class);
 
 			}
@@ -87,15 +87,15 @@ public class RestStatsService {
 		}
 		catch (FileException fe) {
 			logger.info("File exception = " + fe);
-			standingsDTO.setStatusCode(StatusCodeDTO.ServerException);
+			standingsDTO.setStatusCode(StatusCode.ServerException);
 		}
 		catch (IOException ioe) {
 			logger.info("IO exception = " + ioe);
-			standingsDTO.setStatusCode(StatusCodeDTO.ServerException);
+			standingsDTO.setStatusCode(StatusCode.ServerException);
 		}
 		catch (PropertyException pe) {
 			logger.info("Property exception = " + pe);
-			standingsDTO.setStatusCode(StatusCodeDTO.ServerException);
+			standingsDTO.setStatusCode(StatusCode.ServerException);
 		}
 		return standingsDTO;
 	}
@@ -107,8 +107,8 @@ public class RestStatsService {
 			String eventUrl = baseUrl + event + ".json";
 			ResponseEntity<byte[]> entity = restClientService.getJson(eventUrl);
 
-			StatusCodeDTO statusCode = getStatusCode(entity);
-			if (statusCode.equals(StatusCodeDTO.Found)) {
+			StatusCode statusCode = getStatusCode(entity);
+			if (statusCode.equals(StatusCode.Found)) {
 				rosterDTO = objectMapper.readValue(entity.getBody(), RosterDTO.class);
 				if (persist) {
 					String fileName = propertyService.getProperty_Path("xmlstats.fileRoster") + "/" + event + "-" + DateTimeConverter.getStringDateNaked(asOfDate) + ".json";
@@ -119,30 +119,30 @@ public class RestStatsService {
 		}
 		catch (FileException fe) {
 			logger.info("File exception = " + fe);
-			rosterDTO.setStatusCode(StatusCodeDTO.ServerException);
+			rosterDTO.setStatusCode(StatusCode.ServerException);
 		}
 		catch (IOException ioe) {
 			logger.info("IO exception = " + ioe);
-			rosterDTO.setStatusCode(StatusCodeDTO.ServerException);
+			rosterDTO.setStatusCode(StatusCode.ServerException);
 		}
 		catch (PropertyException pe) {
 			logger.info("Property exception = " + pe);
-			rosterDTO.setStatusCode(StatusCodeDTO.ServerException);
+			rosterDTO.setStatusCode(StatusCode.ServerException);
 		}
 		return rosterDTO;
 	}
 
-	private StatusCodeDTO getStatusCode(ResponseEntity entity) {
+	private StatusCode getStatusCode(ResponseEntity entity) {
 		if (entity.getStatusCode() == HttpStatus.UNAUTHORIZED) {
 			logger.info("Invalid token supplied on client request - HTTP Status = " + entity.getStatusCode());
-			return StatusCodeDTO.NotFound;
+			return StatusCode.NotFound;
 		}
 		else if (entity.getStatusCode() != HttpStatus.OK) {
 			logger.info("Unable to retrieve client request - HTTP Status = " + entity.getStatusCode());
-			return StatusCodeDTO.NotFound;
+			return StatusCode.NotFound;
 		}
 		else {
-			return StatusCodeDTO.Found;
+			return StatusCode.Found;
 		}
 	}
 }

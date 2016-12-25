@@ -5,7 +5,7 @@ import com.rossotti.basketball.util.service.PropertyService;
 import com.rossotti.basketball.client.dto.GameDTO;
 import com.rossotti.basketball.client.dto.RosterDTO;
 import com.rossotti.basketball.client.dto.StandingsDTO;
-import com.rossotti.basketball.client.dto.StatsDTO.StatusCodeDTO;
+import com.rossotti.basketball.client.dto.StatusCodeDTO.StatusCode;
 import com.rossotti.basketball.util.function.DateTimeConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +35,7 @@ public class FileStatsService {
 		}
 		catch (PropertyException pe) {
 			logger.info("property exception = " + pe);
-			gameDTO.setStatusCode(StatusCodeDTO.ServerException);
+			gameDTO.setStatusCode(StatusCode.ServerException);
 		}
 		return gameDTO;
 	}
@@ -49,7 +49,7 @@ public class FileStatsService {
 		}
 		catch (PropertyException pe) {
 			logger.info("property exception = " + pe);
-			rosterDTO.setStatusCode(StatusCodeDTO.ServerException);
+			rosterDTO.setStatusCode(StatusCode.ServerException);
 		}
 		return rosterDTO;
 	}
@@ -62,7 +62,7 @@ public class FileStatsService {
 		}
 		catch (PropertyException pe) {
 			logger.info("property exception = " + pe);
-			standingsDTO.setStatusCode(StatusCodeDTO.ServerException);
+			standingsDTO.setStatusCode(StatusCode.ServerException);
 		}
 		return standingsDTO;
 	}

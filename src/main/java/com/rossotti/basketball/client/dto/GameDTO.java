@@ -1,6 +1,6 @@
 package com.rossotti.basketball.client.dto;
 
-public class GameDTO extends StatsDTO {
+public class GameDTO extends StatusCodeDTO {
 	public TeamDTO away_team;
 	public TeamDTO home_team;
 	public EventInfoDTO event_information;

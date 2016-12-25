@@ -3,7 +3,7 @@ package com.rossotti.basketball.client.service;
 import com.rossotti.basketball.client.dto.GameDTO;
 import com.rossotti.basketball.client.dto.RosterDTO;
 import com.rossotti.basketball.client.dto.StandingsDTO;
-import com.rossotti.basketball.client.dto.StatsDTO.StatusCodeDTO;
+import com.rossotti.basketball.client.dto.StatusCodeDTO.StatusCode;
 import com.rossotti.basketball.util.function.ThreadSleep;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -31,7 +31,7 @@ public class RestClientServiceTest {
 	public void retrieveRoster_200() {
 		String event = "toronto-raptors";
 		RosterDTO roster = restStatsService.retrieveRoster(event, false, LocalDate.of(2016, 12, 15));
-		Assert.assertEquals(StatusCodeDTO.Found, roster.getStatusCode());
+		Assert.assertEquals(StatusCode.Found, roster.getStatusCode());
 		Assert.assertEquals(15, roster.players.length);
 	}
 
@@ -40,7 +40,7 @@ public class RestClientServiceTest {
 	public void retrieveStandings_200() {
 		String event = "20141028";
 		StandingsDTO standings = restStatsService.retrieveStandings(event, false);
-		Assert.assertEquals(StatusCodeDTO.Found, standings.getStatusCode());
+		Assert.assertEquals(StatusCode.Found, standings.getStatusCode());
 		Assert.assertEquals(30, standings.standing.length);
 	}
 
@@ -49,7 +49,7 @@ public class RestClientServiceTest {
 	public void retrieveBoxScore_200() {
 		String event = "20150415-utah-jazz-at-houston-rockets";
 		GameDTO game = restStatsService.retrieveBoxScore(event, false);
-		Assert.assertEquals(StatusCodeDTO.Found, game.getStatusCode());
+		Assert.assertEquals(StatusCode.Found, game.getStatusCode());
 		Assert.assertEquals(3, game.officials.length);
 	}
 

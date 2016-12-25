@@ -2,21 +2,21 @@ package com.rossotti.basketball.business.model;
 
 public class BusinessStatus {
 
-	private BusinessStatusCode businessStatusCode;
-	public void setBusinessStatusCode(BusinessStatusCode businessStatusCode) {
-		this.businessStatusCode = businessStatusCode;
+	private StatusCodeBusiness statusCodeBusiness;
+	public void setBusinessStatusCode(StatusCodeBusiness statusCodeBusiness) {
+		this.statusCodeBusiness = statusCodeBusiness;
 	}
 	public Boolean isCompleted() {
-		return businessStatusCode == BusinessStatusCode.Completed;
+		return statusCodeBusiness == StatusCodeBusiness.Completed;
 	}
 	public Boolean isClientError() {
-		return businessStatusCode == BusinessStatusCode.ClientError;
+		return statusCodeBusiness == StatusCodeBusiness.ClientError;
 	}
 	public Boolean isServerError() {
-		return businessStatusCode == BusinessStatusCode.ServerError;
+		return statusCodeBusiness == StatusCodeBusiness.ServerError;
 	}
 
-	public enum BusinessStatusCode {
+	public enum StatusCodeBusiness {
 		Completed,
 		ClientError,
 		ServerError,

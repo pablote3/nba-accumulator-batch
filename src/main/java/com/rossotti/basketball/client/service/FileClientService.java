@@ -1,8 +1,8 @@
 package com.rossotti.basketball.client.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rossotti.basketball.client.dto.StatsDTO;
-import com.rossotti.basketball.client.dto.StatsDTO.StatusCodeDTO;
+import com.rossotti.basketball.client.dto.StatusCodeDTO;
+import com.rossotti.basketball.client.dto.StatusCodeDTO.StatusCode;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ public class FileClientService {
 
 	ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
 
-	public StatsDTO retrieveStats(String stringPath, String event, StatsDTO statsDTO) {
+	public StatusCodeDTO retrieveStats(String stringPath, String event, StatusCodeDTO statusCodeDTO) {
 		String jsonEvent = event + ".json";
 		Path path = Paths.get(stringPath).resolve(jsonEvent);
 		InputStreamReader baseJson = null;
@@ -24,13 +24,13 @@ public class FileClientService {
 			File file = path.toFile();
 			InputStream inputStreamJson = new FileInputStream(file);
 			baseJson = new InputStreamReader(inputStreamJson, StandardCharsets.UTF_8);
-			statsDTO = objectMapper.readValue(baseJson, statsDTO.getClass());
-			statsDTO.setStatusCode(StatusCodeDTO.Found);
+			statusCodeDTO = objectMapper.readValue(baseJson, statusCodeDTO.getClass());
+			statusCodeDTO.setStatusCode(StatusCode.Found);
 		} catch (FileNotFoundException fnf) {
-			statsDTO.setStatusCode(StatusCodeDTO.NotFound);
+			statusCodeDTO.setStatusCode(StatusCode.NotFound);
 			fnf.printStackTrace();
 		} catch (IOException ioe) {
-			statsDTO.setStatusCode(StatusCodeDTO.ClientException);
+			statusCodeDTO.setStatusCode(StatusCode.ClientException);
 			ioe.printStackTrace();
 		}
 		finally {
@@ -38,10 +38,10 @@ public class FileClientService {
 				if (baseJson != null)
 					baseJson.close();
 			} catch (IOException ioe) {
-				statsDTO.setStatusCode(StatusCodeDTO.ClientException);
+				statusCodeDTO.setStatusCode(StatusCode.ClientException);
 				ioe.printStackTrace();
 			}
 		}
-		return statsDTO;
+		return statusCodeDTO;
 	}
 }
