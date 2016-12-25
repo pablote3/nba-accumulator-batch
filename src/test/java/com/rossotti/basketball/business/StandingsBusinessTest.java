@@ -2,13 +2,14 @@ package com.rossotti.basketball.business;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rossotti.basketball.app.model.StandingRecord;
+import com.rossotti.basketball.client.dto.StatusCodeDTO;
 import com.rossotti.basketball.jpa.model.AbstractDomainClass.StatusCodeDAO;
 import com.rossotti.basketball.app.service.StandingAppService;
 import com.rossotti.basketball.business.model.BusinessStandings;
 import com.rossotti.basketball.business.service.StandingBusinessService;
 import com.rossotti.basketball.client.dto.StandingDTO;
 import com.rossotti.basketball.client.dto.StandingsDTO;
-import com.rossotti.basketball.client.dto.StatsDTO.StatusCodeDTO;
+import com.rossotti.basketball.client.dto.StatusCodeDTO.StatusCode;
 import com.rossotti.basketball.client.service.FileStatsService;
 import com.rossotti.basketball.client.service.RestStatsService;
 import com.rossotti.basketball.jpa.model.Standing;
@@ -70,7 +71,7 @@ public class StandingsBusinessTest {
 		when(propertyService.getProperty_ClientSource(anyString()))
 			.thenReturn(ClientSource.File);
 		when(fileStatsService.retrieveStandings(anyString()))
-			.thenReturn(createMockStandingsDTO_StatusCode(StatusCodeDTO.NotFound));
+			.thenReturn(createMockStandingsDTO_StatusCode(StatusCodeDTO.StatusCode.NotFound));
 		BusinessStandings standings = standingsBusinessService.rankStandings("2014-10-28");
 		Assert.assertTrue(standings.isClientError());
 	}
@@ -80,7 +81,7 @@ public class StandingsBusinessTest {
 		when(propertyService.getProperty_ClientSource(anyString()))
 			.thenReturn(ClientSource.File);
 		when(fileStatsService.retrieveStandings(anyString()))
-			.thenReturn(createMockStandingsDTO_StatusCode(StatusCodeDTO.ClientException));
+			.thenReturn(createMockStandingsDTO_StatusCode(StatusCode.ClientException));
 		BusinessStandings standings = standingsBusinessService.rankStandings("2014-10-28");
 		Assert.assertTrue(standings.isClientError());
 	}
@@ -90,7 +91,7 @@ public class StandingsBusinessTest {
 		when(propertyService.getProperty_ClientSource(anyString()))
 			.thenReturn(ClientSource.File);
 		when(fileStatsService.retrieveStandings(anyString()))
-			.thenReturn(createMockStandingsDTO_StatusCode(StatusCodeDTO.Found));
+			.thenReturn(createMockStandingsDTO_StatusCode(StatusCode.Found));
 		BusinessStandings standings = standingsBusinessService.rankStandings("2014-10-28");
 		Assert.assertTrue(standings.isClientError());
 	}
@@ -100,7 +101,7 @@ public class StandingsBusinessTest {
 		when(propertyService.getProperty_ClientSource(anyString()))
 			.thenReturn(ClientSource.Api);
 		when(restStatsService.retrieveStandings(anyString(), anyBoolean()))
-			.thenReturn(createMockStandingsDTO_StatusCode(StatusCodeDTO.NotFound));
+			.thenReturn(createMockStandingsDTO_StatusCode(StatusCode.NotFound));
 		BusinessStandings standings = standingsBusinessService.rankStandings("2014-10-28");
 		Assert.assertTrue(standings.isClientError());
 	}
@@ -110,7 +111,7 @@ public class StandingsBusinessTest {
 		when(propertyService.getProperty_ClientSource(anyString()))
 			.thenReturn(ClientSource.Api);
 		when(restStatsService.retrieveStandings(anyString(), anyBoolean()))
-			.thenReturn(createMockStandingsDTO_StatusCode(StatusCodeDTO.ClientException));
+			.thenReturn(createMockStandingsDTO_StatusCode(StatusCode.ClientException));
 		BusinessStandings standings = standingsBusinessService.rankStandings("2014-10-28");
 		Assert.assertTrue(standings.isClientError());
 	}
@@ -120,7 +121,7 @@ public class StandingsBusinessTest {
 		when(propertyService.getProperty_ClientSource(anyString()))
 			.thenReturn(ClientSource.Api);
 		when(restStatsService.retrieveStandings(anyString(), anyBoolean()))
-			.thenReturn(createMockStandingsDTO_StatusCode(StatusCodeDTO.Found));
+			.thenReturn(createMockStandingsDTO_StatusCode(StatusCode.Found));
 		BusinessStandings standings = standingsBusinessService.rankStandings("2014-10-28");
 		Assert.assertTrue(standings.isClientError());
 	}
@@ -182,18 +183,18 @@ public class StandingsBusinessTest {
 		try {
 			InputStream baseJson = this.getClass().getClassLoader().getResourceAsStream("mockClient/standingsClient.json");
 			standings = objectMapper.readValue(baseJson, StandingsDTO.class);
-			standings.setStatusCode(StatusCodeDTO.Found);
+			standings.setStatusCode(StatusCode.Found);
 		}
 		catch (IOException e) {
 			standings = new StandingsDTO();
-			standings.setStatusCode(StatusCodeDTO.ClientException);
+			standings.setStatusCode(StatusCode.ClientException);
 		}
 		return standings;
 	}
 
-	private StandingsDTO createMockStandingsDTO_StatusCode(StatusCodeDTO statusCodeDTO) {
+	private StandingsDTO createMockStandingsDTO_StatusCode(StatusCode statusCode) {
 		StandingsDTO standings = new StandingsDTO();
-		standings.setStatusCode(statusCodeDTO);
+		standings.setStatusCode(statusCode);
 		standings.standing = new StandingDTO[0];
 		return standings;
 	}
@@ -216,7 +217,7 @@ public class StandingsBusinessTest {
 		team.setTeamKey("cleveland-cavaliers");
 		return team;
 	}
-	
+
 	private Map<String, StandingRecord> createMockStandingsMap() {
 		Map<String, StandingRecord> standingsMap = new HashMap<>();
 		standingsMap.put("cleveland-cavaliers", new StandingRecord(5, 10, 0, 0));
