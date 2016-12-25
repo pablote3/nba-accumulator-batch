@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class StandingBusinessService {
+public class StandingBusService {
 	private final PropertyService propertyService;
 
 	private final RestStatsService restStatsService;
@@ -36,10 +36,10 @@ public class StandingBusinessService {
 
 	private final StandingAppService standingAppService;
 
-	private final Logger logger = LoggerFactory.getLogger(StandingBusinessService.class);
+	private final Logger logger = LoggerFactory.getLogger(StandingBusService.class);
 
 	@Autowired
-	public StandingBusinessService(FileStatsService fileStatsService, RestStatsService restStatsService, PropertyService propertyService, StandingAppService standingAppService) {
+	public StandingBusService(FileStatsService fileStatsService, RestStatsService restStatsService, PropertyService propertyService, StandingAppService standingAppService) {
 		this.fileStatsService = fileStatsService;
 		this.restStatsService = restStatsService;
 		this.propertyService = propertyService;

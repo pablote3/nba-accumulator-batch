@@ -6,7 +6,7 @@ import com.rossotti.basketball.jpa.exception.NoSuchEntityException;
 import com.rossotti.basketball.jpa.model.AbstractDomainClass.StatusCodeDAO;
 import com.rossotti.basketball.app.service.StandingAppService;
 import com.rossotti.basketball.business.model.StandingsBusiness;
-import com.rossotti.basketball.business.service.StandingBusinessService;
+import com.rossotti.basketball.business.service.StandingBusService;
 import com.rossotti.basketball.client.dto.StandingDTO;
 import com.rossotti.basketball.client.dto.StandingsDTO;
 import com.rossotti.basketball.client.dto.StatusCodeDTO.StatusCode;
@@ -41,7 +41,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class StandingsBusinessTest {
+public class StandingsBusTest {
 	@Mock
 	private PropertyService propertyService;
 
@@ -55,7 +55,7 @@ public class StandingsBusinessTest {
 	private StandingAppService standingAppService;
 
 	@InjectMocks
-	private StandingBusinessService standingsBusinessService;
+	private StandingBusService standingsBusinessService;
 
 	private ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
 
