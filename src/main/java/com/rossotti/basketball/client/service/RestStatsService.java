@@ -28,7 +28,7 @@ public class RestStatsService {
 	private final FileService fileService;
 
 	private final Logger logger = LoggerFactory.getLogger(RestStatsService.class);
-	ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
+	private ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
 
 	@Autowired
 	public RestStatsService(RestClientService restClientService, PropertyService propertyService, FileService fileService) {

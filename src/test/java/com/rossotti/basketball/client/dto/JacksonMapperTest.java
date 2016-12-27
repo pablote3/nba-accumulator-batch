@@ -14,7 +14,7 @@ import java.time.ZoneId;
 
 public class JacksonMapperTest {
 
-	ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
+	private ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
 
 	@Test
 	public void deserializeRoster() throws IOException {

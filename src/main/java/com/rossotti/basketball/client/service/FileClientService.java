@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 @Service
 public class FileClientService {
 
-	ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
+	private ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
 
 	public StatusCodeDTO retrieveStats(String stringPath, String event, StatusCodeDTO statusCodeDTO) {
 		String jsonEvent = event + ".json";
