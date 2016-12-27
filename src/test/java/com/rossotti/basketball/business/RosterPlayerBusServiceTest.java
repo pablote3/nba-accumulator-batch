@@ -59,7 +59,7 @@ public class RosterPlayerBusServiceTest {
 	@InjectMocks
 	private RosterPlayerBusService rosterPlayerBusService;
 
-	private ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
+	private final ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
 
 	@Test
 	public void propertyService_propertyException() {
