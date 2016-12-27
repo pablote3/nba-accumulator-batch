@@ -1,5 +1,7 @@
 package com.rossotti.basketball.jpa.model;
 
+import com.rossotti.basketball.client.dto.BoxScoreDTO;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -175,39 +177,39 @@ public class BoxScore extends AbstractDomainClass {
 				"  blocks: " + this.getBoxScoreStats().getBlocks());
 	}
 
-//	public void updateTotals(BoxScoreDTO stats) {
-//		this.setMinutes(stats.getMinutes());
-//		this.setPoints(stats.getPoints());
-//		this.setAssists(stats.getAssists());
-//		this.setTurnovers(stats.getTurnovers());
-//		this.setSteals(stats.getSteals());
-//		this.setBlocks(stats.getBlocks());
-//		this.setFieldGoalAttempts(stats.getField_goals_attempted());
-//		this.setFieldGoalMade(stats.getField_goals_made());
-//		this.setFieldGoalPercent(stats.getField_goal_percentage());
-//		this.setThreePointAttempts(stats.getThree_point_field_goals_attempted());
-//		this.setThreePointMade(stats.getThree_point_field_goals_made());
-//		this.setThreePointPercent(stats.getThree_point_percentage());
-//		this.setFreeThrowAttempts(stats.getFree_throws_attempted());
-//		this.setFreeThrowMade(stats.getFree_throws_made());
-//		this.setFreeThrowPercent(stats.getFree_throw_percentage());
-//		this.setReboundsOffense(stats.getOffensive_rebounds());
-//		this.setReboundsDefense(stats.getDefensive_rebounds());
-//		this.setPersonalFouls(stats.getPersonal_fouls());
-//	}
+	public void updateTotals(BoxScoreDTO stats) {
+		this.getBoxScoreStats().setMinutes(stats.getMinutes());
+		this.getBoxScoreStats().setPoints(stats.getPoints());
+		this.getBoxScoreStats().setAssists(stats.getAssists());
+		this.getBoxScoreStats().setTurnovers(stats.getTurnovers());
+		this.getBoxScoreStats().setSteals(stats.getSteals());
+		this.getBoxScoreStats().setBlocks(stats.getBlocks());
+		this.getBoxScoreStats().setFieldGoalAttempts(stats.getField_goals_attempted());
+		this.getBoxScoreStats().setFieldGoalMade(stats.getField_goals_made());
+		this.getBoxScoreStats().setFieldGoalPercent(stats.getField_goal_percentage());
+		this.getBoxScoreStats().setThreePointAttempts(stats.getThree_point_field_goals_attempted());
+		this.getBoxScoreStats().setThreePointMade(stats.getThree_point_field_goals_made());
+		this.getBoxScoreStats().setThreePointPercent(stats.getThree_point_percentage());
+		this.getBoxScoreStats().setFreeThrowAttempts(stats.getFree_throws_attempted());
+		this.getBoxScoreStats().setFreeThrowMade(stats.getFree_throws_made());
+		this.getBoxScoreStats().setFreeThrowPercent(stats.getFree_throw_percentage());
+		this.getBoxScoreStats().setReboundsOffense(stats.getOffensive_rebounds());
+		this.getBoxScoreStats().setReboundsDefense(stats.getDefensive_rebounds());
+		this.getBoxScoreStats().setPersonalFouls(stats.getPersonal_fouls());
+	}
 
-//	public void updatePeriodScores(int[] periodScores) {
-//		this.setPointsPeriod1((short)periodScores[0]);
-//		this.setPointsPeriod2((short)periodScores[1]);
-//		this.setPointsPeriod3((short)periodScores[2]);
-//		this.setPointsPeriod4((short)periodScores[3]);
-//		if(periodScores.length > 4)
-//			this.setPointsPeriod5((short)periodScores[4]);
-//		if(periodScores.length > 5)
-//			this.setPointsPeriod6((short)periodScores[5]);
-//		if(periodScores.length > 6)
-//			this.setPointsPeriod7((short)periodScores[6]);
-//		if(periodScores.length > 7)
-//			this.setPointsPeriod8((short)periodScores[7]);
-//	}
+	public void updatePeriodScores(int[] periodScores) {
+		this.setPointsPeriod1((short)periodScores[0]);
+		this.setPointsPeriod2((short)periodScores[1]);
+		this.setPointsPeriod3((short)periodScores[2]);
+		this.setPointsPeriod4((short)periodScores[3]);
+		if(periodScores.length > 4)
+			this.setPointsPeriod5((short)periodScores[4]);
+		if(periodScores.length > 5)
+			this.setPointsPeriod6((short)periodScores[5]);
+		if(periodScores.length > 6)
+			this.setPointsPeriod7((short)periodScores[6]);
+		if(periodScores.length > 7)
+			this.setPointsPeriod8((short)periodScores[7]);
+	}
 }
