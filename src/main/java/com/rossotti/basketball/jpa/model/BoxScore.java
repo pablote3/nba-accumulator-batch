@@ -178,6 +178,9 @@ public class BoxScore extends AbstractDomainClass {
 	}
 
 	public void updateTotals(BoxScoreDTO stats) {
+		if (this.getBoxScoreStats() == null) {
+			this.setBoxScoreStats(new BoxScoreStats());
+		}
 		this.getBoxScoreStats().setMinutes(stats.getMinutes());
 		this.getBoxScoreStats().setPoints(stats.getPoints());
 		this.getBoxScoreStats().setAssists(stats.getAssists());
