@@ -15,6 +15,9 @@ public class BoxScore extends AbstractDomainClass {
 	@ManyToOne()
 	@JoinColumn(name="gameId", referencedColumnName="id", nullable=false)
 	private Game game;
+	public Game getGame() {
+		return game;
+	}
 	public void setGame(Game game) {
 		this.game = game;
 	}
