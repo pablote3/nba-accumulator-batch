@@ -6,7 +6,6 @@ public class StatusCodeBusiness {
 		ClientError,
 		ServerError,
 		RosterUpdate,
-		RosterComplete,
 		RosterError,
 		OfficialError,
 		TeamError
@@ -24,4 +23,17 @@ public class StatusCodeBusiness {
 	public Boolean isServerError() {
 		return statusCode == StatusCode.ServerError;
 	}
+	public Boolean isRosterUpdate() {
+		return statusCode == StatusCode.RosterUpdate;
+	}
+	public Boolean isRosterError() {
+		return statusCode == StatusCode.RosterError;
+	}
+	public Boolean isOfficialError() {
+		return statusCode == StatusCode.OfficialError;
+	}
+	public Boolean isTeamError() {
+		return statusCode == StatusCode.TeamError;
+	}
+
 }
