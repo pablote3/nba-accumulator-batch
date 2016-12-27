@@ -15,9 +15,6 @@ public class BoxScore extends AbstractDomainClass {
 	@ManyToOne()
 	@JoinColumn(name="gameId", referencedColumnName="id", nullable=false)
 	private Game game;
-	public Game getGame() {
-		return game;
-	}
 	public void setGame(Game game) {
 		this.game = game;
 	}
@@ -42,9 +39,6 @@ public class BoxScore extends AbstractDomainClass {
 	}
 	public void addBoxScorePlayer(BoxScorePlayer boxScorePlayer)  {
 		this.getBoxScorePlayers().add(boxScorePlayer);
-	}
-	public void removeBoxScorePlayer(BoxScorePlayer boxScorePlayer)  {
-		this.getBoxScorePlayers().remove(boxScorePlayer);
 	}
 
 	@Enumerated(EnumType.STRING)
@@ -72,8 +66,7 @@ public class BoxScore extends AbstractDomainClass {
 	}
 	public enum Result {
 		Win,
-		Loss,
-		Inc
+		Loss
 	}
 
 	@Column(name="pointsPeriod1")
