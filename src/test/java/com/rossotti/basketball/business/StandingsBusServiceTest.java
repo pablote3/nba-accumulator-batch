@@ -41,7 +41,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class StandingsBusTest {
+public class StandingsBusServiceTest {
 	@Mock
 	private PropertyService propertyService;
 

@@ -40,7 +40,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RosterPlayerBusTest {
+public class RosterPlayerBusServiceTest {
 	@Mock
 	private PropertyService propertyService;
 
