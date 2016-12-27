@@ -130,13 +130,4 @@ public class StandingBusService {
 		}
 		return standingsBusiness;
 	}
-
-	public StandingsBusiness rankStandings(List<Game> games) {
-		if (games.size() > 0) {
-			return rankStandings(DateTimeConverter.getStringDate(games.get(0).getGameDateTime()));
-		}
-		else {
-			return null;
-		}
-	}
 }
