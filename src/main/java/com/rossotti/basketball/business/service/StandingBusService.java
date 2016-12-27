@@ -7,7 +7,6 @@ import com.rossotti.basketball.client.dto.StandingsDTO;
 import com.rossotti.basketball.client.service.FileStatsService;
 import com.rossotti.basketball.client.service.RestStatsService;
 import com.rossotti.basketball.jpa.exception.NoSuchEntityException;
-import com.rossotti.basketball.jpa.model.Game;
 import com.rossotti.basketball.jpa.model.Standing;
 import com.rossotti.basketball.app.model.StandingRecord;
 import com.rossotti.basketball.jpa.model.Team;
