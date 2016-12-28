@@ -1,4 +1,4 @@
-package com.rossotti.basketball.jpa.config;
+package com.rossotti.basketball.config;
 
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
