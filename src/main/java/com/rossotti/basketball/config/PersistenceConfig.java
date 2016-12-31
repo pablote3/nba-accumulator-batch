@@ -1,5 +1,6 @@
 package com.rossotti.basketball.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +20,11 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class PersistenceConfig {
 
+	@Autowired
+	Environment env;
+
 	@Bean
-	DataSource dataSource(Environment env) {
+	DataSource dataSource() {
 		DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
 		dataSourceBuilder.driverClassName(env.getRequiredProperty("db.driver"));
 		dataSourceBuilder.url(env.getRequiredProperty("db.url"));
@@ -30,7 +34,7 @@ public class PersistenceConfig {
 	}
 
 	@Bean
-	LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, Environment env) {
+	LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
 		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
 		entityManagerFactoryBean.setDataSource(dataSource);
 		entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
