@@ -1,5 +1,6 @@
 package com.rossotti.basketball.config;
 
+import com.rossotti.basketball.batch.GameProcessor;
 import com.rossotti.basketball.batch.model.GameReaderInput;
 import com.rossotti.basketball.jpa.model.Game;
 import com.rossotti.basketball.util.function.DateTimeConverter;
@@ -43,15 +44,40 @@ public class BatchConfig {
 
 	private BeanPropertyRowMapper<GameReaderInput> gameMapper = new BeanPropertyRowMapper(GameReaderInput.class);
 
+//	@Bean
+//	public ItemReader<Game> reader() {
+//		JpaPagingItemReader<Game> reader = new JpaPagingItemReader<>();
+//
+//		LocalDate gameDate = LocalDate.now().minusDays(1);
+//		LocalDateTime minDateTime = DateTimeConverter.getLocalDateTimeMin(gameDate);
+//		LocalDateTime maxDateTime = DateTimeConverter.getLocalDateTimeMax(gameDate);
+////	String sql = "select game from game where gameDateTime between '" + minDateTime + "' and '" + maxDateTime + "'";
+//		String sql = "select game from game";
+//
+//		reader.setQueryString(sql);
+//		reader.setEntityManagerFactory(persistenceConfig.entityManagerFactory().getNativeEntityManagerFactory());
+////	reader.setRowMapper(new BeanPropertyRowMapper<>(Game.class));
+//
+//		return reader;
+//	}
+
 	@Bean
 	public JdbcCursorItemReader<GameReaderInput> reader() {
 		JdbcCursorItemReader<GameReaderInput> reader = new JdbcCursorItemReader<GameReaderInput>();
 
 		LocalDate gameDate = LocalDate.now().minusDays(1);
-		LocalDateTime minDateTime = DateTimeConverter.getLocalDateTimeMin(gameDate);
-		LocalDateTime maxDateTime = DateTimeConverter.getLocalDateTimeMax(gameDate);
+		String minDateTime = DateTimeConverter.getStringDateTime(DateTimeConverter.getLocalDateTimeMin(gameDate));
+		String maxDateTime = DateTimeConverter.getStringDateTime(DateTimeConverter.getLocalDateTimeMax(gameDate));
 
-		String sql = "select * from game where gameDateTime between '" + minDateTime + "' and '" + maxDateTime + "'";
+//		String sql = "select * from game where gameDateTime between '" + minDateTime + "' and '" + maxDateTime + "'";
+
+		String sql = "select g.gameDateTime, t.teamKey, g.status " +
+					"from game g " +
+					"inner join boxScore as bs on g.id = bs.gameId " +
+					"inner join team as t on t.id = bs.teamId " +
+					"where g.gameDateTime between '" + minDateTime + "' and '" + maxDateTime + "' " +
+					"and bs.location = 'Home' " +
+					"order by g.gameDateTime asc";
 		reader.setSql(sql);
 		reader.setDataSource(persistenceConfig.dataSource());
 		reader.setRowMapper(new RowMapper<GameReaderInput>() {
@@ -64,22 +90,22 @@ public class BatchConfig {
 		return reader;
 	}
 
-//	@Bean
-//	public PersonItemProcessor processor() {
-//		return new PersonItemProcessor();
-//	}
+	@Bean
+	public GameProcessor processor() {
+		return new GameProcessor();
+	}
 
 	@Bean
-	public FlatFileItemWriter<Game> writer() {
-		FlatFileItemWriter<Game> writer = new FlatFileItemWriter<>();
+	public FlatFileItemWriter<GameReaderInput> writer() {
+		FlatFileItemWriter<GameReaderInput> writer = new FlatFileItemWriter<>();
 
 		writer.setResource(new FileSystemResource(new File("target/paulOut.txt")));
 		writer.setShouldDeleteIfExists(true);
 
-		BeanWrapperFieldExtractor<Game> fieldExtractor = new BeanWrapperFieldExtractor<>();
-		fieldExtractor.setNames(new String[]{"id"});
+		BeanWrapperFieldExtractor<GameReaderInput> fieldExtractor = new BeanWrapperFieldExtractor<>();
+		fieldExtractor.setNames(new String[]{"gameDateTime", "teamKey", "status"});
 
-		DelimitedLineAggregator<Game> lineAggregator = new DelimitedLineAggregator<>();
+		DelimitedLineAggregator<GameReaderInput> lineAggregator = new DelimitedLineAggregator<>();
 		lineAggregator.setFieldExtractor(fieldExtractor);
 
 		writer.setLineAggregator(lineAggregator);
@@ -89,7 +115,7 @@ public class BatchConfig {
 	@Bean
 	public Step step1() {
 		return stepBuilderFactory.get("step1")
-			.<GameReaderInput, Game> chunk(10)
+			.<GameReaderInput, GameReaderInput> chunk(10)
 			.reader(reader())
 //			.processor(processor())
 			.writer(writer())
