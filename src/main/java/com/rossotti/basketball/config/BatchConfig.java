@@ -2,7 +2,6 @@ package com.rossotti.basketball.config;
 
 import com.rossotti.basketball.batch.GameProcessor;
 import com.rossotti.basketball.batch.model.GameReaderInput;
-import com.rossotti.basketball.jpa.model.Game;
 import com.rossotti.basketball.util.function.DateTimeConverter;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -26,7 +25,6 @@ import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Configuration
 @EnableBatchProcessing
@@ -45,18 +43,17 @@ public class BatchConfig {
 	private BeanPropertyRowMapper<GameReaderInput> gameMapper = new BeanPropertyRowMapper(GameReaderInput.class);
 
 //	@Bean
-//	public ItemReader<Game> reader() {
+//	public ItemReader<Game> readerJpa() {
 //		JpaPagingItemReader<Game> reader = new JpaPagingItemReader<>();
 //
 //		LocalDate gameDate = LocalDate.now().minusDays(1);
-//		LocalDateTime minDateTime = DateTimeConverter.getLocalDateTimeMin(gameDate);
-//		LocalDateTime maxDateTime = DateTimeConverter.getLocalDateTimeMax(gameDate);
-////	String sql = "select game from game where gameDateTime between '" + minDateTime + "' and '" + maxDateTime + "'";
-//		String sql = "select game from game";
+//		String minDateTime = DateTimeConverter.getStringDateTime(DateTimeConverter.getLocalDateTimeMin(gameDate));
+//		String maxDateTime = DateTimeConverter.getStringDateTime(DateTimeConverter.getLocalDateTimeMax(gameDate));
+//		String sql = "select g from Game g where gameDateTime between '" + minDateTime + "' and '" + maxDateTime + "'";
 //
 //		reader.setQueryString(sql);
 //		reader.setEntityManagerFactory(persistenceConfig.entityManagerFactory().getNativeEntityManagerFactory());
-////	reader.setRowMapper(new BeanPropertyRowMapper<>(Game.class));
+////		reader.setRowMapper(new BeanPropertyRowMapper<>(Game.class));
 //
 //		return reader;
 //	}
@@ -68,8 +65,6 @@ public class BatchConfig {
 		LocalDate gameDate = LocalDate.now().minusDays(1);
 		String minDateTime = DateTimeConverter.getStringDateTime(DateTimeConverter.getLocalDateTimeMin(gameDate));
 		String maxDateTime = DateTimeConverter.getStringDateTime(DateTimeConverter.getLocalDateTimeMax(gameDate));
-
-//		String sql = "select * from game where gameDateTime between '" + minDateTime + "' and '" + maxDateTime + "'";
 
 		String sql = "select g.gameDateTime, t.teamKey, g.status " +
 					"from game g " +
@@ -117,7 +112,7 @@ public class BatchConfig {
 		return stepBuilderFactory.get("step1")
 			.<GameReaderInput, GameReaderInput> chunk(10)
 			.reader(reader())
-//			.processor(processor())
+			.processor(processor())
 			.writer(writer())
 			.build();
 	}
