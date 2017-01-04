@@ -20,8 +20,12 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class PersistenceConfig {
 
+	private final Environment env;
+
 	@Autowired
-	Environment env;
+	public PersistenceConfig(Environment env) {
+		this.env = env;
+	}
 
 	@Bean
 	DataSource dataSource() {
