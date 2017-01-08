@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class GameProcessor implements ItemProcessor<GameReaderInput, GameReaderInput> {
+public class GameProcessor implements ItemProcessor<Game, Game> {
 
 	@Autowired
 	private GameAppService gameAppService;
@@ -20,12 +20,14 @@ public class GameProcessor implements ItemProcessor<GameReaderInput, GameReaderI
 	private final Logger logger = LoggerFactory.getLogger(GameProcessor.class);
 
 	@Override
-	public GameReaderInput process(GameReaderInput gameReaderInput) throws Exception {
-
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
-		Game game = gameAppService.findByTeamKeyAsOfDate(gameReaderInput.getTeamKey(), LocalDate.parse(gameReaderInput.getGameDateTime(), formatter));
-
-		return gameReaderInput;
+	public Game process(Game game) throws Exception {
+//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+//		LocalDate gameDate = LocalDate.parse(game.getGameDateTime(), formatter);
+//		logger.info("Game finder " + gameDate);
+//		Game game = gameAppService.findByTeamKeyAsOfDate(game.getTeamKey(), gameDate);
+		logger.info("Updating Game Status " + DateTimeConverter.getStringDate(game.getGameDateTime()));
+		logger.info("Game Away Team = " + game.getBoxScoreAway().getTeam().getAbbr());
+		game.setStatus(Game.GameStatus.Completed);
+		return game;
 	}
-
 }
