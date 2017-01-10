@@ -164,13 +164,7 @@ public class BoxScore extends AbstractDomainClass {
 
 	public String toString() {
 		return ("  id: " + this.id + "\n" +
-				"  location: " + this.location + "\n" +
-				"  result: " + this.result + "\n" +
-				"  points: " + this.getBoxScoreStats().getPoints() + "\n" +
-				"  assists: " + this.getBoxScoreStats().getAssists() + "\n" +
-				"  turnovers: " + this.getBoxScoreStats().getTurnovers() + "\n" +
-				"  steals: " + this.getBoxScoreStats().getSteals() + "\n" +
-				"  blocks: " + this.getBoxScoreStats().getBlocks());
+				"  location: " + this.location);
 	}
 
 	public void updateTotals(BoxScoreDTO stats) {
