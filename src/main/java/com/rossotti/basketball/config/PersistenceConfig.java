@@ -11,8 +11,6 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
@@ -56,8 +54,15 @@ public class PersistenceConfig {
 		return entityManagerFactoryBean;
 	}
 
-	@Bean
-	PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
-		return new JpaTransactionManager(entityManagerFactory);
+//  junits
+//	@Bean
+//	PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+//		return new JpaTransactionManager(entityManagerFactory);
+//	}
+
+//  batch job
+//	@Bean
+	PlatformTransactionManager transactionManager() {
+		return new JpaTransactionManager(entityManagerFactory().getNativeEntityManagerFactory());
 	}
 }
