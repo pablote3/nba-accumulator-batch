@@ -8,11 +8,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
-import org.springframework.batch.core.launch.support.SimpleJobLauncher;
-import org.springframework.batch.core.repository.JobRepository;
-import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JpaItemWriter;
@@ -75,7 +71,7 @@ public class BatchConfig {
 //		String sql = "select g from Game g where gameDateTime between " + DateTimeConverter.getLocalDateTimeMin(gameDate) + " and " + DateTimeConverter.getLocalDateTimeMax(gameDate);
 //		String sql = "select g from Game g where gameDateTime between " + gameDate + " and " + gameDate.plusDays(1);
 
-		String sql = "select g from Game g where id = 5482";
+		String sql = "select g from Game g where id = 5486";
 
 		reader.setQueryString(sql);
 		reader.setEntityManagerFactory(persistenceConfig.entityManagerFactory().getNativeEntityManagerFactory());
