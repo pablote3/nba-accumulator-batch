@@ -18,6 +18,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 @EnableBatchProcessing
@@ -62,18 +65,20 @@ public class BatchConfig {
 	public ItemReader<Game> reader() {
 		JpaPagingItemReader<Game> reader = new JpaPagingItemReader<>();
 
-		LocalDate gameDate = LocalDate.now().minusDays(1);
+//		LocalDate gameDate = LocalDate.now().minusDays(1);
+		LocalDate gameDate = LocalDate.of(2017, 1, 8);
 
-		String minDateTime = DateTimeConverter.getStringDateTime(DateTimeConverter.getLocalDateTimeMin(gameDate));
-		String maxDateTime = DateTimeConverter.getStringDateTime(DateTimeConverter.getLocalDateTimeMax(gameDate));
-//		String sql = "select g from Game g where gameDateTime between '" + minDateTime + "' and '" + maxDateTime + "'";
+		LocalDateTime fromDateTime = DateTimeConverter.getLocalDateTimeMin(gameDate);
+		LocalDateTime toDateTime = DateTimeConverter.getLocalDateTimeMax(gameDate);
+		String sql = "select g from Game g where gameDateTime >= :fromDateTime and gameDateTime <= :toDateTime";
+//		String sql = "select g from Game g where id = 5489";
 
-//		String sql = "select g from Game g where gameDateTime between " + DateTimeConverter.getLocalDateTimeMin(gameDate) + " and " + DateTimeConverter.getLocalDateTimeMax(gameDate);
-//		String sql = "select g from Game g where gameDateTime between " + gameDate + " and " + gameDate.plusDays(1);
-
-		String sql = "select g from Game g where id = 5486";
+		Map parameterValues = new HashMap<>();
+		parameterValues.put("fromDateTime", fromDateTime);
+		parameterValues.put("toDateTime", toDateTime);
 
 		reader.setQueryString(sql);
+		reader.setParameterValues(parameterValues);
 		reader.setEntityManagerFactory(persistenceConfig.entityManagerFactory().getNativeEntityManagerFactory());
 		return reader;
 	}
