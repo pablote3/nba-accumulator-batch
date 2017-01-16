@@ -54,14 +54,6 @@ public class PersistenceConfig {
 		return entityManagerFactoryBean;
 	}
 
-//  junits
-//	@Bean
-//	PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
-//		return new JpaTransactionManager(entityManagerFactory);
-//	}
-
-//  batch job
-//	@Bean
 	PlatformTransactionManager transactionManager() {
 		return new JpaTransactionManager(entityManagerFactory().getNativeEntityManagerFactory());
 	}
