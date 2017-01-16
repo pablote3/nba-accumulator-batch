@@ -1,13 +1,5 @@
-#IntelliJ
 /.idea/
-
-#Eclipse
-#.classpath
-#.project
-#/.settings/
-
-#Ignore
-/target/
-/src/main/resources/service.properties
-/nba-accumulator-batch.iml
 /.mvn/
+/target/
+/nba-accumulator-batch.iml
+/src/main/resources/service.properties
