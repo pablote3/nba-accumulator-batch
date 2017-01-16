@@ -21,10 +21,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Service
 public class GameBusService {
@@ -55,7 +53,7 @@ public class GameBusService {
 		this.fileStatsService = fileStatsService;
 	}
 
-	public GameBusiness scoreGame(Game game, String previousUpdateTeam) {
+	public GameBusiness scoreGame(Game game) {
 		GameBusiness gameBusiness = new GameBusiness();
 		try {
 			BoxScore awayBoxScore = game.getBoxScoreAway();
@@ -142,14 +140,8 @@ public class GameBusService {
 				gameBusiness.setStatusCode(StatusCode.TeamError);
 			}
 			else if (nse.getEntityClass().equals(RosterPlayer.class)) {
-				if (previousUpdateTeam == null || !Objects.equals(previousUpdateTeam, gameBusiness.getRosterLastTeam())) {
-					logger.info("Roster Player not found - need to rebuild active roster");
-					gameBusiness.setStatusCode(StatusCode.RosterUpdate);
-				}
-				else {
-					logger.info("Roster Player not found - problem between box score and roster");
-					gameBusiness.setStatusCode(StatusCode.RosterError);
-				}
+				logger.info("RosterPlayer not found - need to rebuild active roster");
+				gameBusiness.setStatusCode(StatusCode.RosterUpdate);
 			}
 		}
 		catch (PropertyException pe) {
@@ -164,9 +156,5 @@ public class GameBusService {
 			gameBusiness.setGame(game);
 		}
 		return gameBusiness;
-	}
-
-	public GameBusiness scoreGame(Game game) {
-		return scoreGame(game, null);
 	}
 }

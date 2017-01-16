@@ -136,18 +136,6 @@ public class GameBusServiceTest {
 	}
 
 	@Test
-	public void rosterPlayerService_getBoxScorePlayers_appRosterError() {
-		when(propertyService.getProperty_ClientSource(anyString()))
-			.thenReturn(ClientSource.File);
-		when(fileStatsService.retrieveBoxScore(anyString()))
-			.thenReturn(createMockGameDTO_Found());
-		when(rosterPlayerAppService.getBoxScorePlayers(anyObject(), anyObject(), anyString()))
-			.thenThrow(new NoSuchEntityException(RosterPlayer.class));
-		GameBusiness game = gameBusService.scoreGame(createMockGame_Scheduled(), "detroit-pistons");
-		Assert.assertTrue(game.isRosterError());
-	}
-
-	@Test
 	public void officialService_getGameOfficials_appOfficialError() {
 		when(propertyService.getProperty_ClientSource(anyString()))
 			.thenReturn(ClientSource.File);
