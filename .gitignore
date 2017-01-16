@@ -1,5 +1,5 @@
 /.idea/
 /.mvn/
 /target/
-/nba-accumulator-batch.iml
+*.iml
 /src/main/resources/service.properties
