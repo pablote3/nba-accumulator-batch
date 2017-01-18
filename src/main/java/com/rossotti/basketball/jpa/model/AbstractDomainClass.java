@@ -6,8 +6,7 @@ import javax.persistence.*;
 public class AbstractDomainClass implements ModelObject {
 
     @Id
-    @SequenceGenerator(name = "seq", initialValue = 101, allocationSize = 20)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @Override
