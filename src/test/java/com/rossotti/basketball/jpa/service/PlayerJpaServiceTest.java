@@ -45,6 +45,14 @@ public class PlayerJpaServiceTest {
 	}
 
 	@Test
+	public void findByLastNameFirstNameBirthdate_Found_UTF_8() {
+		Player findPlayer = playerJpaService.findByLastNameAndFirstNameAndBirthdate("Valančiūnas", "Jonas", LocalDate.of(1992, 5, 6));
+		Assert.assertEquals("Jonas Valančiūnas", findPlayer.getDisplayName());
+		Assert.assertEquals("Utėnai, Lithuania", findPlayer.getBirthplace());
+		Assert.assertTrue(findPlayer.isFound());
+	}
+
+	@Test
 	public void findByLastNameFirstNameBirthdate_NotFound_LastName() {
 		Player player = playerJpaService.findByLastNameAndFirstNameAndBirthdate("Puzdrakiew''icz", "Luke", LocalDate.of(2002, 2, 20));
 		Assert.assertTrue(player.isNotFound());
@@ -60,14 +68,6 @@ public class PlayerJpaServiceTest {
 	public void findByLastNameFirstNameBirthdate_NotFound_Birthdate() {
 		Player player = playerJpaService.findByLastNameAndFirstNameAndBirthdate("Puzdrakiew'icz", "Luke", LocalDate.of(2002, 2, 21));
 		Assert.assertTrue(player.isNotFound());
-	}
-
-	@Test
-	public void findPlayerByName_Found_UTF_8() {
-		Player findPlayer = playerJpaService.findByLastNameAndFirstNameAndBirthdate("Valančiūnas", "Jonas", LocalDate.of(1992, 5, 6));
-		Assert.assertEquals("Jonas Valančiūnas", findPlayer.getDisplayName());
-		Assert.assertEquals("Utėnai, Lithuania", findPlayer.getBirthplace());
-		Assert.assertTrue(findPlayer.isFound());
 	}
 
 	@Test
