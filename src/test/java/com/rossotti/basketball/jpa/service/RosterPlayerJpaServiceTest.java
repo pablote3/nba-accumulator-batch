@@ -49,6 +49,13 @@ public class RosterPlayerJpaServiceTest {
 	}
 
 	@Test
+	public void findByLastNameFirstNameBirthdateAsOfDate_Found_UTF_8() {
+		RosterPlayer rosterPlayer = rosterPlayerJpaService.findByLastNameAndFirstNameAndBirthdateAndAsOfDate("Valančiūnas", "Jonas", LocalDate.of(1992, 5, 6), LocalDate.of(2015, 10, 30));
+		Assert.assertEquals("9", rosterPlayer.getNumber());
+		Assert.assertTrue(rosterPlayer.isFound());
+	}
+
+	@Test
 	public void findByLastNameFirstNameBirthdateAsOfDate_NotFound_LastName() {
 		RosterPlayer rosterPlayer = rosterPlayerJpaService.findByLastNameAndFirstNameAndBirthdateAndAsOfDate("Puzdrakiew'iczy", "Luke", LocalDate.of(2002, 2, 20), LocalDate.of(2009, 10, 30));
 		Assert.assertTrue(rosterPlayer.isNotFound());
@@ -76,6 +83,13 @@ public class RosterPlayerJpaServiceTest {
 	public void findByLastNameFirstNameTeamKeyAsOfDate_Found() {
 		RosterPlayer rosterPlayer = rosterPlayerJpaService.findByLastNameAndFirstNameAndTeamKeyAndAsOfDate("Puzdrakiew'icz", "Luke", "salinas-cowboys", LocalDate.of(2009, 10, 30));
 		Assert.assertEquals("31", rosterPlayer.getNumber());
+		Assert.assertTrue(rosterPlayer.isFound());
+	}
+
+	@Test
+	public void findByLastNameFirstNameTeamKeyAsOfDate_Found_UTF_8() {
+		RosterPlayer rosterPlayer = rosterPlayerJpaService.findByLastNameAndFirstNameAndTeamKeyAndAsOfDate("Valančiūnas", "Jonas", "detroit-pistons", LocalDate.of(2015, 10, 30));
+		Assert.assertEquals("9", rosterPlayer.getNumber());
 		Assert.assertTrue(rosterPlayer.isFound());
 	}
 
@@ -110,6 +124,12 @@ public class RosterPlayerJpaServiceTest {
 	}
 
 	@Test
+	public void findByLastNameFirstNameBirthdate_Found_UTF_8() {
+		List<RosterPlayer> rosterPlayers = rosterPlayerJpaService.findByLastNameAndFirstNameAndBirthdate("Valančiūnas", "Jonas", LocalDate.of(1992, 5, 6));
+		Assert.assertEquals(1, rosterPlayers.size());
+	}
+
+	@Test
 	public void findByLastNameFirstNameBirthdate_NotFound_LastName() {
 		List<RosterPlayer> rosterPlayers = rosterPlayerJpaService.findByLastNameAndFirstNameAndBirthdate("Puzdrakiew'iczy", "Luke", LocalDate.of(2002, 2, 20));
 		Assert.assertEquals(0, rosterPlayers.size());
@@ -130,7 +150,7 @@ public class RosterPlayerJpaServiceTest {
 	@Test
 	public void findByTeamKeyAndAsOfDate_Found() {
 		List<RosterPlayer> rosterPlayers = rosterPlayerJpaService.findByTeamKeyAndAsOfDate("detroit-pistons", LocalDate.of(2015, 10, 30));
-		Assert.assertEquals(3, rosterPlayers.size());
+		Assert.assertEquals(4, rosterPlayers.size());
 	}
 
 	@Test

@@ -38,13 +38,19 @@ public class RosterPlayerRepositoryTest {
 	@Test
 	public void findAll() {
 		List<RosterPlayer> rosterPlayers = rosterPlayerRepository.findAll();
-		Assert.assertEquals(13, rosterPlayers.size());
+		Assert.assertEquals(14, rosterPlayers.size());
 	}
 
 	@Test
 	public void findByLastNameFirstNameBirthdate_Found() {
 		RosterPlayer rosterPlayer = rosterPlayerRepository.findByLastNameAndFirstNameAndBirthdateAndAsOfDate("Puzdrakiew'icz", "Luke", LocalDate.of(2002, 2, 20), LocalDate.of(2009, 10, 30));
 		Assert.assertEquals("31", rosterPlayer.getNumber());
+	}
+
+	@Test
+	public void findByLastNameFirstNameBirthdate_Found_UTF_8() {
+		RosterPlayer rosterPlayer = rosterPlayerRepository.findByLastNameAndFirstNameAndBirthdateAndAsOfDate("Valančiūnas", "Jonas", LocalDate.of(1992, 5, 6), LocalDate.of(2015, 10, 30));
+		Assert.assertEquals("9", rosterPlayer.getNumber());
 	}
 
 	@Test
@@ -78,6 +84,12 @@ public class RosterPlayerRepositoryTest {
 	}
 
 	@Test
+	public void findByLastNameFirstNameTeamKey_Found_UTF_8() {
+		RosterPlayer rosterPlayer = rosterPlayerRepository.findByLastNameAndFirstNameAndTeamKeyAndAsOfDate("Valančiūnas", "Jonas", "detroit-pistons", LocalDate.of(2015, 10, 30));
+		Assert.assertEquals("9", rosterPlayer.getNumber());
+	}
+
+	@Test
 	public void findByLastNameFirstNameTeamKey_NotFound_LastName() {
 		RosterPlayer rosterPlayer = rosterPlayerRepository.findByLastNameAndFirstNameAndTeamKeyAndAsOfDate("Puzdrakiew'iczy", "Luke", "salinas-cowboys", LocalDate.of(2009, 10, 30));
 		Assert.assertNull(rosterPlayer);
@@ -108,6 +120,12 @@ public class RosterPlayerRepositoryTest {
 	}
 
 	@Test
+	public void findByLastNameAndFirstNameAndBirthdate_Found_UTF_8() {
+		List<RosterPlayer> rosterPlayers = rosterPlayerRepository.findByLastNameAndFirstNameAndBirthdate("Valančiūnas", "Jonas", LocalDate.of(1992, 5, 6));
+		Assert.assertEquals(1, rosterPlayers.size());
+	}
+
+	@Test
 	public void findByLastNameAndFirstNameAndBirthdate_NotFound_LastName() {
 		List<RosterPlayer> rosterPlayers = rosterPlayerRepository.findByLastNameAndFirstNameAndBirthdate("Puzdrakiew'iczy", "Luke", LocalDate.of(2002, 2, 20));
 		Assert.assertEquals(0, rosterPlayers.size());
@@ -128,7 +146,7 @@ public class RosterPlayerRepositoryTest {
 	@Test
 	public void findByTeamKeyAndAsOfDate_Found() {
 		List<RosterPlayer> rosterPlayers = rosterPlayerRepository.findByTeamKeyAndAsOfDate("detroit-pistons", LocalDate.of(2015, 10, 30));
-		Assert.assertEquals(3, rosterPlayers.size());
+		Assert.assertEquals(4, rosterPlayers.size());
 	}
 
 	@Test

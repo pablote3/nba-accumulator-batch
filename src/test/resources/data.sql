@@ -37,6 +37,7 @@ insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, positi
 insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, position) VALUES(11, 11, 9, '2015-10-30', '9999-12-31', '28', 'PG');
 insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, position) VALUES(12, 12, 9, '2015-10-30', '2015-12-01', '12', 'C');
 insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, position) VALUES(13, 13, 9, '2015-10-30', '9999-12-31', '9', 'PG');
+insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, position) VALUES(14, 14, 9, '2015-10-30', '9999-12-31', '9', 'PG');
 insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, position) VALUES(20, 20, 21, '2014-10-29', '2015-06-30', '27', 'C');
 insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, position) VALUES(21, 21, 21, '2014-10-29', '2015-06-30', '20', 'SF');
 insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, position) VALUES(22, 22, 20, '2014-10-29', '2015-06-30', '41', 'SF');
