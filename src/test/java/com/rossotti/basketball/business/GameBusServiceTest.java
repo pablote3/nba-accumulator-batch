@@ -143,7 +143,7 @@ public class GameBusServiceTest {
 			.thenReturn(createMockGameDTO_Found());
 		when(rosterPlayerAppService.getBoxScorePlayers(anyObject(), anyObject(), anyObject(), anyString()))
 			.thenReturn(createMockBoxScorePlayers_Found());
-		when(officialAppService.getGameOfficials(anyObject(), anyObject()))
+		when(officialAppService.getGameOfficials(anyObject(), anyObject(), anyObject()))
 			.thenThrow(new NoSuchEntityException(Official.class));
 		GameBusiness game = gameBusService.scoreGame(createMockGame_Scheduled());
 		Assert.assertTrue(game.isOfficialError());
@@ -157,7 +157,7 @@ public class GameBusServiceTest {
 			.thenReturn(createMockGameDTO_Found());
 		when(rosterPlayerAppService.getBoxScorePlayers(anyObject(), anyObject(), anyObject(), anyString()))
 			.thenReturn(createMockBoxScorePlayers_Found());
-		when(officialAppService.getGameOfficials(anyObject(), anyObject()))
+		when(officialAppService.getGameOfficials(anyObject(), anyObject(), anyObject()))
 			.thenReturn(createMockGameOfficials_Found());
 		when(teamAppService.findTeamByTeamKey(anyString(), anyObject()))
 			.thenThrow(new NoSuchEntityException(Team.class));
@@ -173,7 +173,7 @@ public class GameBusServiceTest {
 			.thenReturn(createMockGameDTO_Found());
 		when(rosterPlayerAppService.getBoxScorePlayers(anyObject(), anyObject(), anyObject(), anyString()))
 			.thenReturn(createMockBoxScorePlayers_Found());
-		when(officialAppService.getGameOfficials(anyObject(), anyObject()))
+		when(officialAppService.getGameOfficials(anyObject(), anyObject(), anyObject()))
 			.thenReturn(createMockGameOfficials_Found());
 		when(teamAppService.findTeamByTeamKey(anyString(), anyObject()))
 			.thenReturn(createMockTeam_Found());

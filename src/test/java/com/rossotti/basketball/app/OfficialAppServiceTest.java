@@ -3,6 +3,7 @@ package com.rossotti.basketball.app;
 import com.rossotti.basketball.app.service.OfficialAppService;
 import com.rossotti.basketball.client.dto.OfficialDTO;
 import com.rossotti.basketball.jpa.exception.NoSuchEntityException;
+import com.rossotti.basketball.jpa.model.Game;
 import com.rossotti.basketball.jpa.model.GameOfficial;
 import com.rossotti.basketball.jpa.model.AbstractDomainClass.StatusCodeDAO;
 import com.rossotti.basketball.jpa.model.Official;
@@ -35,7 +36,7 @@ public class OfficialAppServiceTest {
 	public void getGameOfficials_notFound() {
 		when(officialJpaService.findByLastNameAndFirstNameAndAsOfDate(anyString(), anyString(), anyObject()))
 			.thenReturn(createMockOfficial("", "", StatusCodeDAO.NotFound));
-		List<GameOfficial> officials = officialAppService.getGameOfficials(createMockOfficialDTOs(), LocalDate.of(1995, 11, 26));
+		List<GameOfficial> officials = officialAppService.getGameOfficials(createMockOfficialDTOs(), createMockGame(), LocalDate.of(1995, 11, 26));
 		Assert.assertTrue(officials.size() == 0);
 	}
 
@@ -44,7 +45,7 @@ public class OfficialAppServiceTest {
 		when(officialJpaService.findByLastNameAndFirstNameAndAsOfDate(anyString(), anyString(), anyObject()))
 			.thenReturn(createMockOfficial("Adams", "Samuel", StatusCodeDAO.Found))
 			.thenReturn(createMockOfficial("Coors", "Adolph", StatusCodeDAO.Found));
-		List<GameOfficial> officials = officialAppService.getGameOfficials(createMockOfficialDTOs(), LocalDate.of(1995, 11, 26));
+		List<GameOfficial> officials = officialAppService.getGameOfficials(createMockOfficialDTOs(), createMockGame(), LocalDate.of(1995, 11, 26));
 		Assert.assertEquals(2, officials.size());
 		Assert.assertEquals("Coors", officials.get(1).getOfficial().getLastName());
 		Assert.assertEquals("Adolph", officials.get(1).getOfficial().getFirstName());
@@ -70,5 +71,9 @@ public class OfficialAppServiceTest {
 		official.setFirstName(firstName);
 		official.setStatusCode(statusCode);
 		return official;
+	}
+
+	private Game createMockGame() {
+		return new Game();
 	}
 }

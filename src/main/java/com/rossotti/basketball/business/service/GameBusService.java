@@ -89,7 +89,7 @@ public class GameBusService {
 					awayBoxScore.setBoxScorePlayers(rosterPlayerAppService.getBoxScorePlayers(gameDTO.away_stats, awayBoxScore, gameDate, awayTeamKey));
 					gameBusiness.setRosterLastTeam(homeTeamKey);
 					homeBoxScore.setBoxScorePlayers(rosterPlayerAppService.getBoxScorePlayers(gameDTO.home_stats, homeBoxScore, gameDate, homeTeamKey));
-					game.setGameOfficials(officialAppService.getGameOfficials(gameDTO.officials, gameDate));
+					game.setGameOfficials(officialAppService.getGameOfficials(gameDTO.officials, game, gameDate));
 					awayBoxScore.setTeam(teamAppService.findTeamByTeamKey(awayTeamKey, gameDate));
 					homeBoxScore.setTeam(teamAppService.findTeamByTeamKey(homeTeamKey, gameDate));
 

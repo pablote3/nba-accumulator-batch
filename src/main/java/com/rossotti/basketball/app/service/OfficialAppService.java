@@ -2,6 +2,7 @@ package com.rossotti.basketball.app.service;
 
 import com.rossotti.basketball.client.dto.OfficialDTO;
 import com.rossotti.basketball.jpa.exception.NoSuchEntityException;
+import com.rossotti.basketball.jpa.model.Game;
 import com.rossotti.basketball.jpa.model.GameOfficial;
 import com.rossotti.basketball.jpa.model.Official;
 import com.rossotti.basketball.jpa.service.OfficialJpaService;
@@ -25,7 +26,7 @@ public class OfficialAppService {
 		this.officialJpaService = officialJpaService;
 	}
 
-	public List<GameOfficial> getGameOfficials(OfficialDTO[] officials, LocalDate gameDate) {
+	public List<GameOfficial> getGameOfficials(OfficialDTO[] officials, Game game, LocalDate gameDate) {
 		List<GameOfficial> gameOfficials = new ArrayList<>();
 		for (OfficialDTO official1 : officials) {
 			String lastName = official1.getLast_name();
@@ -36,6 +37,7 @@ public class OfficialAppService {
 				throw new NoSuchEntityException(Official.class);
 			} else {
 				GameOfficial gameOfficial = new GameOfficial();
+				gameOfficial.setGame(game);
 				gameOfficial.setOfficial(official);
 				gameOfficials.add(gameOfficial);
 			}
