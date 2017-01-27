@@ -86,9 +86,9 @@ public class GameBusService {
 					awayBoxScore.updatePeriodScores(gameDTO.away_period_scores);
 					homeBoxScore.updatePeriodScores(gameDTO.home_period_scores);
 					gameBusiness.setRosterLastTeam(awayTeamKey);
-					awayBoxScore.setBoxScorePlayers(rosterPlayerAppService.getBoxScorePlayers(gameDTO.away_stats, gameDate, awayTeamKey));
+					awayBoxScore.setBoxScorePlayers(rosterPlayerAppService.getBoxScorePlayers(gameDTO.away_stats, awayBoxScore, gameDate, awayTeamKey));
 					gameBusiness.setRosterLastTeam(homeTeamKey);
-					homeBoxScore.setBoxScorePlayers(rosterPlayerAppService.getBoxScorePlayers(gameDTO.home_stats, gameDate, homeTeamKey));
+					homeBoxScore.setBoxScorePlayers(rosterPlayerAppService.getBoxScorePlayers(gameDTO.home_stats, homeBoxScore, gameDate, homeTeamKey));
 					game.setGameOfficials(officialAppService.getGameOfficials(gameDTO.officials, gameDate));
 					awayBoxScore.setTeam(teamAppService.findTeamByTeamKey(awayTeamKey, gameDate));
 					homeBoxScore.setTeam(teamAppService.findTeamByTeamKey(homeTeamKey, gameDate));
@@ -105,16 +105,7 @@ public class GameBusService {
 					awayBoxScore.setDaysOff((short)DateTimeConverter.getDaysBetweenTwoDateTimes(gameAppService.findPreviousByTeamKeyAsOfDate(awayTeamKey, gameDate), gameDateTime));
 					homeBoxScore.setDaysOff((short)DateTimeConverter.getDaysBetweenTwoDateTimes(gameAppService.findPreviousByTeamKeyAsOfDate(homeTeamKey, gameDate), gameDateTime));
 					game.setStatus(GameStatus.Completed);
-					Game updatedGame = gameAppService.updateGame(game);
-					if (updatedGame.isUpdated()) {
-						logger.info("Game " + game.getStatus() + ": " + awayBoxScore.getTeam().getAbbr() +  " " + awayBoxScore.getBoxScoreStats().getPoints() + " at " + homeBoxScore.getTeam().getAbbr() +  " " + homeBoxScore.getBoxScoreStats().getPoints());
-						gameBusiness.setGame(gameAppService.findByTeamKeyAsOfDate(awayTeamKey, gameDate));
-						gameBusiness.setStatusCode(StatusCode.Completed);
-					}
-					else if (updatedGame.isNotFound()) {
-						logger.info("Unable to find game for update - " + updatedGame.getStatus());
-						gameBusiness.setStatusCode(StatusCode.ServerError);
-					}
+					gameBusiness.setStatusCode(StatusCode.Completed);
 				}
 				else if (gameDTO.isNotFound()) {
 					logger.info("Unable to find game");

@@ -129,7 +129,7 @@ public class GameBusServiceTest {
 			.thenReturn(ClientSource.File);
 		when(fileStatsService.retrieveBoxScore(anyString()))
 			.thenReturn(createMockGameDTO_Found());
-		when(rosterPlayerAppService.getBoxScorePlayers(anyObject(), anyObject(), anyString()))
+		when(rosterPlayerAppService.getBoxScorePlayers(anyObject(), anyObject(), anyObject(), anyString()))
 			.thenThrow(new NoSuchEntityException(RosterPlayer.class));
 		GameBusiness game = gameBusService.scoreGame(createMockGame_Scheduled());
 		Assert.assertTrue(game.isRosterUpdate());
@@ -141,7 +141,7 @@ public class GameBusServiceTest {
 			.thenReturn(ClientSource.File);
 		when(fileStatsService.retrieveBoxScore(anyString()))
 			.thenReturn(createMockGameDTO_Found());
-		when(rosterPlayerAppService.getBoxScorePlayers(anyObject(), anyObject(), anyString()))
+		when(rosterPlayerAppService.getBoxScorePlayers(anyObject(), anyObject(), anyObject(), anyString()))
 			.thenReturn(createMockBoxScorePlayers_Found());
 		when(officialAppService.getGameOfficials(anyObject(), anyObject()))
 			.thenThrow(new NoSuchEntityException(Official.class));
@@ -155,7 +155,7 @@ public class GameBusServiceTest {
 			.thenReturn(ClientSource.File);
 		when(fileStatsService.retrieveBoxScore(anyString()))
 			.thenReturn(createMockGameDTO_Found());
-		when(rosterPlayerAppService.getBoxScorePlayers(anyObject(), anyObject(), anyString()))
+		when(rosterPlayerAppService.getBoxScorePlayers(anyObject(), anyObject(), anyObject(), anyString()))
 			.thenReturn(createMockBoxScorePlayers_Found());
 		when(officialAppService.getGameOfficials(anyObject(), anyObject()))
 			.thenReturn(createMockGameOfficials_Found());
@@ -166,30 +166,12 @@ public class GameBusServiceTest {
 	}
 
 	@Test
-	public void gameService_updateGame_gameNotFound() {
-		when(propertyService.getProperty_ClientSource(anyString()))
-			.thenReturn(ClientSource.Api);
-		when(restStatsService.retrieveBoxScore(anyString(), anyBoolean()))
-			.thenReturn(createMockGameDTO_Found());
-		when(rosterPlayerAppService.getBoxScorePlayers(anyObject(), anyObject(), anyString()))
-			.thenReturn(createMockBoxScorePlayers_Found());
-		when(officialAppService.getGameOfficials(anyObject(), anyObject()))
-			.thenReturn(createMockGameOfficials_Found());
-		when(teamAppService.findTeamByTeamKey(anyString(), anyObject()))
-			.thenReturn(createMockTeam_Found());
-		when(gameAppService.updateGame(anyObject()))
-			.thenReturn(createMockGame_StatusCode(StatusCodeDAO.NotFound));
-		GameBusiness game = gameBusService.scoreGame(createMockGame_Scheduled());
-		Assert.assertTrue(game.isServerError());
-	}
-
-	@Test
 	public void gameService_updateGame_complete() {
 		when(propertyService.getProperty_ClientSource(anyString()))
 			.thenReturn(ClientSource.Api);
 		when(restStatsService.retrieveBoxScore(anyString(), anyBoolean()))
 			.thenReturn(createMockGameDTO_Found());
-		when(rosterPlayerAppService.getBoxScorePlayers(anyObject(), anyObject(), anyString()))
+		when(rosterPlayerAppService.getBoxScorePlayers(anyObject(), anyObject(), anyObject(), anyString()))
 			.thenReturn(createMockBoxScorePlayers_Found());
 		when(officialAppService.getGameOfficials(anyObject(), anyObject()))
 			.thenReturn(createMockGameOfficials_Found());

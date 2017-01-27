@@ -30,7 +30,7 @@ public class RosterPlayerAppService {
 		this.teamJpaService = teamJpaService;
 	}
 
-	public List<BoxScorePlayer> getBoxScorePlayers(BoxScorePlayerDTO[] boxScorePlayerDTOs, LocalDate asOfDate, String teamKey) {
+	public List<BoxScorePlayer> getBoxScorePlayers(BoxScorePlayerDTO[] boxScorePlayerDTOs, BoxScore boxScore, LocalDate asOfDate, String teamKey) {
 		List<BoxScorePlayer> boxScorePlayers = new ArrayList<>();
 		for (BoxScorePlayerDTO boxScorePlayerDTO : boxScorePlayerDTOs) {
 			String lastName = boxScorePlayerDTO.getLast_name();
@@ -41,6 +41,7 @@ public class RosterPlayerAppService {
 				throw new NoSuchEntityException(RosterPlayer.class);
 			} else {
 				BoxScorePlayer boxScorePlayer = new BoxScorePlayer();
+				boxScorePlayer.setBoxScore(boxScore);
 				boxScorePlayer.setBoxScoreStats(new BoxScoreStats());
 				boxScorePlayer.setRosterPlayer(rosterPlayer);
 				boxScorePlayer.setPosition(Position.valueOf(boxScorePlayerDTO.getPosition()));

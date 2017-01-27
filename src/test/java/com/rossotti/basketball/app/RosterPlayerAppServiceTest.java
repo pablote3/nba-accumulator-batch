@@ -5,11 +5,8 @@ import com.rossotti.basketball.client.dto.BoxScorePlayerDTO;
 import com.rossotti.basketball.client.dto.RosterPlayerDTO;
 import com.rossotti.basketball.jpa.exception.DuplicateEntityException;
 import com.rossotti.basketball.jpa.exception.NoSuchEntityException;
-import com.rossotti.basketball.jpa.model.BoxScorePlayer;
+import com.rossotti.basketball.jpa.model.*;
 import com.rossotti.basketball.jpa.model.AbstractDomainClass.StatusCodeDAO;
-import com.rossotti.basketball.jpa.model.Player;
-import com.rossotti.basketball.jpa.model.RosterPlayer;
-import com.rossotti.basketball.jpa.model.Team;
 import com.rossotti.basketball.jpa.service.RosterPlayerJpaService;
 import com.rossotti.basketball.jpa.service.TeamJpaService;
 import org.junit.Assert;
@@ -45,7 +42,7 @@ public class RosterPlayerAppServiceTest {
 	public void getBoxScorePlayers_notFound() {
 		when(rosterPlayerJpaService.findByLastNameAndFirstNameAndTeamKeyAndAsOfDate(anyString(), anyString(), anyString(), anyObject()))
 			.thenReturn(createMockRosterPlayer("", "", StatusCodeDAO.NotFound));
-		List<BoxScorePlayer> boxScorePlayers = rosterPlayerAppService.getBoxScorePlayers(createMockBoxScorePlayerDTOs(),LocalDate.of(1995, 11, 26), "sacramento-hornets");
+		List<BoxScorePlayer> boxScorePlayers = rosterPlayerAppService.getBoxScorePlayers(createMockBoxScorePlayerDTOs(), createMockBoxScore(), LocalDate.of(1995, 11, 26), "sacramento-hornets");
 		Assert.assertTrue(boxScorePlayers.size() == 0);
 	}
 
@@ -53,7 +50,7 @@ public class RosterPlayerAppServiceTest {
 	public void getBoxScorePlayers_found() {
 		when(rosterPlayerJpaService.findByLastNameAndFirstNameAndTeamKeyAndAsOfDate(anyString(), anyString(), anyString(), anyObject()))
 			.thenReturn(createMockRosterPlayer("Coors", "Adolph", StatusCodeDAO.Found));
-		List<BoxScorePlayer> boxScorePlayers = rosterPlayerAppService.getBoxScorePlayers(createMockBoxScorePlayerDTOs(), LocalDate.of(1995, 11, 26), "sacramento-hornets");
+		List<BoxScorePlayer> boxScorePlayers = rosterPlayerAppService.getBoxScorePlayers(createMockBoxScorePlayerDTOs(), createMockBoxScore(), LocalDate.of(1995, 11, 26), "sacramento-hornets");
 		Assert.assertEquals(2, boxScorePlayers.size());
 		Assert.assertEquals("Coors", boxScorePlayers.get(1).getRosterPlayer().getPlayer().getLastName());
 		Assert.assertEquals("Adolph", boxScorePlayers.get(1).getRosterPlayer().getPlayer().getFirstName());
@@ -242,5 +239,9 @@ public class RosterPlayerAppServiceTest {
 		team.setTeamKey(teamKey);
 		team.setStatusCode(statusCode);
 		return team;
+	}
+
+	private BoxScore createMockBoxScore() {
+		return new BoxScore();
 	}
 }

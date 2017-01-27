@@ -3,6 +3,8 @@ package com.rossotti.basketball.config;
 import com.rossotti.basketball.batch.GameProcessor;
 import com.rossotti.basketball.jpa.model.Game;
 import com.rossotti.basketball.util.function.DateTimeConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -32,6 +34,8 @@ public class BatchConfig {
 	private final JobBuilderFactory jobBuilderFactory;
 
 	private final StepBuilderFactory stepBuilderFactory;
+
+	private final Logger logger = LoggerFactory.getLogger(BatchConfig.class);
 
 	@Autowired
 	public BatchConfig(PersistenceConfig persistenceConfig, JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory) {
@@ -63,6 +67,7 @@ public class BatchConfig {
 
 	@Bean
 	public ItemReader<Game> reader() {
+		logger.info("ItemReader - begin");
 		JpaPagingItemReader<Game> reader = new JpaPagingItemReader<>();
 
 //		LocalDate gameDate = LocalDate.now().minusDays(1);
@@ -70,47 +75,19 @@ public class BatchConfig {
 
 		LocalDateTime fromDateTime = DateTimeConverter.getLocalDateTimeMin(gameDate);
 		LocalDateTime toDateTime = DateTimeConverter.getLocalDateTimeMax(gameDate);
-		String sql = "select g from Game g where gameDateTime >= :fromDateTime and gameDateTime <= :toDateTime";
-//		String sql = "select g from Game g where id = 5489";
+//		String sql = "select g from Game g where gameDateTime >= :fromDateTime and gameDateTime <= :toDateTime";
+		String sql = "select g from Game g where id = 5008";
 
 		Map parameterValues = new HashMap<>();
 		parameterValues.put("fromDateTime", fromDateTime);
 		parameterValues.put("toDateTime", toDateTime);
 
 		reader.setQueryString(sql);
-		reader.setParameterValues(parameterValues);
+//		reader.setParameterValues(parameterValues);
 		reader.setEntityManagerFactory(persistenceConfig.entityManagerFactory().getNativeEntityManagerFactory());
+		logger.info("ItemReader - end");
 		return reader;
 	}
-
-//	private BeanPropertyRowMapper<GameReaderInput> gameMapper = new BeanPropertyRowMapper(GameReaderInput.class);
-
-//	@Bean
-//	public JdbcCursorItemReader<GameReaderInput> reader() {
-//		JdbcCursorItemReader<GameReaderInput> reader = new JdbcCursorItemReader<GameReaderInput>();
-//
-//		LocalDate gameDate = LocalDate.now().minusDays(1);
-//		String minDateTime = DateTimeConverter.getStringDateTime(DateTimeConverter.getLocalDateTimeMin(gameDate));
-//		String maxDateTime = DateTimeConverter.getStringDateTime(DateTimeConverter.getLocalDateTimeMax(gameDate));
-//
-//		String sql = "select g.gameDateTime, t.teamKey, g.status " +
-//					"from game g " +
-//					"inner join boxScore as bs on g.id = bs.gameId " +
-//					"inner join team as t on t.id = bs.teamId " +
-//					"where g.gameDateTime between '" + minDateTime + "' and '" + maxDateTime + "' " +
-//					"and bs.location = 'Home' " +
-//					"order by g.gameDateTime asc";
-//		reader.setSql(sql);
-//		reader.setDataSource(persistenceConfig.dataSource());
-//		reader.setRowMapper(new RowMapper<GameReaderInput>() {
-//			@Override
-//			public GameReaderInput mapRow(ResultSet rs, int rowNum) throws SQLException {
-//				GameReaderInput rowObject = gameMapper.mapRow(rs, rowNum);
-//				return rowObject;
-//			}
-//		});
-//		return reader;
-//	}
 
 	@Bean
 	public GameProcessor processor() {
@@ -119,25 +96,10 @@ public class BatchConfig {
 
 	@Bean
 	public ItemWriter<Game> writer() {
+		logger.info("ItemWriter - begin");
 		JpaItemWriter<Game> writer = new JpaItemWriter<>();
 		writer.setEntityManagerFactory(persistenceConfig.entityManagerFactory().getNativeEntityManagerFactory());
+		logger.info("ItemWriter - end");
 		return writer;
 	}
-
-//	@Bean
-//	public FlatFileItemWriter<GameReaderInput> writer() {
-//		FlatFileItemWriter<GameReaderInput> writer = new FlatFileItemWriter<>();
-//
-//		writer.setResource(new FileSystemResource(new File("target/paulOut.txt")));
-//		writer.setShouldDeleteIfExists(true);
-//
-//		BeanWrapperFieldExtractor<GameReaderInput> fieldExtractor = new BeanWrapperFieldExtractor<>();
-//		fieldExtractor.setNames(new String[]{"gameDateTime", "teamKey", "status"});
-//
-//		DelimitedLineAggregator<GameReaderInput> lineAggregator = new DelimitedLineAggregator<>();
-//		lineAggregator.setFieldExtractor(fieldExtractor);
-//
-//		writer.setLineAggregator(lineAggregator);
-//		return writer;
-//	}
 }
