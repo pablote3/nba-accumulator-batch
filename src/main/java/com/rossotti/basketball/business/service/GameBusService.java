@@ -54,7 +54,7 @@ public class GameBusService {
 	}
 
 	public GameBusiness scoreGame(Game game) {
-		GameBusiness gameBusiness = new GameBusiness();
+		GameBusiness gameBusiness = new GameBusiness(game);
 		try {
 			BoxScore awayBoxScore = game.getBoxScoreAway();
 			BoxScore homeBoxScore = game.getBoxScoreHome();
@@ -142,9 +142,6 @@ public class GameBusService {
 		catch (Exception e) {
 			logger.info("Unexpected exception = " + e);
 			gameBusiness.setStatusCode(StatusCode.ServerError);
-		}
-		finally {
-			gameBusiness.setGame(game);
 		}
 		return gameBusiness;
 	}

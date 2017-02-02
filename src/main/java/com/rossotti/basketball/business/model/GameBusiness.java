@@ -3,6 +3,9 @@ package com.rossotti.basketball.business.model;
 import com.rossotti.basketball.jpa.model.Game;
 
 public class GameBusiness extends StatusCodeBusiness {
+	public GameBusiness(Game game) {
+		this.game = game;
+	}
 
 	private Game game;
 	public Game getGame() {
