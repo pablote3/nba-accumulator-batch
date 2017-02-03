@@ -51,7 +51,7 @@ public class GameProcessor implements ItemProcessor<Game, Game> {
 			throw new SkipStepException("ScoreGame problem - status code: " + gameBusiness.getStatusCode());
 		}
 		else if (gameBusiness.isRosterUpdate()) {
-			if (!rosterLastTeam.equals(gameBusiness.getRosterLastTeam())) {
+			if (rosterLastTeam == null || !rosterLastTeam.equals(gameBusiness.getRosterLastTeam())) {
 				rosterLastTeam = gameBusiness.getRosterLastTeam();
 				RosterPlayerBusiness rosterPlayerBusiness = rosterPlayerBusService.loadRoster(DateTimeConverter.getStringDate(gameBusiness.getGame().getGameDateTime()), gameBusiness.getRosterLastTeam());
 				if (rosterPlayerBusiness.isClientError() || rosterPlayerBusiness.isServerError()) {

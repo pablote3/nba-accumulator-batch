@@ -13,6 +13,7 @@ import com.rossotti.basketball.jpa.model.RosterPlayer;
 import com.rossotti.basketball.jpa.model.Team;
 import com.rossotti.basketball.util.function.DateTimeConverter;
 import com.rossotti.basketball.util.function.FormatString;
+import com.rossotti.basketball.util.function.ThreadSleep;
 import com.rossotti.basketball.util.service.PropertyService;
 import com.rossotti.basketball.util.service.PropertyService.ClientSource;
 import com.rossotti.basketball.util.service.exception.PropertyException;
@@ -58,6 +59,7 @@ public class RosterPlayerBusService {
 				rosterDTO = fileStatsService.retrieveRoster(teamKey, fromDate);
 			}
 			else if (clientSource == ClientSource.Api) {
+				ThreadSleep.sleep(10);
 				rosterDTO = restStatsService.retrieveRoster(teamKey, true, fromDate);
 			}
 			else {

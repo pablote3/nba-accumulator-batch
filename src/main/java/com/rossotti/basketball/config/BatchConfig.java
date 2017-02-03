@@ -71,19 +71,19 @@ public class BatchConfig {
 		JpaPagingItemReader<Game> reader = new JpaPagingItemReader<>();
 
 //		LocalDate gameDate = LocalDate.now().minusDays(1);
-		LocalDate gameDate = LocalDate.of(2017, 1, 8);
+		LocalDate gameDate = LocalDate.of(2016, 10, 25);
 
 		LocalDateTime fromDateTime = DateTimeConverter.getLocalDateTimeMin(gameDate);
 		LocalDateTime toDateTime = DateTimeConverter.getLocalDateTimeMax(gameDate);
-//		String sql = "select g from Game g where gameDateTime >= :fromDateTime and gameDateTime <= :toDateTime";
-		String sql = "select g from Game g where id = 5008";
+		String sql = "select g from Game g where gameDateTime >= :fromDateTime and gameDateTime <= :toDateTime";
+//		String sql = "select g from Game g where id = 4929";
 
 		Map parameterValues = new HashMap<>();
 		parameterValues.put("fromDateTime", fromDateTime);
 		parameterValues.put("toDateTime", toDateTime);
 
 		reader.setQueryString(sql);
-//		reader.setParameterValues(parameterValues);
+		reader.setParameterValues(parameterValues);
 		reader.setEntityManagerFactory(persistenceConfig.entityManagerFactory().getNativeEntityManagerFactory());
 		logger.info("ItemReader - end");
 		return reader;

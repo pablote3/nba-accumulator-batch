@@ -14,6 +14,7 @@ import com.rossotti.basketball.jpa.model.*;
 import com.rossotti.basketball.jpa.model.BoxScore.Result;
 import com.rossotti.basketball.jpa.model.Game.GameStatus;
 import com.rossotti.basketball.util.function.DateTimeConverter;
+import com.rossotti.basketball.util.function.ThreadSleep;
 import com.rossotti.basketball.util.service.PropertyService;
 import com.rossotti.basketball.util.service.PropertyService.ClientSource;
 import com.rossotti.basketball.util.service.exception.PropertyException;
@@ -74,6 +75,7 @@ public class GameBusService {
 					gameDTO = fileStatsService.retrieveBoxScore(event);
 				}
 				else if (clientSource == ClientSource.Api) {
+					ThreadSleep.sleep(10);
 					gameDTO = restStatsService.retrieveBoxScore(event, false);
 				}
 				else {
