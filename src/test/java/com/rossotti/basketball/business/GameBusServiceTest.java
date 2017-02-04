@@ -169,6 +169,8 @@ public class GameBusServiceTest {
 	public void gameService_updateGame_complete() {
 		when(propertyService.getProperty_ClientSource(anyString()))
 			.thenReturn(ClientSource.Api);
+		when(propertyService.getProperty_ClientSource(anyString()))
+				.thenReturn(ClientSource.Api);
 		when(restStatsService.retrieveBoxScore(anyString(), anyBoolean()))
 			.thenReturn(createMockGameDTO_Found());
 		when(rosterPlayerAppService.getBoxScorePlayers(anyObject(), anyObject(), anyObject(), anyString()))

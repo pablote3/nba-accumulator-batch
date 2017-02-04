@@ -59,7 +59,7 @@ public class RosterPlayerBusService {
 				rosterDTO = fileStatsService.retrieveRoster(teamKey, fromDate);
 			}
 			else if (clientSource == ClientSource.Api) {
-				ThreadSleep.sleep(10);
+				ThreadSleep.sleep(propertyService.getProperty_Int("sleep.duration"));
 				rosterDTO = restStatsService.retrieveRoster(teamKey, true, fromDate);
 			}
 			else {

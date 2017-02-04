@@ -88,4 +88,18 @@ public class PropertyServiceTest {
 	public void getProperty_ClientSource_Null() {
 		propertyService.getProperty_ClientSource("accumulator.clientsource.invalid.null");
 	}
+
+	@Test
+	public void getProperty_Int_Valid() {
+		int prop = propertyService.getProperty_Int("accumulator.int.valid");
+		Assert.assertEquals(0, prop);
+	}
+	@Test(expected=PropertyException.class)
+	public void getProperty_Int_Empty() {
+		propertyService.getProperty_Int("accumulator.int.empty");
+	}
+	@Test(expected=PropertyException.class)
+	public void getProperty_Int_NumberFormatException() {
+		propertyService.getProperty_Int("accumulator.int.invalid");
+	}
 }

@@ -69,17 +69,18 @@ public class GameBusService {
 			if (game.isScheduled()) {
 				logger.debug("Scheduled game ready to be scored: " + event);
 
-				GameDTO gameDTO;
+				GameDTO gameDTO = null;
 				ClientSource clientSource = propertyService.getProperty_ClientSource("accumulator.source.boxScore");
 				if (clientSource == ClientSource.File) {
 					gameDTO = fileStatsService.retrieveBoxScore(event);
 				}
 				else if (clientSource == ClientSource.Api) {
-					ThreadSleep.sleep(10);
+					ThreadSleep.sleep(propertyService.getProperty_Int("sleep.duration"));
 					gameDTO = restStatsService.retrieveBoxScore(event, false);
 				}
 				else {
-					throw new PropertyException("Unknown");
+					logger.info("Unknown property");
+					gameBusiness.setStatusCode(StatusCode.ClientError);
 				}
 
 				if (gameDTO.isFound()) {

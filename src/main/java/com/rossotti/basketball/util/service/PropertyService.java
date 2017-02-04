@@ -43,6 +43,16 @@ public class PropertyService {
 		return http;
 	}
 
+	public int getProperty_Int(String propertyName) {
+		String property = getProperty_String(propertyName);
+		try {
+			return Integer.parseInt(property);
+		}
+		catch (NumberFormatException e) {
+			throw new PropertyException(propertyName);
+		}
+	}
+
 	public String getProperty_Path(String propertyName) {
 		String path = getProperty_String(propertyName);
 		if (!new File(path).exists()) {
