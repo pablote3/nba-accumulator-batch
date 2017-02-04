@@ -3,3 +3,4 @@
 /target/
 *.iml
 /src/main/resources/service.properties
+/src/test/resources/service.properties
