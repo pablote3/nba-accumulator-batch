@@ -80,7 +80,7 @@ public class GameBusServiceTest {
 		when(propertyService.getProperty_ClientSource(anyString()))
 			.thenReturn(null);
 		GameBusiness game = gameBusService.scoreGame(createMockGame_Scheduled());
-		Assert.assertTrue(game.isServerError());
+		Assert.assertTrue(game.isClientError());
 	}
 
 	@Test
