@@ -83,7 +83,11 @@ public class GameBusService {
 					gameBusiness.setStatusCode(StatusCode.ClientError);
 				}
 
-				if (gameDTO.isFound()) {
+				if (gameDTO == null || gameDTO.isNotFound()) {
+					logger.info("Unable to find game");
+					gameBusiness.setStatusCode(StatusCode.ClientError);
+				}
+				else if (gameDTO.isFound()) {
 					awayBoxScore.updateTotals(gameDTO.away_totals);
 					homeBoxScore.updateTotals(gameDTO.home_totals);
 					awayBoxScore.updatePeriodScores(gameDTO.away_period_scores);
@@ -109,10 +113,6 @@ public class GameBusService {
 					homeBoxScore.setDaysOff((short)DateTimeConverter.getDaysBetweenTwoDateTimes(gameAppService.findPreviousByTeamKeyAsOfDate(homeTeamKey, gameDate), gameDateTime));
 					game.setStatus(GameStatus.Completed);
 					gameBusiness.setStatusCode(StatusCode.Completed);
-				}
-				else if (gameDTO.isNotFound()) {
-					logger.info("Unable to find game");
-					gameBusiness.setStatusCode(StatusCode.ClientError);
 				}
 				else if (gameDTO.isClientException()) {
 					logger.info("Client exception");
