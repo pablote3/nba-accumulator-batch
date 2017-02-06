@@ -1,6 +1,7 @@
 package com.rossotti.basketball.config;
 
 import com.rossotti.basketball.batch.GameProcessor;
+import com.rossotti.basketball.batch.exception.SkipStepException;
 import com.rossotti.basketball.jpa.model.Game;
 import com.rossotti.basketball.util.function.DateTimeConverter;
 import org.slf4j.Logger;
@@ -48,7 +49,6 @@ public class BatchConfig {
 	public Job scoreGameJob() {
 		return jobBuilderFactory.get("scoreGameJob")
 			.incrementer(new RunIdIncrementer())
-//			.listener(listener)
 			.flow(step1())
 			.end()
 			.build();
@@ -61,6 +61,9 @@ public class BatchConfig {
 			.reader(reader())
 			.processor(processor())
 			.writer(writer())
+			.faultTolerant()
+			.skip(SkipStepException.class)
+			.skipLimit(3)
 			.transactionManager(persistenceConfig.transactionManager())
 			.build();
 	}
