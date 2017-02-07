@@ -58,18 +58,18 @@ public class BatchConfig {
 	public Step step1() {
 		return stepBuilderFactory.get("step1")
 			.<Game, Game> chunk(1)
-			.reader(reader())
-			.processor(processor())
-			.writer(writer())
-			.faultTolerant()
-			.skip(SkipStepException.class)
-			.skipLimit(3)
+			.reader(gameReader())
+			.processor(gameProcessor())
+			.writer(gameWriter())
+//			.faultTolerant()
+//			.skip(SkipStepException.class)
+//			.skipLimit(3)
 			.transactionManager(persistenceConfig.transactionManager())
 			.build();
 	}
 
 	@Bean
-	public ItemReader<Game> reader() {
+	public ItemReader<Game> gameReader() {
 		logger.info("ItemReader - begin");
 		JpaPagingItemReader<Game> reader = new JpaPagingItemReader<>();
 
@@ -93,12 +93,12 @@ public class BatchConfig {
 	}
 
 	@Bean
-	public GameProcessor processor() {
+	public GameProcessor gameProcessor() {
 		return new GameProcessor();
 	}
 
 	@Bean
-	public ItemWriter<Game> writer() {
+	public ItemWriter<Game> gameWriter() {
 		logger.info("ItemWriter - begin");
 		JpaItemWriter<Game> writer = new JpaItemWriter<>();
 		writer.setEntityManagerFactory(persistenceConfig.entityManagerFactory().getNativeEntityManagerFactory());
