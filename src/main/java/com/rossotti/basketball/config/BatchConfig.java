@@ -1,6 +1,7 @@
 package com.rossotti.basketball.config;
 
 import com.rossotti.basketball.batch.GameProcessor;
+import com.rossotti.basketball.batch.StandingsTasklet;
 import com.rossotti.basketball.jpa.model.Game;
 import com.rossotti.basketball.util.function.DateTimeConverter;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JpaItemWriter;
@@ -49,6 +51,7 @@ public class BatchConfig {
 		return jobBuilderFactory.get("scoreGameJob")
 			.incrementer(new RunIdIncrementer())
 			.flow(step1())
+			.next(step2())
 			.end()
 			.build();
 	}
@@ -65,12 +68,20 @@ public class BatchConfig {
 	}
 
 	@Bean
+	public Step step2() {
+		return stepBuilderFactory.get("step2")
+			.tasklet(standingsTasklet())
+			.build();
+	}
+
+	@Bean
 	public ItemReader<Game> gameReader() {
 		logger.info("ItemReader - begin");
 		JpaPagingItemReader<Game> reader = new JpaPagingItemReader<>();
 
 //		LocalDate gameDate = LocalDate.now().minusDays(1);
-		LocalDate gameDate = LocalDate.of(2016, 10, 25);
+//		LocalDate gameDate = LocalDate.of(2016, 10, 25);
+		LocalDate gameDate = LocalDate.of(2016, 11, 5);
 
 		LocalDateTime fromDateTime = DateTimeConverter.getLocalDateTimeMin(gameDate);
 		LocalDateTime toDateTime = DateTimeConverter.getLocalDateTimeMax(gameDate);
@@ -91,6 +102,11 @@ public class BatchConfig {
 	@Bean
 	public GameProcessor gameProcessor() {
 		return new GameProcessor();
+	}
+
+	@Bean
+	public StandingsTasklet standingsTasklet() {
+		return new StandingsTasklet();
 	}
 
 	@Bean
