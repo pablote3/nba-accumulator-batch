@@ -49,6 +49,11 @@ public class GameJpaServiceImpl implements GameJpaService {
 	}
 
 	@Override
+	public int findCountByAsOfDate(LocalDate asOfDate) {
+		return gameRepository.findCountByFromDateAndToDate(DateTimeConverter.getLocalDateTimeMin(asOfDate), DateTimeConverter.getLocalDateTimeMax(asOfDate));
+	}
+
+	@Override
 	public LocalDateTime findPreviousByTeamKeyAsOfDate(String teamKey, LocalDate asOfDate) {
 		List<LocalDateTime> gameDateTime = gameRepository.findPreviousByTeamKeyAndAsOfDate(teamKey, DateTimeConverter.getLocalDateTimeMin(asOfDate));
 		if (gameDateTime != null && gameDateTime.size() > 0) {

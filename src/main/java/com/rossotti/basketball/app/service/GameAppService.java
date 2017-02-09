@@ -26,6 +26,10 @@ public class GameAppService {
 		return gameJpaService.findByTeamKeyAndAsOfDate(teamKey, asOfDate);
 	}
 
+	public int findCountByAsOfDate(LocalDate asOfDate) {
+		return gameJpaService.findCountByAsOfDate(asOfDate);
+	}
+
 	public LocalDateTime findPreviousByTeamKeyAsOfDate(String teamKey, LocalDate asOfDate) {
 		return gameJpaService.findPreviousByTeamKeyAsOfDate(teamKey, asOfDate);
 	}

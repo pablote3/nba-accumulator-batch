@@ -44,13 +44,22 @@ public interface GameRepository extends Repository<Game, Long> {
 	List<Game> findByTeamKeyAndFromDateAndToDateSeason(@Param("teamKey") String teamKey, @Param("fromDateTime") LocalDateTime fromDateTime, @Param("toDateTime") LocalDateTime toDateTime);
 
 	String findByFromDateAndToDate =
-			"from Game " +
+			"select g from Game g " +
 			"where gameDateTime >= :fromDateTime " +
 			"and gameDateTime <= :toDateTime " +
 			"order by status desc, gameDateTime asc";
 
 	@Query(findByFromDateAndToDate)
 	List<Game> findByFromDateAndToDate(@Param("fromDateTime") LocalDateTime fromDateTime, @Param("toDateTime") LocalDateTime toDateTime);
+
+	String findCountByFromDateAndToDate =
+			"select count(g) " +
+			"from Game g " +
+			"where gameDateTime >= :fromDateTime " +
+			"and gameDateTime <= :toDateTime";
+
+	@Query(findCountByFromDateAndToDate)
+	int findCountByFromDateAndToDate(@Param("fromDateTime") LocalDateTime fromDateTime, @Param("toDateTime") LocalDateTime toDateTime);
 
 	String findPreviousByTeamKeyAndAsOfDate =
 			"select g.gameDateTime from Game g " +
