@@ -22,12 +22,18 @@ public class StandingsTasklet implements Tasklet {
 
 	@Override
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-		LocalDate gameDate = LocalDate.of(2016, 11, 5);
+		LocalDate gameDate = (LocalDate)chunkContext
+			.getStepContext()
+			.getStepExecution()
+			.getJobExecution()
+			.getExecutionContext()
+			.get("asOfDate");
+
 		String asOfDate = DateTimeConverter.getStringDate(gameDate);
 		StandingsBusiness standingsBusiness = standingBusService.rankStandings(asOfDate);
 
 		if (standingsBusiness.isCompleted()) {
-			logger.info("RankStandings complete " + asOfDate);
+			logger.info("RankStandings Complete for " + asOfDate);
 			return RepeatStatus.FINISHED;
 		}
 		else {
