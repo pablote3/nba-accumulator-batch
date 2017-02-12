@@ -98,6 +98,18 @@ public class GameJpaServiceTest {
 	}
 
 	@Test
+	public void findCountByAsOfDate_NotFound() {
+		int count = gameJpaService.findCountByAsOfDate(LocalDate.of(2015, 10, 26));
+		Assert.assertEquals(0, count);
+	}
+
+	@Test
+	public void findCountByAsOfDate_Found() {
+		int count = gameJpaService.findCountByAsOfDate(LocalDate.of(2015, 10, 27));
+		Assert.assertEquals(3, count);
+	}
+
+	@Test
 	public void findPreviousByTeamKeyAndFromDateAndToDate_Found() {
 		LocalDateTime gameDateTime = gameJpaService.findPreviousByTeamKeyAsOfDate("chicago-zephyr's", LocalDate.of(2015, 10, 30));
 		Assert.assertEquals(LocalDateTime.of(2015, 10, 28, 20, 0), gameDateTime);

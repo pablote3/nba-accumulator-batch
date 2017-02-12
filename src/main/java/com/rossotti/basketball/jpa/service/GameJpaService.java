@@ -12,5 +12,6 @@ public interface GameJpaService extends CrudService<Game> {
 	Game findByTeamKeyAndAsOfDate(String teamKey, LocalDate asOfDate);
 	List<Game> findByTeamKeyAndAsOfDateSeason(String teamKey, LocalDate asOfDate);
 	List<Game> findByAsOfDate(LocalDate asOfDate);
+	int findCountByAsOfDate(LocalDate asOfDate);
 	LocalDateTime findPreviousByTeamKeyAsOfDate(String teamKey, LocalDate asOfDate);
 }

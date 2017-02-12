@@ -104,6 +104,18 @@ public class GameRepositoryTest {
 	}
 
 	@Test
+	public void findCountByFromDateAndToDate_NotFound() {
+		int count = gameRepository.findCountByFromDateAndToDate(DateTimeConverter.getLocalDateTimeMin(LocalDate.of(2015, 10, 26)), DateTimeConverter.getLocalDateTimeMax(LocalDate.of(2015, 10, 26)));
+		Assert.assertEquals(0, count);
+	}
+
+	@Test
+	public void findCountByFromDateAndToDate_Found() {
+		int count = gameRepository.findCountByFromDateAndToDate(DateTimeConverter.getLocalDateTimeMin(LocalDate.of(2015, 10, 27)), DateTimeConverter.getLocalDateTimeMax(LocalDate.of(2015, 10, 27)));
+		Assert.assertEquals(3, count);
+	}
+
+	@Test
 	public void findPreviousByTeamKeyAndFromDateAndToDate_Found() {
 		List<LocalDateTime> gameDates = gameRepository.findPreviousByTeamKeyAndAsOfDate("chicago-zephyr's", DateTimeConverter.getLocalDateTimeMin(LocalDate.of(2015, 10, 30)));
 		Assert.assertEquals(2, gameDates.size());

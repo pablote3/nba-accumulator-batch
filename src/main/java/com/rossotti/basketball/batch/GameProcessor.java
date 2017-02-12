@@ -41,6 +41,7 @@ public class GameProcessor implements ItemProcessor<Game, Game> {
 			return game;
 		}
 		else {
+			logger.info("GameScore problem - status code: " + gameBusiness.getStatusCode());
 			throw new SkipStepException("GameScore problem - status code: " + gameBusiness.getStatusCode());
 		}
 	}
