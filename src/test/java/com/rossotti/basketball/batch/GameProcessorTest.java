@@ -14,7 +14,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import java.time.LocalDateTime;
+import org.joda.time.LocalDateTime;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.when;
 
@@ -101,7 +101,7 @@ public class GameProcessorTest {
 
 	private Game createMockGame_Scheduled() {
 		Game game = new Game();
-		game.setGameDateTime(LocalDateTime.of(2015, 11, 26, 10, 0));
+		game.setGameDateTime(new LocalDateTime(2015, 11, 26, 10, 0));
 		game.setStatus(GameStatus.Scheduled);
 		Team teamHome = new Team();
 		teamHome.setTeamKey("brooklyn-nets");

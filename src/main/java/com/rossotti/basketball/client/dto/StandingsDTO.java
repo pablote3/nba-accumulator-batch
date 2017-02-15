@@ -1,8 +1,8 @@
 package com.rossotti.basketball.client.dto;
 
-import java.time.ZonedDateTime;
+import org.joda.time.DateTime;
 
 public class StandingsDTO extends StatusCodeDTO {
-	public ZonedDateTime standings_date;
+	public DateTime standings_date;
 	public StandingDTO[] standing;
 }

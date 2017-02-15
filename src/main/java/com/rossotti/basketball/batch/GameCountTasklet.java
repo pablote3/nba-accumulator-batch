@@ -8,7 +8,7 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import java.time.LocalDate;
+import org.joda.time.LocalDate;
 
 public class GameCountTasklet implements Tasklet {
 
@@ -19,7 +19,7 @@ public class GameCountTasklet implements Tasklet {
 
 	@Override
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-		LocalDate asOfDate = LocalDate.of(2016, 10, 25);
+		LocalDate asOfDate = new LocalDate(2016, 10, 25);
 
 		chunkContext
 			.getStepContext()

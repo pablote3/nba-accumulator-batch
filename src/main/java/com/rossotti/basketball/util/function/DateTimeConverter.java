@@ -1,37 +1,36 @@
 package com.rossotti.basketball.util.function;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoUnit;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 public class DateTimeConverter {
 
-	private static final DateTimeFormatter dateNakedFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+	private static final DateTimeFormatter dateNakedFormatter = DateTimeFormat.forPattern("yyyyMMdd");
+	private static final DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+	private static final DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm");
 	
 	static public String getStringDate(LocalDate date) {
-		return date.format(dateFormatter);
+		return date.toString(dateFormatter);
 	}
 
 	static public String getStringDate(LocalDateTime dateTime) {
-		return dateTime.format(dateFormatter);
+		return dateTime.toString(dateFormatter);
 	}
 
 	static public String getStringDateNaked(LocalDateTime dateTime) {
-		return dateTime.format(dateNakedFormatter);
+		return dateTime.toString(dateNakedFormatter);
 	}
 
 	static public String getStringDateNaked(LocalDate date) {
-		return date.format(dateNakedFormatter);
+		return date.toString(dateNakedFormatter);
 	}
 
 	static public String getStringDateTime(LocalDateTime dateTime) {
-		return dateTime.format(dateTimeFormatter);
+		return dateTime.toString(dateTimeFormatter);
 	}
 
 	static public LocalDate getLocalDate(String strDate) {
@@ -42,13 +41,17 @@ public class DateTimeConverter {
 		return dateTime.toLocalDate();
 	}
 
-	static public LocalDateTime getLocalDateTime(String strDateTime) {
-		return LocalDateTime.parse(strDateTime);
+	static public LocalDate getLocalDate(DateTime dateTime) {
+		return dateTime.toLocalDate();
 	}
 
-	static public LocalDateTime getLocalDateTime(ZonedDateTime zonedDateTime) { return LocalDateTime.ofInstant(zonedDateTime.toInstant(), ZoneId.of("US/Eastern")); }
+	static public LocalDateTime getLocalDateTime(String strDateTime) {
+		return dateTimeFormatter.parseLocalDateTime(strDateTime);
+	}
 
-	static public LocalDate getLocalDate(ZonedDateTime zonedDateTime) { return LocalDateTime.ofInstant(zonedDateTime.toInstant(), ZoneId.of("US/Eastern")).toLocalDate(); }
+	static public LocalDateTime getLocalDateTime(DateTime dateTime) {
+		return dateTime.toLocalDateTime();
+	}
 
 	static public LocalDateTime getLocalDateTimeMin(LocalDate localDate) {
 		String stringDate = DateTimeConverter.getStringDate(localDate);
@@ -61,38 +64,38 @@ public class DateTimeConverter {
 	}
 
 	static public LocalDate getLocalDateSeasonMin(LocalDate localDate) {
-		if (localDate.getMonthValue() <= 6) {
-			return LocalDate.of(localDate.getYear() - 1, 7, 1);
+		if (localDate.getMonthOfYear() <= 6) {
+			return new LocalDate(localDate.getYear() - 1, 7, 1);
 		}
 		else {
-			return LocalDate.of(localDate.getYear(), 7, 1);
+			return new LocalDate(localDate.getYear(), 7, 1);
 		}
 	}
 
 	static public LocalDate getLocalDateSeasonMax(LocalDate localDate) {
-		if (localDate.getMonthValue() <= 6) {
-			return LocalDate.of(localDate.getYear(), 6, 30);
+		if (localDate.getMonthOfYear() <= 6) {
+			return new LocalDate(localDate.getYear(), 6, 30);
 		}
 		else {
-			return LocalDate.of(localDate.getYear() + 1, 6, 30);
+			return new LocalDate(localDate.getYear() + 1, 6, 30);
 		}
 	}
 
 	static public LocalDateTime getLocalDateTimeSeasonMin(LocalDate localDate) {
-		if (localDate.getMonthValue() <= 6) {
-			return LocalDateTime.of(localDate.getYear() - 1, 7, 1, 0, 0);
+		if (localDate.getMonthOfYear() <= 6) {
+			return new LocalDateTime(localDate.getYear() - 1, 7, 1, 0, 0);
 		}
 		else {
-			return LocalDateTime.of(localDate.getYear(), 7, 1, 0, 0);
+			return new LocalDateTime(localDate.getYear(), 7, 1, 0, 0);
 		}
 	}
 
 	static public LocalDateTime getLocalDateTimeSeasonMax(LocalDate localDate) {
-		if (localDate.getMonthValue() <= 6) {
-			return LocalDateTime.of(localDate.getYear(), 6, 30, 23, 59);
+		if (localDate.getMonthOfYear() <= 6) {
+			return new LocalDateTime(localDate.getYear(), 6, 30, 23, 59);
 		}
 		else {
-			return LocalDateTime.of(localDate.getYear() + 1, 6, 30, 23, 59);
+			return new LocalDateTime(localDate.getYear() + 1, 6, 30, 23, 59);
 		}
 	}
 
@@ -108,10 +111,10 @@ public class DateTimeConverter {
 
 	static public boolean isDate(String strDate)  {
 		try {
-			LocalDate.parse(strDate);
+			DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+			dateTimeFormatter.parseDateTime(strDate);
 			return true;
-		}
-		catch (DateTimeParseException e) {
+		} catch (Exception e) {
 			return false;
 		}
 	}
@@ -125,16 +128,13 @@ public class DateTimeConverter {
 //	}
 
 	static public int getDaysBetweenTwoDateTimes(LocalDateTime minDate, LocalDateTime maxDate) {
-		if(minDate != null) {
-			int days = (int) ChronoUnit.DAYS.between(minDate, maxDate);
-			if (days < 30) {
-				return days;
-			} else {
-				return 0;
+		int days = Days.ZERO.getDays();
+		if (minDate != null) {
+			int calcDays = Days.daysBetween(minDate, maxDate).getDays();
+			if (calcDays < 30) {
+				days = calcDays;
 			}
 		}
-		else {
-			return 0;
-		}
+		return days;
 	}
 }

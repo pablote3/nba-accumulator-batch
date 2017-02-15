@@ -1,7 +1,9 @@
 package com.rossotti.basketball.jpa.model;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+
+import org.hibernate.annotations.Type;
+import org.joda.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +66,7 @@ public class Game extends AbstractDomainClass {
 	}
 
 	@Column(name="gameDateTime", nullable=false)
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
 	private LocalDateTime gameDateTime;
 	public LocalDateTime getGameDateTime() {
 		return gameDateTime;

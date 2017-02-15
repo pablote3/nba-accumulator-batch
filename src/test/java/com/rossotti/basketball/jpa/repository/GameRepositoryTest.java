@@ -12,8 +12,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import java.util.List;
 
 @SuppressWarnings("SpringJavaAutowiredMembersInspection")
@@ -43,8 +43,8 @@ public class GameRepositoryTest {
 
 	@Test
 	public void findByTeamKeyAndFromDateAndToDate_Found() {
-		Game game = gameRepository.findByTeamKeyAndFromDateAndToDate("chicago-zephyr's", DateTimeConverter.getLocalDateTimeMin(LocalDate.of(2015, 10, 27)), DateTimeConverter.getLocalDateTimeMax(LocalDate.of(2015, 10, 27)));
-		Assert.assertEquals(LocalDateTime.of(2015, 10, 27, 20, 0), game.getGameDateTime());
+		Game game = gameRepository.findByTeamKeyAndFromDateAndToDate("chicago-zephyr's", DateTimeConverter.getLocalDateTimeMin(new LocalDate("2015-10-27")), DateTimeConverter.getLocalDateTimeMax(new LocalDate("2015-10-27")));
+		Assert.assertEquals(new LocalDateTime("2015-10-27T20:00"), game.getGameDateTime());
 		Assert.assertEquals("Harlem Globetrotter's", game.getBoxScoreAway().getTeam().getFullName());
 		Assert.assertEquals(3, game.getGameOfficials().size());
 		Assert.assertEquals("QuestionableCall", game.getGameOfficials().get(2).getOfficial().getLastName());
@@ -57,101 +57,101 @@ public class GameRepositoryTest {
 
 	@Test
 	public void findByTeamKeyAndFromDateAndToDate_NotFound_TeamKey() {
-		Game game = gameRepository.findByTeamKeyAndFromDateAndToDate("baltimore-bullys", DateTimeConverter.getLocalDateTimeMin(LocalDate.of(2015, 10, 29)), DateTimeConverter.getLocalDateTimeMax(LocalDate.of(2015, 10, 29)));
+		Game game = gameRepository.findByTeamKeyAndFromDateAndToDate("baltimore-bullys", DateTimeConverter.getLocalDateTimeMin(new LocalDate(2015, 10, 29)), DateTimeConverter.getLocalDateTimeMax(new LocalDate(2015, 10, 29)));
 		Assert.assertNull(game);
 	}
 
 	@Test
 	public void findByTeamKeyAndFromDateAndToDate_NotFound_AsOfDate() {
-		Game game = gameRepository.findByTeamKeyAndFromDateAndToDate("baltimore-bullets", DateTimeConverter.getLocalDateTimeMin(LocalDate.of(2014, 10, 29)), DateTimeConverter.getLocalDateTimeMax(LocalDate.of(2014, 10, 29)));
+		Game game = gameRepository.findByTeamKeyAndFromDateAndToDate("baltimore-bullets", DateTimeConverter.getLocalDateTimeMin(new LocalDate(2014, 10, 29)), DateTimeConverter.getLocalDateTimeMax(new LocalDate(2014, 10, 29)));
 		Assert.assertNull(game);
 	}
 
 	@Test
 	public void findByTeamKeyAndFromDateAndToDateSeason_Found() {
-		List<Game> games = gameRepository.findByTeamKeyAndFromDateAndToDateSeason("baltimore-bullets", DateTimeConverter.getLocalDateTimeSeasonMin(LocalDate.of(2015, 10, 30)), DateTimeConverter.getLocalDateTimeSeasonMax(LocalDate.of(2015, 10, 27)));
+		List<Game> games = gameRepository.findByTeamKeyAndFromDateAndToDateSeason("baltimore-bullets", DateTimeConverter.getLocalDateTimeSeasonMin(new LocalDate(2015, 10, 30)), DateTimeConverter.getLocalDateTimeSeasonMax(new LocalDate(2015, 10, 27)));
 		Assert.assertEquals(3, games.size());
 	}
 
 	@Test
 	public void findByTeamKeyAndFromDateAndToDateSeason_NotFound_TeamKey() {
-		List<Game> games = gameRepository.findByTeamKeyAndFromDateAndToDateSeason("baltimore-bullys", DateTimeConverter.getLocalDateTimeSeasonMin(LocalDate.of(2015, 10, 30)), DateTimeConverter.getLocalDateTimeSeasonMax(LocalDate.of(2015, 10, 27)));
+		List<Game> games = gameRepository.findByTeamKeyAndFromDateAndToDateSeason("baltimore-bullys", DateTimeConverter.getLocalDateTimeSeasonMin(new LocalDate(2015, 10, 30)), DateTimeConverter.getLocalDateTimeSeasonMax(new LocalDate(2015, 10, 27)));
 		Assert.assertEquals(0, games.size());
 	}
 
 	@Test
 	public void findByTeamKeyAndFromDateAndToDateSeason_NotFound_AsOfDate() {
-		List<Game> games = gameRepository.findByTeamKeyAndFromDateAndToDateSeason("baltimore-bullets", DateTimeConverter.getLocalDateTimeSeasonMin(LocalDate.of(2014, 10, 30)), DateTimeConverter.getLocalDateTimeSeasonMax(LocalDate.of(2014, 10, 27)));
+		List<Game> games = gameRepository.findByTeamKeyAndFromDateAndToDateSeason("baltimore-bullets", DateTimeConverter.getLocalDateTimeSeasonMin(new LocalDate(2014, 10, 30)), DateTimeConverter.getLocalDateTimeSeasonMax(new LocalDate(2014, 10, 27)));
 		Assert.assertEquals(0, games.size());
 	}
 
 	@Test
 	public void findByFromDateAndToDate_Found() {
-		List<Game> games = gameRepository.findByFromDateAndToDate(DateTimeConverter.getLocalDateTimeMin(LocalDate.of(2015, 10, 27)), DateTimeConverter.getLocalDateTimeMax(LocalDate.of(2015, 10, 27)));
+		List<Game> games = gameRepository.findByFromDateAndToDate(DateTimeConverter.getLocalDateTimeMin(new LocalDate(2015, 10, 27)), DateTimeConverter.getLocalDateTimeMax(new LocalDate(2015, 10, 27)));
 		Assert.assertEquals(3, games.size());
-		Assert.assertEquals(LocalDateTime.of(2015, 10, 27, 20, 30), games.get(0).getGameDateTime());
+		Assert.assertEquals(new LocalDateTime(2015, 10, 27, 20, 30), games.get(0).getGameDateTime());
 		Assert.assertTrue(games.get(0).isScheduled());
-		Assert.assertEquals(LocalDateTime.of(2015, 10, 27, 21, 0), games.get(1).getGameDateTime());
+		Assert.assertEquals(new LocalDateTime(2015, 10, 27, 21, 0), games.get(1).getGameDateTime());
 		Assert.assertTrue(games.get(1).isScheduled());
-		Assert.assertEquals(LocalDateTime.of(2015, 10, 27, 20, 0), games.get(2).getGameDateTime());
+		Assert.assertEquals(new LocalDateTime(2015, 10, 27, 20, 0), games.get(2).getGameDateTime());
 		Assert.assertTrue(games.get(2).isCompleted());
 	}
 
 	@Test
 	public void findByFromDateAndToDate_NotFound() {
-		List<Game> games = gameRepository.findByFromDateAndToDate(DateTimeConverter.getLocalDateTimeMin(LocalDate.of(2015, 10, 26)), DateTimeConverter.getLocalDateTimeMax(LocalDate.of(2015, 10, 26)));
+		List<Game> games = gameRepository.findByFromDateAndToDate(DateTimeConverter.getLocalDateTimeMin(new LocalDate(2015, 10, 26)), DateTimeConverter.getLocalDateTimeMax(new LocalDate(2015, 10, 26)));
 		Assert.assertEquals(0, games.size());
 	}
 
 	@Test
 	public void findCountByFromDateAndToDate_NotFound() {
-		int count = gameRepository.findCountByFromDateAndToDate(DateTimeConverter.getLocalDateTimeMin(LocalDate.of(2015, 10, 26)), DateTimeConverter.getLocalDateTimeMax(LocalDate.of(2015, 10, 26)));
+		int count = gameRepository.findCountByFromDateAndToDate(DateTimeConverter.getLocalDateTimeMin(new LocalDate(2015, 10, 26)), DateTimeConverter.getLocalDateTimeMax(new LocalDate(2015, 10, 26)));
 		Assert.assertEquals(0, count);
 	}
 
 	@Test
 	public void findCountByFromDateAndToDate_Found() {
-		int count = gameRepository.findCountByFromDateAndToDate(DateTimeConverter.getLocalDateTimeMin(LocalDate.of(2015, 10, 27)), DateTimeConverter.getLocalDateTimeMax(LocalDate.of(2015, 10, 27)));
+		int count = gameRepository.findCountByFromDateAndToDate(DateTimeConverter.getLocalDateTimeMin(new LocalDate(2015, 10, 27)), DateTimeConverter.getLocalDateTimeMax(new LocalDate(2015, 10, 27)));
 		Assert.assertEquals(3, count);
 	}
 
 	@Test
 	public void findPreviousByTeamKeyAndFromDateAndToDate_Found() {
-		List<LocalDateTime> gameDates = gameRepository.findPreviousByTeamKeyAndAsOfDate("chicago-zephyr's", DateTimeConverter.getLocalDateTimeMin(LocalDate.of(2015, 10, 30)));
+		List<LocalDateTime> gameDates = gameRepository.findPreviousByTeamKeyAndAsOfDate("chicago-zephyr's", DateTimeConverter.getLocalDateTimeMin(new LocalDate(2015, 10, 30)));
 		Assert.assertEquals(2, gameDates.size());
-		Assert.assertEquals(LocalDateTime.of(2015, 10, 28, 20, 0), gameDates.get(0));
-		Assert.assertEquals(LocalDateTime.of(2015, 10, 27, 20, 0), gameDates.get(1));
+		Assert.assertEquals(new LocalDateTime(2015, 10, 28, 20, 0), gameDates.get(0));
+		Assert.assertEquals(new LocalDateTime(2015, 10, 27, 20, 0), gameDates.get(1));
 	}
 
 	@Test
 	public void findPreviousByTeamKeyAndFromDateAndToDate_NotFound_TeamKey() {
-		List<LocalDateTime> games = gameRepository.findPreviousByTeamKeyAndAsOfDate("chicago-zephyry", DateTimeConverter.getLocalDateTimeMin(LocalDate.of(2015, 10, 28)));
+		List<LocalDateTime> games = gameRepository.findPreviousByTeamKeyAndAsOfDate("chicago-zephyry", DateTimeConverter.getLocalDateTimeMin(new LocalDate(2015, 10, 28)));
 		Assert.assertEquals(0, games.size());
 	}
 
 	@Test
 	public void findPreviousByTeamKeyAndFromDateAndToDate_NotFound_AsOfDate() {
-		List<LocalDateTime> games = gameRepository.findPreviousByTeamKeyAndAsOfDate("chicago-zephyr's", DateTimeConverter.getLocalDateTimeMin(LocalDate.of(2015, 10, 27)));
+		List<LocalDateTime> games = gameRepository.findPreviousByTeamKeyAndAsOfDate("chicago-zephyr's", DateTimeConverter.getLocalDateTimeMin(new LocalDate(2015, 10, 27)));
 		Assert.assertEquals(0, games.size());
 	}
 
 	@Test
 	public void create_Created() {
-		gameRepository.save(createMockGame(30L, LocalDateTime.of(2016, 10, 10, 21, 0), 21L, 1L, "chicago-zephyr's", 22L, 2L, "harlem-globetrotter's", Game.GameStatus.Scheduled));
-		Game findGame = gameRepository.findByTeamKeyAndFromDateAndToDate("chicago-zephyr's", DateTimeConverter.getLocalDateTimeMin(LocalDate.of(2016, 10, 10)), DateTimeConverter.getLocalDateTimeMax(LocalDate.of(2016, 10, 10)));
+		gameRepository.save(createMockGame(30L, new LocalDateTime(2016, 10, 10, 21, 0), 21L, 1L, "chicago-zephyr's", 22L, 2L, "harlem-globetrotter's", Game.GameStatus.Scheduled));
+		Game findGame = gameRepository.findByTeamKeyAndFromDateAndToDate("chicago-zephyr's", DateTimeConverter.getLocalDateTimeMin(new LocalDate(2016, 10, 10)), DateTimeConverter.getLocalDateTimeMax(new LocalDate(2016, 10, 10)));
 		Assert.assertEquals(2, findGame.getBoxScores().size());
 		Assert.assertEquals("Harlem Globetrotter's", findGame.getBoxScoreAway().getTeam().getFullName());
 	}
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void create_MissingRequiredData() {
-		gameRepository.save(createMockGame(31L, LocalDateTime.of(2015, 12, 27, 21, 0), 3L, 3L, "st-louis-bomber's", 4L, 4L, "salinas-cowboys", null));
+		gameRepository.save(createMockGame(31L, new LocalDateTime(2015, 12, 27, 21, 0), 3L, 3L, "st-louis-bomber's", 4L, 4L, "salinas-cowboys", null));
 	}
 
 	@Test
 	public void update_Updated() {
-		gameRepository.save(updateMockGame(8L, LocalDateTime.of(2015, 10, 15, 10, 0), 15L, 6L, "cleveland-rebels", 16L, 5L, "baltimore-bullets", Game.GameStatus.Completed));
-		Game findGame = gameRepository.findByTeamKeyAndFromDateAndToDate("cleveland-rebels", DateTimeConverter.getLocalDateTimeMin(LocalDate.of(2015, 10, 15)), DateTimeConverter.getLocalDateTimeMax(LocalDate.of(2015, 10, 15)));
+		gameRepository.save(updateMockGame(8L, new LocalDateTime(2015, 10, 15, 10, 0), 15L, 6L, "cleveland-rebels", 16L, 5L, "baltimore-bullets", Game.GameStatus.Completed));
+		Game findGame = gameRepository.findByTeamKeyAndFromDateAndToDate("cleveland-rebels", DateTimeConverter.getLocalDateTimeMin(new LocalDate(2015, 10, 15)), DateTimeConverter.getLocalDateTimeMax(new LocalDate(2015, 10, 15)));
 		Assert.assertEquals(3, findGame.getGameOfficials().size());
 		Assert.assertEquals("MissedCa'll", findGame.getGameOfficials().get(1).getOfficial().getLastName());
 		Assert.assertEquals(2, findGame.getBoxScores().size());
@@ -165,7 +165,7 @@ public class GameRepositoryTest {
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void update_MissingRequiredData() {
-		gameRepository.save(updateMockGame(9L, LocalDateTime.of(2015, 11, 24, 10, 0), 17L, 9L, "detroit-pistons", 18L, 8L, "st-louis-bomber's", null));
+		gameRepository.save(updateMockGame(9L, new LocalDateTime(2015, 11, 24, 10, 0), 17L, 9L, "detroit-pistons", 18L, 8L, "st-louis-bomber's", null));
 	}
 
 	@Test
@@ -283,7 +283,7 @@ public class GameRepositoryTest {
 		BoxScorePlayer homeBoxScorePlayer = new BoxScorePlayer();
 		homeBoxScorePlayer.setBoxScoreStats(new BoxScoreStats());
 		homeBoxScorePlayer.setBoxScore(boxScore);
-		homeBoxScorePlayer.setRosterPlayer(getMockRosterPlayer(2L, "Puzdrakiewicz", "Luke", LocalDate.of(2002, 2, 20), LocalDate.of(2009, 11, 30), LocalDate.of(9999, 12, 31)));
+		homeBoxScorePlayer.setRosterPlayer(getMockRosterPlayer(2L, "Puzdrakiewicz", "Luke", new LocalDate(2002, 2, 20), new LocalDate(2009, 11, 30), new LocalDate(9999, 12, 31)));
 		homeBoxScorePlayer.setPosition(Position.F);
 		homeBoxScorePlayer.getBoxScoreStats().setFreeThrowMade((short)4);
 		return homeBoxScorePlayer;
@@ -293,7 +293,7 @@ public class GameRepositoryTest {
 		BoxScorePlayer homeBoxScorePlayer = new BoxScorePlayer();
 		homeBoxScorePlayer.setBoxScoreStats(new BoxScoreStats());
 		homeBoxScorePlayer.setBoxScore(boxScore);
-		homeBoxScorePlayer.setRosterPlayer(getMockRosterPlayer(3L, "Puzdrakiewicz", "Thad", LocalDate.of(1966, 6, 2), LocalDate.of(2009, 10, 30), LocalDate.of(2009, 11, 4)));
+		homeBoxScorePlayer.setRosterPlayer(getMockRosterPlayer(3L, "Puzdrakiewicz", "Thad", new LocalDate(1966, 6, 2), new LocalDate(2009, 10, 30), new LocalDate(2009, 11, 4)));
 		homeBoxScorePlayer.setPosition(Position.C);
 		homeBoxScorePlayer.getBoxScoreStats().setFreeThrowMade((short)0);
 		return homeBoxScorePlayer;
@@ -303,7 +303,7 @@ public class GameRepositoryTest {
 		BoxScorePlayer awayBoxScorePlayer = new BoxScorePlayer();
 		awayBoxScorePlayer.setBoxScoreStats(new BoxScoreStats());
 		awayBoxScorePlayer.setBoxScore(boxScore);
-		awayBoxScorePlayer.setRosterPlayer(getMockRosterPlayer(5L, "Puzdrakiewicz", "Junior", LocalDate.of(1966, 6, 10), LocalDate.of(2009, 10, 30), LocalDate.of(9999, 12, 31)));
+		awayBoxScorePlayer.setRosterPlayer(getMockRosterPlayer(5L, "Puzdrakiewicz", "Junior", new LocalDate(1966, 6, 10), new LocalDate(2009, 10, 30), new LocalDate(9999, 12, 31)));
 		awayBoxScorePlayer.setPosition(Position.SG);
 		awayBoxScorePlayer.getBoxScoreStats().setFreeThrowMade((short)2);
 		return awayBoxScorePlayer;

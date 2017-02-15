@@ -3,7 +3,7 @@ package com.rossotti.basketball.jpa.service;
 import com.rossotti.basketball.jpa.model.Team;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import org.joda.time.LocalDate;
 import java.util.List;
 
 @Service

@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDateTime;
+import org.joda.time.LocalDateTime;
 import java.util.List;
 
 public interface GameRepository extends Repository<Game, Long> {

@@ -11,7 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDate;
+import org.joda.time.LocalDate;
 import java.util.List;
 
 @SuppressWarnings("SpringJavaAutowiredMembersInspection")
@@ -41,31 +41,31 @@ public class StandingRepositoryTest {
 
 	@Test
 	public void findByTeamKeyAsOfDate_Found() {
-		Standing standing = standingRepository.findByTeamKeyAndStandingDate("chicago-zephyr's", LocalDate.of(2015, 10, 30));
+		Standing standing = standingRepository.findByTeamKeyAndStandingDate("chicago-zephyr's", new LocalDate(2015, 10, 30));
 		Assert.assertEquals("1st", standing.getOrdinalRank());
 	}
 
 	@Test
 	public void findByTeamKeyAsOfDate_NotFound_TeamKey() {
-		Standing standing = standingRepository.findByTeamKeyAndStandingDate("chicago-zephyr", LocalDate.of(2015, 10, 30));
+		Standing standing = standingRepository.findByTeamKeyAndStandingDate("chicago-zephyr", new LocalDate(2015, 10, 30));
 		Assert.assertNull(standing);
 	}
 
 	@Test
 	public void findByTeamKeyAsOfDate_NotFound_AsOfDate() {
-		Standing standing = standingRepository.findByTeamKeyAndStandingDate("chicago-zephyr's", LocalDate.of(2015, 10, 29));
+		Standing standing = standingRepository.findByTeamKeyAndStandingDate("chicago-zephyr's", new LocalDate(2015, 10, 29));
 		Assert.assertNull(standing);
 	}
 
 	@Test
 	public void findByAsOfDate_Found() {
-		List<Standing> standings = standingRepository.findByStandingDate(LocalDate.of(2015, 10, 30));
+		List<Standing> standings = standingRepository.findByStandingDate(new LocalDate(2015, 10, 30));
 		Assert.assertEquals(2, standings.size());
 	}
 
 	@Test
 	public void findByAsOfDate_NotFound() {
-		List<Standing> standings = standingRepository.findByStandingDate(LocalDate.of(2015, 10, 29));
+		List<Standing> standings = standingRepository.findByStandingDate(new LocalDate(2015, 10, 29));
 		Assert.assertEquals(0, standings.size());
 	}
 
@@ -83,31 +83,31 @@ public class StandingRepositoryTest {
 
 	@Test
 	public void create_Created() {
-		standingRepository.save(createMockStanding(20L, LocalDate.of(2012, 7, 1), "10th"));
-		Standing findStanding = standingRepository.findByTeamKeyAndStandingDate("chicago-bulls", LocalDate.of(2012, 7, 1));
+		standingRepository.save(createMockStanding(20L, new LocalDate(2012, 7, 1), "10th"));
+		Standing findStanding = standingRepository.findByTeamKeyAndStandingDate("chicago-bulls", new LocalDate(2012, 7, 1));
 		Assert.assertEquals("10th", findStanding.getOrdinalRank());
 	}
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void create_Existing() {
-		standingRepository.save(createMockStanding(1L, LocalDate.of(2015, 10, 30), "10th"));
+		standingRepository.save(createMockStanding(1L, new LocalDate(2015, 10, 30), "10th"));
 	}
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void create_MissingRequiredData() {
-		standingRepository.save(createMockStanding(20L, LocalDate.of(2012, 7, 1), null));
+		standingRepository.save(createMockStanding(20L, new LocalDate(2012, 7, 1), null));
 	}
 
 	@Test
 	public void update_Updated() {
-		standingRepository.save(updateMockStanding(4L, 4L, LocalDate.of(2015, 10, 31), "10th"));
-		Standing standing = standingRepository.findByTeamKeyAndStandingDate("salinas-cowboys", LocalDate.of(2015, 10, 31));
+		standingRepository.save(updateMockStanding(4L, 4L, new LocalDate(2015, 10, 31), "10th"));
+		Standing standing = standingRepository.findByTeamKeyAndStandingDate("salinas-cowboys", new LocalDate(2015, 10, 31));
 		Assert.assertEquals("10th", standing.getOrdinalRank());
 	}
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void update_MissingRequiredData() {
-		standingRepository.save(updateMockStanding(4L, 4L, LocalDate.of(2015, 10, 31), null));
+		standingRepository.save(updateMockStanding(4L, 4L, new LocalDate(2015, 10, 31), null));
 	}
 
 	@Test

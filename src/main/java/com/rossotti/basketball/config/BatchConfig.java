@@ -23,8 +23,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,8 +92,8 @@ public class BatchConfig {
 		logger.info("ItemReader - begin");
 		JpaPagingItemReader<Game> reader = new JpaPagingItemReader<>();
 		//	LocalDate gameDate = LocalDate.now().minusDays(1);
-		LocalDate asOfDate = LocalDate.of(2016, 10, 25);
-//		LocalDate gameDate = LocalDate.of(2016, 11, 5);
+		LocalDate asOfDate = new LocalDate(2016, 10, 25);
+//		LocalDate gameDate = new LocalDate(2016, 11, 5);
 
 		LocalDateTime fromDateTime = DateTimeConverter.getLocalDateTimeMin(asOfDate);
 		LocalDateTime toDateTime = DateTimeConverter.getLocalDateTimeMax(asOfDate);

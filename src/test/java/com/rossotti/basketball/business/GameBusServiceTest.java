@@ -29,7 +29,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDateTime;
+import org.joda.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -187,7 +187,7 @@ public class GameBusServiceTest {
 
 	private Game createMockGame_Scheduled() {
 		Game game = new Game();
-		game.setGameDateTime(LocalDateTime.of(2015, 11, 26, 10, 0));
+		game.setGameDateTime(new LocalDateTime(2015, 11, 26, 10, 0));
 		game.setStatus(GameStatus.Scheduled);
 		Team teamHome = new Team();
 		teamHome.setTeamKey("brooklyn-nets");
@@ -206,7 +206,7 @@ public class GameBusServiceTest {
 
 	private Game createMockGame_StatusCode(StatusCodeDAO status) {
 		Game game = new Game();
-		game.setGameDateTime(LocalDateTime.of(2015, 11, 24, 10, 0));
+		game.setGameDateTime(new LocalDateTime(2015, 11, 24, 10, 0));
 		game.setStatusCode(status);
 		return game;
 	}

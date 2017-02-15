@@ -14,7 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.time.LocalDate;
+import org.joda.time.LocalDate;
 
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
@@ -73,7 +73,7 @@ public class FileStatsServiceTest {
 	public void retrieveRoster_PropertyException() {
 		when(propertyService.getProperty_Path(anyString()))
 			.thenThrow(new PropertyException("propertyName"));
-		RosterDTO roster = fileStatsService.retrieveRoster("toronto-raptors", LocalDate.of(2015, 4, 15));
+		RosterDTO roster = fileStatsService.retrieveRoster("toronto-raptors", new LocalDate(2015, 4, 15));
 		Assert.assertTrue(roster.isServerException());
 	}
 
@@ -83,7 +83,7 @@ public class FileStatsServiceTest {
 			.thenReturn("/home/pablote/");
 		when(fileClientService.retrieveStats(anyString(), anyString(), anyObject()))
 			.thenReturn(createMockStatsDTO(new RosterDTO(), StatusCode.NotFound));
-		RosterDTO roster = fileStatsService.retrieveRoster("toronto-raptors-20150415", LocalDate.of(2015, 4, 15));
+		RosterDTO roster = fileStatsService.retrieveRoster("toronto-raptors-20150415", new LocalDate(2015, 4, 15));
 		Assert.assertTrue(roster.isNotFound());
 	}
 
@@ -93,7 +93,7 @@ public class FileStatsServiceTest {
 			.thenReturn("/home/pablote/");
 		when(fileClientService.retrieveStats(anyString(), anyString(), anyObject()))
 			.thenReturn(createMockStatsDTO(new RosterDTO(), StatusCode.ClientException));
-		RosterDTO roster = fileStatsService.retrieveRoster("toronto-raptors", LocalDate.of(2015, 4, 15));
+		RosterDTO roster = fileStatsService.retrieveRoster("toronto-raptors", new LocalDate(2015, 4, 15));
 		Assert.assertTrue(roster.isClientException());
 	}
 
@@ -103,7 +103,7 @@ public class FileStatsServiceTest {
 			.thenReturn("/home/pablote/");
 		when(fileClientService.retrieveStats(anyString(), anyString(), anyObject()))
 			.thenReturn(createMockStatsDTO(new RosterDTO(), StatusCode.Found));
-		RosterDTO roster = fileStatsService.retrieveRoster("toronto-raptors", LocalDate.of(2015, 4, 15));
+		RosterDTO roster = fileStatsService.retrieveRoster("toronto-raptors", new LocalDate(2015, 4, 15));
 		Assert.assertTrue(roster.isFound());
 	}
 

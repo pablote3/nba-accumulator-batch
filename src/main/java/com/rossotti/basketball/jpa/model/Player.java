@@ -1,7 +1,9 @@
 package com.rossotti.basketball.jpa.model;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+
+import org.hibernate.annotations.Type;
+import org.joda.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +47,7 @@ public class Player extends AbstractDomainClass {
 	}
 
 	@Column(name="birthdate", nullable=false)
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	private LocalDate birthdate;
 	public LocalDate getBirthdate()  {
 		return birthdate;

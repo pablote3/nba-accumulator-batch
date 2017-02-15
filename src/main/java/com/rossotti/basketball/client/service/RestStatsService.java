@@ -18,7 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
-import java.time.LocalDate;
+import org.joda.time.LocalDate;
 
 @Service
 public class RestStatsService {

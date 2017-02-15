@@ -15,8 +15,8 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,7 +38,7 @@ public class GameAppServiceTest {
 	public void findByAsOfDate_notFound() {
 		when(gameJpaService.findByAsOfDate(anyObject()))
 			.thenReturn(new ArrayList<>());
-		List<Game> games = gameAppService.findByAsOfDate(LocalDate.of(1995, 11, 26));
+		List<Game> games = gameAppService.findByAsOfDate(new LocalDate(1995, 11, 26));
 		Assert.assertEquals(0, games.size());
 	}
 
@@ -46,7 +46,7 @@ public class GameAppServiceTest {
 	public void findByAsOfDate_found() {
 		when(gameJpaService.findByAsOfDate(anyObject()))
 			.thenReturn(createMockGames());
-		List<Game> games = gameAppService.findByAsOfDate(LocalDate.of(1995, 11, 26));
+		List<Game> games = gameAppService.findByAsOfDate(new LocalDate(1995, 11, 26));
 		Assert.assertEquals(2, games.size());
 	}
 
@@ -54,7 +54,7 @@ public class GameAppServiceTest {
 	public void findByTeamKeyAsOfDate_notFound() {
 		when(gameJpaService.findByTeamKeyAndAsOfDate(anyString(), anyObject()))
 			.thenReturn(null);
-		Game game = gameAppService.findByTeamKeyAsOfDate("sacramento-hornets", LocalDate.of(1995, 11, 26));
+		Game game = gameAppService.findByTeamKeyAsOfDate("sacramento-hornets", new LocalDate(1995, 11, 26));
 		Assert.assertNull(game);
 	}
 
@@ -62,31 +62,31 @@ public class GameAppServiceTest {
 	public void findByTeamKeyAsOfDate_found() {
 		when(gameJpaService.findByTeamKeyAndAsOfDate(anyString(), anyObject()))
 			.thenReturn(createMockGame_Scheduled());
-		Game game = gameAppService.findByTeamKeyAsOfDate("sacramento-hornets", LocalDate.of(1995, 11, 26));
-		Assert.assertEquals(LocalDateTime.of(2015, 11, 26, 10, 0), game.getGameDateTime());
+		Game game = gameAppService.findByTeamKeyAsOfDate("sacramento-hornets", new LocalDate(1995, 11, 26));
+		Assert.assertEquals(new LocalDateTime(2015, 11, 26, 10, 0), game.getGameDateTime());
 	}
 
 	@Test
 	public void findPreviousByTeamKeyAsOfDate_notFound() {
 		when(gameJpaService.findPreviousByTeamKeyAsOfDate(anyString(), anyObject()))
 			.thenReturn(null);
-		LocalDateTime previousGameDate = gameAppService.findPreviousByTeamKeyAsOfDate("sacramento-hornets", LocalDate.of(1995, 11, 26));
+		LocalDateTime previousGameDate = gameAppService.findPreviousByTeamKeyAsOfDate("sacramento-hornets", new LocalDate(1995, 11, 26));
 		Assert.assertNull(previousGameDate);
 	}
 
 	@Test
 	public void findPreviousByTeamKeyAsOfDate_found() {
 		when(gameJpaService.findPreviousByTeamKeyAsOfDate(anyString(), anyObject()))
-			.thenReturn(LocalDateTime.of(2015, 11, 26, 10, 0));
-		LocalDateTime previousGameDate = gameAppService.findPreviousByTeamKeyAsOfDate("sacramento-hornets", LocalDate.of(1995, 11, 26));
-		Assert.assertEquals(LocalDateTime.of(2015, 11, 26, 10, 0), previousGameDate);
+			.thenReturn(new LocalDateTime(2015, 11, 26, 10, 0));
+		LocalDateTime previousGameDate = gameAppService.findPreviousByTeamKeyAsOfDate("sacramento-hornets", new LocalDate(1995, 11, 26));
+		Assert.assertEquals(new LocalDateTime(2015, 11, 26, 10, 0), previousGameDate);
 	}
 
 	@Test
 	public void findByDateTeamSeason_notFound() {
 		when(gameJpaService.findByTeamKeyAndAsOfDateSeason(anyString(), anyObject()))
 			.thenReturn(new ArrayList<>());
-		List<Game> games = gameAppService.findByTeamKeyAsOfDateSeason("sacramento-hornets", LocalDate.of(1995, 11, 26));
+		List<Game> games = gameAppService.findByTeamKeyAsOfDateSeason("sacramento-hornets", new LocalDate(1995, 11, 26));
 		Assert.assertEquals(0, games.size());
 	}
 
@@ -94,7 +94,7 @@ public class GameAppServiceTest {
 	public void findByDateTeamSeason_found() {
 		when(gameJpaService.findByTeamKeyAndAsOfDateSeason(anyString(), anyObject()))
 			.thenReturn(createMockGames());
-		List<Game> games = gameAppService.findByTeamKeyAsOfDateSeason("sacramento-hornets", LocalDate.of(1995, 11, 26));
+		List<Game> games = gameAppService.findByTeamKeyAsOfDateSeason("sacramento-hornets", new LocalDate(1995, 11, 26));
 		Assert.assertEquals(2, games.size());
 	}
 
@@ -139,7 +139,7 @@ public class GameAppServiceTest {
 
 	private Game createMockGame_Scheduled() {
 		Game game = new Game();
-		game.setGameDateTime(LocalDateTime.of(2015, 11, 26, 10, 0));
+		game.setGameDateTime(new LocalDateTime(2015, 11, 26, 10, 0));
 		game.setStatus(GameStatus.Scheduled);
 		Team teamHome = new Team();
 		teamHome.setTeamKey("brooklyn-nets");
@@ -158,14 +158,14 @@ public class GameAppServiceTest {
 
 	private Game createMockGame_Completed() {
 		Game game = new Game();
-		game.setGameDateTime(LocalDateTime.of(2015, 11, 26, 10, 0));
+		game.setGameDateTime(new LocalDateTime(2015, 11, 26, 10, 0));
 		game.setStatus(GameStatus.Completed);
 		return game;
 	}
 
 	private Game createMockGame_StatusCode(StatusCodeDAO status) {
 		Game game = new Game();
-		game.setGameDateTime(LocalDateTime.of(2015, 11, 26, 10, 0));
+		game.setGameDateTime(new LocalDateTime(2015, 11, 26, 10, 0));
 		game.setStatusCode(status);
 		return game;
 	}

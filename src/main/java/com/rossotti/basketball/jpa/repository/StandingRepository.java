@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDate;
+import org.joda.time.LocalDate;
 import java.util.List;
 
 public interface StandingRepository extends Repository<Standing, Long> {

@@ -9,8 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import java.util.List;
 
 @SuppressWarnings("SpringJavaAutowiredMembersInspection")
@@ -40,8 +40,8 @@ public class GameJpaServiceTest {
 
 	@Test
 	public void findByTeamKeyAndAsOfDate_Found() {
-		Game game = gameJpaService.findByTeamKeyAndAsOfDate("chicago-zephyr's", LocalDate.of(2015, 10, 27));
-		Assert.assertEquals(LocalDateTime.of(2015, 10, 27, 20, 0), game.getGameDateTime());
+		Game game = gameJpaService.findByTeamKeyAndAsOfDate("chicago-zephyr's", new LocalDate(2015, 10, 27));
+		Assert.assertEquals(new LocalDateTime(2015, 10, 27, 20, 0), game.getGameDateTime());
 		Assert.assertEquals("Harlem Globetrotter's", game.getBoxScoreAway().getTeam().getFullName());
 		Assert.assertEquals(3, game.getGameOfficials().size());
 		Assert.assertEquals("QuestionableCall", game.getGameOfficials().get(2).getOfficial().getLastName());
@@ -55,82 +55,82 @@ public class GameJpaServiceTest {
 
 	@Test
 	public void findByTeamKeyAndAsOfDate_NotFound_TeamKey() {
-		Game game = gameJpaService.findByTeamKeyAndAsOfDate("chicago-zephyrd", LocalDate.of(2015, 10, 27));
+		Game game = gameJpaService.findByTeamKeyAndAsOfDate("chicago-zephyrd", new LocalDate(2015, 10, 27));
 		Assert.assertTrue(game.isNotFound());
 	}
 
 	@Test
 	public void findByTeamKeyAndAsOfDate_NotFound_AsOfDate() {
-		Game game = gameJpaService.findByTeamKeyAndAsOfDate("chicago-zephyr's", LocalDate.of(2015, 10, 20));
+		Game game = gameJpaService.findByTeamKeyAndAsOfDate("chicago-zephyr's", new LocalDate(2015, 10, 20));
 		Assert.assertTrue(game.isNotFound());
 	}
 
 	@Test
 	public void findByTeamKeyAndAsOfDateSeason_Found() {
-		List<Game> games = gameJpaService.findByTeamKeyAndAsOfDateSeason("chicago-zephyr's", LocalDate.of(2015, 10, 28));
+		List<Game> games = gameJpaService.findByTeamKeyAndAsOfDateSeason("chicago-zephyr's", new LocalDate(2015, 10, 28));
 		Assert.assertEquals(2, games.size());
-		Assert.assertEquals(LocalDateTime.of(2015, 10, 27, 20, 0), games.get(0).getGameDateTime());
-		Assert.assertEquals(LocalDateTime.of(2015, 10, 28, 20, 0), games.get(1).getGameDateTime());
+		Assert.assertEquals(new LocalDateTime(2015, 10, 27, 20, 0), games.get(0).getGameDateTime());
+		Assert.assertEquals(new LocalDateTime(2015, 10, 28, 20, 0), games.get(1).getGameDateTime());
 	}
 
 	@Test
 	public void findByTeamKeyAndAsOfDateSeason_NotFound() {
-		List<Game> games = gameJpaService.findByTeamKeyAndAsOfDateSeason("chicago-zephyr's", LocalDate.of(2015, 10, 25));
+		List<Game> games = gameJpaService.findByTeamKeyAndAsOfDateSeason("chicago-zephyr's", new LocalDate(2015, 10, 25));
 		Assert.assertEquals(0, games.size());
 	}
 
 	@Test
 	public void findByAsOfDate_Found() {
-		List<Game> games = gameJpaService.findByAsOfDate(LocalDate.of(2015, 10, 27));
+		List<Game> games = gameJpaService.findByAsOfDate(new LocalDate(2015, 10, 27));
 		Assert.assertEquals(3, games.size());
-		Assert.assertEquals(LocalDateTime.of(2015, 10, 27, 20, 30), games.get(0).getGameDateTime());
+		Assert.assertEquals(new LocalDateTime(2015, 10, 27, 20, 30), games.get(0).getGameDateTime());
 		Assert.assertTrue(games.get(0).isScheduled());
-		Assert.assertEquals(LocalDateTime.of(2015, 10, 27, 21, 0), games.get(1).getGameDateTime());
+		Assert.assertEquals(new LocalDateTime(2015, 10, 27, 21, 0), games.get(1).getGameDateTime());
 		Assert.assertTrue(games.get(1).isScheduled());
-		Assert.assertEquals(LocalDateTime.of(2015, 10, 27, 20, 0), games.get(2).getGameDateTime());
+		Assert.assertEquals(new LocalDateTime(2015, 10, 27, 20, 0), games.get(2).getGameDateTime());
 		Assert.assertTrue(games.get(2).isCompleted());
 	}
 
 	@Test
 	public void findByAsOfDate_NotFound() {
-		List<Game> games = gameJpaService.findByAsOfDate(LocalDate.of(2014, 10, 27));
+		List<Game> games = gameJpaService.findByAsOfDate(new LocalDate(2014, 10, 27));
 		Assert.assertEquals(0, games.size());
 	}
 
 	@Test
 	public void findCountByAsOfDate_NotFound() {
-		int count = gameJpaService.findCountByAsOfDate(LocalDate.of(2015, 10, 26));
+		int count = gameJpaService.findCountByAsOfDate(new LocalDate(2015, 10, 26));
 		Assert.assertEquals(0, count);
 	}
 
 	@Test
 	public void findCountByAsOfDate_Found() {
-		int count = gameJpaService.findCountByAsOfDate(LocalDate.of(2015, 10, 27));
+		int count = gameJpaService.findCountByAsOfDate(new LocalDate(2015, 10, 27));
 		Assert.assertEquals(3, count);
 	}
 
 	@Test
 	public void findPreviousByTeamKeyAndFromDateAndToDate_Found() {
-		LocalDateTime gameDateTime = gameJpaService.findPreviousByTeamKeyAsOfDate("chicago-zephyr's", LocalDate.of(2015, 10, 30));
-		Assert.assertEquals(LocalDateTime.of(2015, 10, 28, 20, 0), gameDateTime);
+		LocalDateTime gameDateTime = gameJpaService.findPreviousByTeamKeyAsOfDate("chicago-zephyr's", new LocalDate(2015, 10, 30));
+		Assert.assertEquals(new LocalDateTime(2015, 10, 28, 20, 0), gameDateTime);
 	}
 
 	@Test
 	public void findPreviousByTeamKeyAndFromDateAndToDate_NotFound_TeamKey() {
-		LocalDateTime gameDateTime = gameJpaService.findPreviousByTeamKeyAsOfDate("chicago-zephyry", LocalDate.of(2015, 10, 30));
+		LocalDateTime gameDateTime = gameJpaService.findPreviousByTeamKeyAsOfDate("chicago-zephyry", new LocalDate(2015, 10, 30));
 		Assert.assertNull(gameDateTime);
 	}
 
 	@Test
 	public void findPreviousByTeamKeyAndFromDateAndToDate_NotFound_AsOfDate() {
-		LocalDateTime gameDateTime = gameJpaService.findPreviousByTeamKeyAsOfDate("chicago-zephyr's", LocalDate.of(2015, 10, 27));
+		LocalDateTime gameDateTime = gameJpaService.findPreviousByTeamKeyAsOfDate("chicago-zephyr's", new LocalDate(2015, 10, 27));
 		Assert.assertNull(gameDateTime);
 	}
 
 	@Test
 	public void create_Created() {
-		Game createGame = gameJpaService.create(createMockGame(LocalDateTime.of(2016, 10, 11, 22, 0), 1L, "chicago-zephyr's", 2L, "harlem-globetrotter's", Game.GameStatus.Scheduled));
-		Game findGame = gameJpaService.findByTeamKeyAndAsOfDate("chicago-zephyr's", LocalDate.of(2016, 10, 11));
+		Game createGame = gameJpaService.create(createMockGame(new LocalDateTime(2016, 10, 11, 22, 0), 1L, "chicago-zephyr's", 2L, "harlem-globetrotter's", Game.GameStatus.Scheduled));
+		Game findGame = gameJpaService.findByTeamKeyAndAsOfDate("chicago-zephyr's", new LocalDate(2016, 10, 11));
 		Assert.assertTrue(createGame.isCreated());
 		Assert.assertEquals(2, findGame.getBoxScores().size());
 		Assert.assertEquals("Harlem Globetrotter's", findGame.getBoxScoreAway().getTeam().getFullName());
@@ -138,19 +138,19 @@ public class GameJpaServiceTest {
 
 	@Test
 	public void create_Exists() {
-		Game createGame = gameJpaService.create(createMockGame(LocalDateTime.of(2015, 10, 27, 20, 30), 3L, "st-louis-bomber's", 4L, "salinas-cowboys", Game.GameStatus.Scheduled));
+		Game createGame = gameJpaService.create(createMockGame(new LocalDateTime(2015, 10, 27, 20, 30), 3L, "st-louis-bomber's", 4L, "salinas-cowboys", Game.GameStatus.Scheduled));
 		Assert.assertTrue(createGame.isFound());
 	}
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void create_MissingRequiredData() {
-		gameJpaService.create(createMockGame(LocalDateTime.of(2016, 10, 13, 22, 0), 1L, "chicago-zephyr's", 2L, "harlem-globetrotter's", null));
+		gameJpaService.create(createMockGame(new LocalDateTime(2016, 10, 13, 22, 0), 1L, "chicago-zephyr's", 2L, "harlem-globetrotter's", null));
 	}
 
 	@Test
 	public void update_Updated() {
-		Game updateGame = gameJpaService.update(updateMockGame(LocalDateTime.of(2015, 1, 7, 19, 0), 20L, "chicago-bulls", 21L, "utah-jazz", Game.GameStatus.Completed));
-		Game findGame = gameJpaService.findByTeamKeyAndAsOfDate("chicago-bulls", LocalDate.of(2015, 1, 7));
+		Game updateGame = gameJpaService.update(updateMockGame(new LocalDateTime(2015, 1, 7, 19, 0), 20L, "chicago-bulls", 21L, "utah-jazz", Game.GameStatus.Completed));
+		Game findGame = gameJpaService.findByTeamKeyAndAsOfDate("chicago-bulls", new LocalDate(2015, 1, 7));
 		Assert.assertTrue(updateGame.isUpdated());
 		Assert.assertEquals(Game.GameStatus.Completed, findGame.getStatus());
 		Assert.assertEquals(3, findGame.getGameOfficials().size());
@@ -167,19 +167,19 @@ public class GameJpaServiceTest {
 
 	@Test
 	public void update_NotFound_TeamKey() {
-		Game updateGame = gameJpaService.update(updateMockGame(LocalDateTime.of(2015, 1, 7, 19, 0), 20L, "chicago-bulls", 21L, "utah-jazzers", Game.GameStatus.Completed));
+		Game updateGame = gameJpaService.update(updateMockGame(new LocalDateTime(2015, 1, 7, 19, 0), 20L, "chicago-bulls", 21L, "utah-jazzers", Game.GameStatus.Completed));
 		Assert.assertTrue(updateGame.isNotFound());
 	}
 
 	@Test
 	public void update_NotFound_AsOfDateTime() {
-		Game updateGame = gameJpaService.update(updateMockGame(LocalDateTime.of(2014, 1, 7, 19, 0), 20L, "chicago-bulls", 21L, "utah-jazz", Game.GameStatus.Completed));
+		Game updateGame = gameJpaService.update(updateMockGame(new LocalDateTime(2014, 1, 7, 19, 0), 20L, "chicago-bulls", 21L, "utah-jazz", Game.GameStatus.Completed));
 		Assert.assertTrue(updateGame.isNotFound());
 	}
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void update_MissingRequiredData() {
-		gameJpaService.update(updateMockGame(LocalDateTime.of(2015, 1, 7, 19, 0), 20L, "chicago-bulls", 21L, "utah-jazz", null));
+		gameJpaService.update(updateMockGame(new LocalDateTime(2015, 1, 7, 19, 0), 20L, "chicago-bulls", 21L, "utah-jazz", null));
 	}
 
 	@Test
@@ -296,7 +296,7 @@ public class GameJpaServiceTest {
 	private BoxScorePlayer createMockBoxScorePlayerHome_0() {
 		BoxScorePlayer homeBoxScorePlayer = new BoxScorePlayer();
 		homeBoxScorePlayer.setBoxScoreStats(new BoxScoreStats());
-		homeBoxScorePlayer.setRosterPlayer(getMockRosterPlayer(2L, "Puzdrakiewicz", "Luke", LocalDate.of(2002, 2, 20), LocalDate.of(2009, 11, 30), LocalDate.of(9999, 12, 31)));
+		homeBoxScorePlayer.setRosterPlayer(getMockRosterPlayer(2L, "Puzdrakiewicz", "Luke", new LocalDate(2002, 2, 20), new LocalDate(2009, 11, 30), new LocalDate(9999, 12, 31)));
 		homeBoxScorePlayer.setPosition(RosterPlayer.Position.F);
 		homeBoxScorePlayer.getBoxScoreStats().setFreeThrowMade((short)4);
 		return homeBoxScorePlayer;
@@ -305,7 +305,7 @@ public class GameJpaServiceTest {
 	private BoxScorePlayer createMockBoxScorePlayerHome_1() {
 		BoxScorePlayer homeBoxScorePlayer = new BoxScorePlayer();
 		homeBoxScorePlayer.setBoxScoreStats(new BoxScoreStats());
-		homeBoxScorePlayer.setRosterPlayer(getMockRosterPlayer(3L, "Puzdrakiewicz", "Thad", LocalDate.of(1966, 6, 2), LocalDate.of(2009, 10, 30), LocalDate.of(2009, 11, 4)));
+		homeBoxScorePlayer.setRosterPlayer(getMockRosterPlayer(3L, "Puzdrakiewicz", "Thad", new LocalDate(1966, 6, 2), new LocalDate(2009, 10, 30), new LocalDate(2009, 11, 4)));
 		homeBoxScorePlayer.setPosition(RosterPlayer.Position.C);
 		homeBoxScorePlayer.getBoxScoreStats().setFreeThrowMade((short)0);
 		return homeBoxScorePlayer;
@@ -314,7 +314,7 @@ public class GameJpaServiceTest {
 	private BoxScorePlayer createMockBoxScorePlayerAway() {
 		BoxScorePlayer awayBoxScorePlayer = new BoxScorePlayer();
 		awayBoxScorePlayer.setBoxScoreStats(new BoxScoreStats());
-		awayBoxScorePlayer.setRosterPlayer(getMockRosterPlayer(5L, "Puzdrakiewicz", "Junior", LocalDate.of(1966, 6, 10), LocalDate.of(2009, 10, 30), LocalDate.of(9999, 12, 31)));
+		awayBoxScorePlayer.setRosterPlayer(getMockRosterPlayer(5L, "Puzdrakiewicz", "Junior", new LocalDate(1966, 6, 10), new LocalDate(2009, 10, 30), new LocalDate(9999, 12, 31)));
 		awayBoxScorePlayer.setPosition(RosterPlayer.Position.SG);
 		awayBoxScorePlayer.getBoxScoreStats().setFreeThrowMade((short)2);
 		return awayBoxScorePlayer;

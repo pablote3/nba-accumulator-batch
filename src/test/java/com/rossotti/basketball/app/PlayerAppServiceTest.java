@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDate;
+import org.joda.time.LocalDate;
 
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
@@ -32,7 +32,7 @@ public class PlayerAppServiceTest {
 	public void findByPlayerNameBirthdate_notFound() {
 		when(playerJpaService.findByLastNameAndFirstNameAndBirthdate(anyString(), anyString(), anyObject()))
 			.thenReturn(createMockPlayer("Simmons", "Richard", StatusCodeDAO.NotFound));
-		Player player = playerAppService.findByPlayerNameBirthdate("Simmons", "Richard", LocalDate.of(1995, 11, 26));
+		Player player = playerAppService.findByPlayerNameBirthdate("Simmons", "Richard", new LocalDate(1995, 11, 26));
 		Assert.assertTrue(player.isNotFound());
 	}
 
@@ -40,7 +40,7 @@ public class PlayerAppServiceTest {
 	public void findByPlayerNameBirthdate_found() {
 		when(playerJpaService.findByLastNameAndFirstNameAndBirthdate(anyString(), anyString(), anyObject()))
 			.thenReturn(createMockPlayer("Adams", "Samuel", StatusCodeDAO.Found));
-		Player player = playerAppService.findByPlayerNameBirthdate("Adams", "Samuel", LocalDate.of(1995, 11, 26));
+		Player player = playerAppService.findByPlayerNameBirthdate("Adams", "Samuel", new LocalDate(1995, 11, 26));
 		Assert.assertEquals("Samuel", player.getFirstName());
 		Assert.assertTrue(player.isFound());
 	}
@@ -66,7 +66,7 @@ public class PlayerAppServiceTest {
 		Player player = new Player();
 		player.setLastName(lastName);
 		player.setFirstName(firstName);
-		player.setBirthdate(LocalDate.of(1995, 11, 26));
+		player.setBirthdate(new LocalDate(1995, 11, 26));
 		player.setStatusCode(statusCode);
 		return player;
 	}

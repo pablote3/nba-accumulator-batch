@@ -1,7 +1,9 @@
 package com.rossotti.basketball.jpa.model;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+
+import org.hibernate.annotations.Type;
+import org.joda.time.LocalDate;
 
 @Entity
 @Table(name="standing", uniqueConstraints=@UniqueConstraint(columnNames={"teamId", "standingDate"}))
@@ -26,6 +28,7 @@ public class Standing extends AbstractDomainClass {
 	}
 
 	@Column(name="standingDate", nullable=false)
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	private LocalDate standingDate;
 	public LocalDate getStandingDate() {
 		return standingDate;

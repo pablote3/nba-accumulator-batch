@@ -8,8 +8,8 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import java.time.ZoneId;
 
 public class JacksonMapperTest {
@@ -23,7 +23,7 @@ public class JacksonMapperTest {
 		Assert.assertEquals("detroit-pistons", roster.team.getTeam_id());
 		Assert.assertEquals("Eskişehir, Turkey", roster.players[8].getBirthplace());
 		Assert.assertEquals("Ersan Ilyasova", roster.players[8].getDisplay_name());
-		Assert.assertEquals(LocalDate.of(1987, 5, 15), roster.players[8].getBirthdate());
+		Assert.assertEquals(new LocalDate(1987, 5, 15), roster.players[8].getBirthdate());
 		baseJson.close();
 	}
 
@@ -37,7 +37,7 @@ public class JacksonMapperTest {
 		Assert.assertEquals(0f, game.home_stats[0].getFree_throw_percentage(), 0.0f);
 		Assert.assertEquals("Zarba", game.officials[0].getLast_name());
 		Assert.assertEquals("completed", game.event_information.getStatus());
-		Assert.assertEquals(LocalDateTime.of(2015, 11, 29, 18, 0), DateTimeConverter.getLocalDateTime(game.event_information.getStart_date_time()));
+		Assert.assertEquals(new LocalDateTime(2015, 11, 29, 18, 0), DateTimeConverter.getLocalDateTime(game.event_information.getStart_date_time()));
 		Assert.assertTrue(game.away_totals.getThree_point_field_goals_attempted().equals((short)24));
 		baseJson.close();
 	}
@@ -46,7 +46,7 @@ public class JacksonMapperTest {
 	public void deserializeStandings() throws IOException {
 		InputStream baseJson = this.getClass().getClassLoader().getResourceAsStream("mockClient/standingsClient.json");
 		StandingsDTO standings = objectMapper.readValue(baseJson, StandingsDTO.class);
-		Assert.assertEquals(LocalDateTime.of(2016, 2, 11, 22, 19), LocalDateTime.ofInstant(standings.standings_date.toInstant(), ZoneId.of("US/Eastern")));
+		Assert.assertEquals(new LocalDateTime(2016, 2, 11, 22, 19), DateTimeConverter.getLocalDateTime(standings.standings_date));
 		Assert.assertEquals(30, standings.standing.length);
 		Assert.assertEquals("W3", standings.standing[0].getStreak());
 		Assert.assertEquals("toronto-raptors", standings.standing[1].getTeam_id());

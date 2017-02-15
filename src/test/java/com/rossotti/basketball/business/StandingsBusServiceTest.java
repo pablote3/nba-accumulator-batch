@@ -28,7 +28,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDate;
+import org.joda.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -209,7 +209,7 @@ public class StandingsBusServiceTest {
 	private Standing createMockStanding() {
 		Standing standing = new Standing();
 		standing.setTeam(createMockTeam());
-		standing.setStandingDate(LocalDate.of(2015, 12, 27));
+		standing.setStandingDate(new LocalDate(2015, 12, 27));
 		return standing;
 	}
 

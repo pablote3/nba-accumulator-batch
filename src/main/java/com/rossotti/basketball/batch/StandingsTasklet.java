@@ -11,7 +11,7 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import java.time.LocalDate;
+import org.joda.time.LocalDate;
 
 public class StandingsTasklet implements Tasklet {
 

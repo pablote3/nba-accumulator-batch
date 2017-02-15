@@ -4,7 +4,7 @@ import com.rossotti.basketball.jpa.model.Player;
 import com.rossotti.basketball.jpa.service.PlayerJpaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.time.LocalDate;
+import org.joda.time.LocalDate;
 
 @Service
 public class PlayerAppService {

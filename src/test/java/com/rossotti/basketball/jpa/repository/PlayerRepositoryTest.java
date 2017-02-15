@@ -10,7 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDate;
+import org.joda.time.LocalDate;
 import java.util.List;
 
 @SuppressWarnings("SpringJavaAutowiredMembersInspection")
@@ -40,25 +40,25 @@ public class PlayerRepositoryTest {
 
 	@Test
 	public void findByLastNameFirstNameBirthdate_Found() {
-		Player player = playerRepository.findByLastNameAndFirstNameAndBirthdate("Puzdrakiew'icz", "Luke", LocalDate.of(2002, 2, 20));
+		Player player = playerRepository.findByLastNameAndFirstNameAndBirthdate("Puzdrakiew'icz", "Luke", new LocalDate(2002, 2, 20));
 		Assert.assertEquals("Sacramento, CA, USA", player.getBirthplace());
 	}
 
 	@Test
 	public void findByLastNameFirstNameBirthdate_NotFound_LastName() {
-		Player player = playerRepository.findByLastNameAndFirstNameAndBirthdate("Puzdrakiew''icz", "Luke", LocalDate.of(2002, 2, 20));
+		Player player = playerRepository.findByLastNameAndFirstNameAndBirthdate("Puzdrakiew''icz", "Luke", new LocalDate(2002, 2, 20));
 		Assert.assertNull(player);
 	}
 
 	@Test
 	public void findByLastNameFirstNameBirthdate_NotFound_FirstName() {
-		Player player = playerRepository.findByLastNameAndFirstNameAndBirthdate("Puzdrakiew'icz", "Like", LocalDate.of(2002, 2, 20));
+		Player player = playerRepository.findByLastNameAndFirstNameAndBirthdate("Puzdrakiew'icz", "Like", new LocalDate(2002, 2, 20));
 		Assert.assertNull(player);
 	}
 
 	@Test
 	public void findByLastNameFirstNameBirthdate_NotFound_Birthdate() {
-		Player player = playerRepository.findByLastNameAndFirstNameAndBirthdate("Puzdrakiew'icz", "Luke", LocalDate.of(2002, 2, 21));
+		Player player = playerRepository.findByLastNameAndFirstNameAndBirthdate("Puzdrakiew'icz", "Luke", new LocalDate(2002, 2, 21));
 		Assert.assertNull(player);
 	}
 
@@ -82,31 +82,31 @@ public class PlayerRepositoryTest {
 
 	@Test
 	public void create_Created() {
-		playerRepository.save(createMockPlayer("Puzdrakiewicz", "Fred", LocalDate.of(1968, 11, 8), "Fred Puzdrakiewicz"));
-		Player findPlayer = playerRepository.findByLastNameAndFirstNameAndBirthdate("Puzdrakiewicz", "Fred", LocalDate.of(1968, 11, 8));
+		playerRepository.save(createMockPlayer("Puzdrakiewicz", "Fred", new LocalDate(1968, 11, 8), "Fred Puzdrakiewicz"));
+		Player findPlayer = playerRepository.findByLastNameAndFirstNameAndBirthdate("Puzdrakiewicz", "Fred", new LocalDate(1968, 11, 8));
 		Assert.assertEquals("Fred Puzdrakiewicz", findPlayer.getDisplayName());
 	}
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void create_Existing() {
-		playerRepository.save(createMockPlayer("Puzdrakiewicz", "Michelle", LocalDate.of(1969, 9, 8), "Michelle Puzdrakiewicz"));
+		playerRepository.save(createMockPlayer("Puzdrakiewicz", "Michelle", new LocalDate(1969, 9, 8), "Michelle Puzdrakiewicz"));
 	}
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void create_MissingRequiredData() {
-		playerRepository.save(createMockPlayer("Puzdrakiewicz", "Fred", LocalDate.of(1968, 11, 8), null));
+		playerRepository.save(createMockPlayer("Puzdrakiewicz", "Fred", new LocalDate(1968, 11, 8), null));
 	}
 
 	@Test
 	public void update_Updated() {
-		playerRepository.save(updateMockPlayer(2L, "Puzdrakiewicz", "Thad", LocalDate.of(1966, 6, 2), "Thady Puzdrakiewicz"));
-		Player player = playerRepository.findByLastNameAndFirstNameAndBirthdate("Puzdrakiewicz", "Thad", LocalDate.of(1966, 6, 2));
+		playerRepository.save(updateMockPlayer(2L, "Puzdrakiewicz", "Thad", new LocalDate(1966, 6, 2), "Thady Puzdrakiewicz"));
+		Player player = playerRepository.findByLastNameAndFirstNameAndBirthdate("Puzdrakiewicz", "Thad", new LocalDate(1966, 6, 2));
 		Assert.assertEquals("Thady Puzdrakiewicz", player.getDisplayName());
 	}
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void update_MissingRequiredData() {
-		playerRepository.save(updateMockPlayer(2L, "Puzdrakiewicz", "Thad", LocalDate.of(1966, 6, 2), null));
+		playerRepository.save(updateMockPlayer(2L, "Puzdrakiewicz", "Thad", new LocalDate(1966, 6, 2), null));
 	}
 
 	@Test

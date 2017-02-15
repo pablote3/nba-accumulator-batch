@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import java.time.LocalDate;
+import org.joda.time.LocalDate;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -137,7 +137,7 @@ public class RestStatsServiceTest {
 	public void retrieveRoster_PropertyException_PropertyService() {
 		when(propertyService.getProperty_Http(anyString()))
 			.thenThrow(new PropertyException("propertyName"));
-		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", false, LocalDate.of(2016, 3, 11));
+		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", false, new LocalDate(2016, 3, 11));
 		Assert.assertTrue(roster.isServerException());
 	}
 
@@ -147,7 +147,7 @@ public class RestStatsServiceTest {
 			.thenReturn("https://");
 		when(restClientService.getJson(anyString()))
 			.thenThrow(new PropertyException("propertyName"));
-		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", false, LocalDate.of(2016, 3, 11));
+		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", false, new LocalDate(2016, 3, 11));
 		Assert.assertTrue(roster.isServerException());
 	}
 
@@ -157,7 +157,7 @@ public class RestStatsServiceTest {
 			.thenReturn("https://");
 		when(restClientService.getJson(anyString()))
 			.thenReturn(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", false, LocalDate.of(2016, 3, 11));
+		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", false, new LocalDate(2016, 3, 11));
 		Assert.assertTrue(roster.isNotFound());
 	}
 
@@ -167,7 +167,7 @@ public class RestStatsServiceTest {
 			.thenReturn("https://");
 		when(restClientService.getJson(anyString()))
 			.thenReturn(new ResponseEntity<>(HttpStatus.UNAUTHORIZED));
-		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", false, LocalDate.of(2016, 3, 11));
+		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", false, new LocalDate(2016, 3, 11));
 		Assert.assertTrue(roster.isNotFound());
 	}
 
@@ -177,7 +177,7 @@ public class RestStatsServiceTest {
 			.thenReturn("https://");
 		when(restClientService.getJson(anyString()))
 			.thenReturn(new ResponseEntity<>("test".getBytes(), HttpStatus.OK));
-		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", false, LocalDate.of(2016, 3, 11));
+		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", false, new LocalDate(2016, 3, 11));
 		Assert.assertTrue(roster.isServerException());
 	}
 
@@ -187,7 +187,7 @@ public class RestStatsServiceTest {
 			.thenReturn("https://");
 		when(restClientService.getJson(anyString()))
 			.thenReturn(new ResponseEntity<>(StreamConverter.getBytes(getClass().getClassLoader().getResourceAsStream("mockClient/rosterClient.json")), HttpStatus.OK));
-		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", false, LocalDate.of(2016, 3, 11));
+		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", false, new LocalDate(2016, 3, 11));
 		Assert.assertTrue(roster.isFound());
 	}
 
@@ -199,7 +199,7 @@ public class RestStatsServiceTest {
 			.thenReturn(new ResponseEntity<>(StreamConverter.getBytes(getClass().getClassLoader().getResourceAsStream("mockClient/rosterClient.json")), HttpStatus.OK));
 		when(propertyService.getProperty_Path(anyString()))
 			.thenThrow(new PropertyException("propertyName"));
-		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", true, LocalDate.of(2016, 3, 11));
+		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", true, new LocalDate(2016, 3, 11));
 		Assert.assertTrue(roster.isServerException());
 	}
 
@@ -213,7 +213,7 @@ public class RestStatsServiceTest {
 			.thenReturn("//");
 		when(fileService.fileStreamWriter(anyString(), any(byte[].class)))
 			.thenThrow(new FileException("IO Exception"));
-		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", true, LocalDate.of(2016, 3, 11));
+		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", true, new LocalDate(2016, 3, 11));
 		Assert.assertTrue(roster.isServerException());
 	}
 
@@ -227,7 +227,7 @@ public class RestStatsServiceTest {
 			.thenReturn("//");
 		when(fileService.fileStreamWriter(anyString(), any(byte[].class)))
 			.thenReturn(true);
-		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", true, LocalDate.of(2016, 3, 11));
+		RosterDTO roster = restStatsService.retrieveRoster("houston-rockets", true, new LocalDate(2016, 3, 11));
 		Assert.assertTrue(roster.isFound());
 	}
 

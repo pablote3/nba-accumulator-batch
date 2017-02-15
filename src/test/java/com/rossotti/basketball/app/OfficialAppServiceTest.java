@@ -16,7 +16,7 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDate;
+import org.joda.time.LocalDate;
 import java.util.List;
 
 import static org.mockito.Matchers.anyObject;
@@ -36,7 +36,7 @@ public class OfficialAppServiceTest {
 	public void getGameOfficials_notFound() {
 		when(officialJpaService.findByLastNameAndFirstNameAndAsOfDate(anyString(), anyString(), anyObject()))
 			.thenReturn(createMockOfficial("", "", StatusCodeDAO.NotFound));
-		List<GameOfficial> officials = officialAppService.getGameOfficials(createMockOfficialDTOs(), createMockGame(), LocalDate.of(1995, 11, 26));
+		List<GameOfficial> officials = officialAppService.getGameOfficials(createMockOfficialDTOs(), createMockGame(), new LocalDate(1995, 11, 26));
 		Assert.assertTrue(officials.size() == 0);
 	}
 
@@ -45,7 +45,7 @@ public class OfficialAppServiceTest {
 		when(officialJpaService.findByLastNameAndFirstNameAndAsOfDate(anyString(), anyString(), anyObject()))
 			.thenReturn(createMockOfficial("Adams", "Samuel", StatusCodeDAO.Found))
 			.thenReturn(createMockOfficial("Coors", "Adolph", StatusCodeDAO.Found));
-		List<GameOfficial> officials = officialAppService.getGameOfficials(createMockOfficialDTOs(), createMockGame(), LocalDate.of(1995, 11, 26));
+		List<GameOfficial> officials = officialAppService.getGameOfficials(createMockOfficialDTOs(), createMockGame(), new LocalDate(1995, 11, 26));
 		Assert.assertEquals(2, officials.size());
 		Assert.assertEquals("Coors", officials.get(1).getOfficial().getLastName());
 		Assert.assertEquals("Adolph", officials.get(1).getOfficial().getFirstName());

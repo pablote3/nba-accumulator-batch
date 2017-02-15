@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDate;
+import org.joda.time.LocalDate;
 import java.util.List;
 
 @SuppressWarnings("SpringJavaAutowiredMembersInspection")
@@ -53,71 +53,71 @@ public class StandingJpaServiceTest {
 
 	@Test
 	public void findByAsOfDate_Found() {
-		List<Standing> standings = standingJpaService.findByAsOfDate(LocalDate.of(2015, 10, 30));
+		List<Standing> standings = standingJpaService.findByAsOfDate(new LocalDate(2015, 10, 30));
 		Assert.assertEquals(2, standings.size());
 	}
 
 	@Test
 	public void findByAsOfDate_NotFound() {
-		List<Standing> standings = standingJpaService.findByAsOfDate(LocalDate.of(2015, 10, 29));
+		List<Standing> standings = standingJpaService.findByAsOfDate(new LocalDate(2015, 10, 29));
 		Assert.assertEquals(0, standings.size());
 	}
 
 	@Test
 	public void findByTeamKeyAsOfDate_Found() {
-		Standing standing = standingJpaService.findByTeamKeyAndAsOfDate("chicago-zephyr's", LocalDate.of(2015, 10, 30));
+		Standing standing = standingJpaService.findByTeamKeyAndAsOfDate("chicago-zephyr's", new LocalDate(2015, 10, 30));
 		Assert.assertEquals("1st", standing.getOrdinalRank());
 		Assert.assertTrue(standing.isFound());
 	}
 
 	@Test
 	public void findByTeamKeyAsOfDate_NotFound_TeamKey() {
-		Standing standing = standingJpaService.findByTeamKeyAndAsOfDate("chicago-zephyr", LocalDate.of(2015, 10, 30));
+		Standing standing = standingJpaService.findByTeamKeyAndAsOfDate("chicago-zephyr", new LocalDate(2015, 10, 30));
 		Assert.assertTrue(standing.isNotFound());
 	}
 
 	@Test
 	public void findByTeamKeyAsOfDate_NotFound_AsOfDate() {
-		Standing standing = standingJpaService.findByTeamKeyAndAsOfDate("chicago-zephyr's", LocalDate.of(2015, 10, 29));
+		Standing standing = standingJpaService.findByTeamKeyAndAsOfDate("chicago-zephyr's", new LocalDate(2015, 10, 29));
 		Assert.assertTrue(standing.isNotFound());
 	}
 
 	@Test
 	public void create_Created() {
-		Standing createStanding = standingJpaService.create(createMockStanding(21L, "utah-jazz", LocalDate.of(2012, 7, 1), "10th"));
-		Standing findStanding = standingJpaService.findByTeamKeyAndAsOfDate("utah-jazz", LocalDate.of(2012, 7, 1));
+		Standing createStanding = standingJpaService.create(createMockStanding(21L, "utah-jazz", new LocalDate(2012, 7, 1), "10th"));
+		Standing findStanding = standingJpaService.findByTeamKeyAndAsOfDate("utah-jazz", new LocalDate(2012, 7, 1));
 		Assert.assertTrue(createStanding.isCreated());
 		Assert.assertTrue(findStanding.getConferenceWins().equals((short)7));
 	}
 
 	@Test
 	public void create_Existing() {
-		Standing createStanding = standingJpaService.create(createMockStanding(1L, "chicago-zephyr's", LocalDate.of(2015, 10, 30), "10th"));
+		Standing createStanding = standingJpaService.create(createMockStanding(1L, "chicago-zephyr's", new LocalDate(2015, 10, 30), "10th"));
 		Assert.assertTrue(createStanding.isFound());
 	}
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void create_MissingRequiredData() {
-		standingJpaService.create(createMockStanding(1L, "chicago-zephyr's", LocalDate.of(2016, 10, 30), null));
+		standingJpaService.create(createMockStanding(1L, "chicago-zephyr's", new LocalDate(2016, 10, 30), null));
 	}
 
 	@Test
 	public void update_Updated() {
-		Standing updateStanding = standingJpaService.update(createMockStanding(3L, "st-louis-bomber's", LocalDate.of(2015, 10, 31), "10th"));
-		Standing standing = standingJpaService.findByTeamKeyAndAsOfDate("st-louis-bomber's", LocalDate.of(2015, 10, 31));
+		Standing updateStanding = standingJpaService.update(createMockStanding(3L, "st-louis-bomber's", new LocalDate(2015, 10, 31), "10th"));
+		Standing standing = standingJpaService.findByTeamKeyAndAsOfDate("st-louis-bomber's", new LocalDate(2015, 10, 31));
 		Assert.assertEquals("10th", standing.getOrdinalRank());
 		Assert.assertTrue(updateStanding.isUpdated());
 	}
 
 	@Test
 	public void update_NotFound() {
-		Standing standing = standingJpaService.update(createMockStanding(3L, "st-louis-bomber's", LocalDate.of(2015, 11, 11), "10th"));
+		Standing standing = standingJpaService.update(createMockStanding(3L, "st-louis-bomber's", new LocalDate(2015, 11, 11), "10th"));
 		Assert.assertTrue(standing.isNotFound());
 	}
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void update_MissingRequiredData() {
-		standingJpaService.update(createMockStanding(3L, "st-louis-bomber's", LocalDate.of(2015, 10, 31), null));
+		standingJpaService.update(createMockStanding(3L, "st-louis-bomber's", new LocalDate(2015, 10, 31), null));
 	}
 
 	@Test

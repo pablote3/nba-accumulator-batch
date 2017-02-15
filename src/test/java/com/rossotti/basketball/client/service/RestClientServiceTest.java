@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
-import java.time.LocalDate;
+import org.joda.time.LocalDate;
 
 @SuppressWarnings("SpringJavaAutowiredMembersInspection")
 @RunWith(SpringRunner.class)
@@ -31,7 +31,7 @@ public class RestClientServiceTest {
 	@Test
 	public void retrieveRoster_200() {
 		String event = "toronto-raptors";
-		RosterDTO roster = restStatsService.retrieveRoster(event, false, LocalDate.of(2016, 12, 15));
+		RosterDTO roster = restStatsService.retrieveRoster(event, false, new LocalDate(2016, 12, 15));
 		Assert.assertEquals(StatusCode.Found, roster.getStatusCode());
 		Assert.assertEquals(15, roster.players.length);
 	}

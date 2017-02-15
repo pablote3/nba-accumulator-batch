@@ -17,7 +17,7 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDate;
+import org.joda.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,7 +42,7 @@ public class RosterPlayerAppServiceTest {
 	public void getBoxScorePlayers_notFound() {
 		when(rosterPlayerJpaService.findByLastNameAndFirstNameAndTeamKeyAndAsOfDate(anyString(), anyString(), anyString(), anyObject()))
 			.thenReturn(createMockRosterPlayer("", "", StatusCodeDAO.NotFound));
-		List<BoxScorePlayer> boxScorePlayers = rosterPlayerAppService.getBoxScorePlayers(createMockBoxScorePlayerDTOs(), createMockBoxScore(), LocalDate.of(1995, 11, 26), "sacramento-hornets");
+		List<BoxScorePlayer> boxScorePlayers = rosterPlayerAppService.getBoxScorePlayers(createMockBoxScorePlayerDTOs(), createMockBoxScore(), new LocalDate(1995, 11, 26), "sacramento-hornets");
 		Assert.assertTrue(boxScorePlayers.size() == 0);
 	}
 
@@ -50,7 +50,7 @@ public class RosterPlayerAppServiceTest {
 	public void getBoxScorePlayers_found() {
 		when(rosterPlayerJpaService.findByLastNameAndFirstNameAndTeamKeyAndAsOfDate(anyString(), anyString(), anyString(), anyObject()))
 			.thenReturn(createMockRosterPlayer("Coors", "Adolph", StatusCodeDAO.Found));
-		List<BoxScorePlayer> boxScorePlayers = rosterPlayerAppService.getBoxScorePlayers(createMockBoxScorePlayerDTOs(), createMockBoxScore(), LocalDate.of(1995, 11, 26), "sacramento-hornets");
+		List<BoxScorePlayer> boxScorePlayers = rosterPlayerAppService.getBoxScorePlayers(createMockBoxScorePlayerDTOs(), createMockBoxScore(), new LocalDate(1995, 11, 26), "sacramento-hornets");
 		Assert.assertEquals(2, boxScorePlayers.size());
 		Assert.assertEquals("Coors", boxScorePlayers.get(1).getRosterPlayer().getPlayer().getLastName());
 		Assert.assertEquals("Adolph", boxScorePlayers.get(1).getRosterPlayer().getPlayer().getFirstName());
@@ -60,7 +60,7 @@ public class RosterPlayerAppServiceTest {
 	public void getRosterPlayers_notFound() {
 		when(teamJpaService.findByTeamKeyAndAsOfDate(anyString(), anyObject()))
 			.thenReturn(createMockTeam("denver-mcnuggets", StatusCodeDAO.NotFound));
-		List<RosterPlayer> rosterPlayers = rosterPlayerAppService.getRosterPlayers(createMockRosterPlayerDTOs(), LocalDate.of(1995, 11, 26), "sacramento-hornets");
+		List<RosterPlayer> rosterPlayers = rosterPlayerAppService.getRosterPlayers(createMockRosterPlayerDTOs(), new LocalDate(1995, 11, 26), "sacramento-hornets");
 		Assert.assertTrue(rosterPlayers.size() == 0);
 	}
 
@@ -68,7 +68,7 @@ public class RosterPlayerAppServiceTest {
 	public void getRosterPlayers_found() {
 		when(teamJpaService.findByTeamKeyAndAsOfDate(anyString(), anyObject()))
 			.thenReturn(createMockTeam("denver-nuggets", StatusCodeDAO.Found));
-		List<RosterPlayer> rosterPlayers = rosterPlayerAppService.getRosterPlayers(createMockRosterPlayerDTOs(), LocalDate.of(1995, 11, 26), "sacramento-hornets");
+		List<RosterPlayer> rosterPlayers = rosterPlayerAppService.getRosterPlayers(createMockRosterPlayerDTOs(), new LocalDate(1995, 11, 26), "sacramento-hornets");
 		Assert.assertEquals(2, rosterPlayers.size());
 		Assert.assertEquals("Clayton", rosterPlayers.get(1).getPlayer().getLastName());
 		Assert.assertEquals("Mark", rosterPlayers.get(1).getPlayer().getFirstName());
@@ -78,7 +78,7 @@ public class RosterPlayerAppServiceTest {
 	public void findByPlayerNameTeamAsOfDate_notFound() {
 		when(rosterPlayerJpaService.findByLastNameAndFirstNameAndTeamKeyAndAsOfDate(anyString(), anyString(), anyString(), anyObject()))
 			.thenReturn(createMockRosterPlayer("Simmons", "Richard", StatusCodeDAO.NotFound));
-		RosterPlayer rosterPlayer = rosterPlayerAppService.findByPlayerNameTeamAsOfDate("Simmons", "Richard", "sacramento-hornets", LocalDate.of(1995, 11, 26));
+		RosterPlayer rosterPlayer = rosterPlayerAppService.findByPlayerNameTeamAsOfDate("Simmons", "Richard", "sacramento-hornets", new LocalDate(1995, 11, 26));
 		Assert.assertTrue(rosterPlayer.isNotFound());
 	}
 
@@ -86,7 +86,7 @@ public class RosterPlayerAppServiceTest {
 	public void findByPlayerNameTeamAsOfDate_found() {
 		when(rosterPlayerJpaService.findByLastNameAndFirstNameAndTeamKeyAndAsOfDate(anyString(), anyString(), anyString(), anyObject()))
 			.thenReturn(createMockRosterPlayer("Simmons", "Gene", StatusCodeDAO.Found));
-		RosterPlayer rosterPlayer = rosterPlayerAppService.findByPlayerNameTeamAsOfDate("Simmons", "Gene", "sacramento-hornets", LocalDate.of(1995, 11, 26));
+		RosterPlayer rosterPlayer = rosterPlayerAppService.findByPlayerNameTeamAsOfDate("Simmons", "Gene", "sacramento-hornets", new LocalDate(1995, 11, 26));
 		Assert.assertEquals("Gene", rosterPlayer.getPlayer().getFirstName());
 		Assert.assertTrue(rosterPlayer.isFound());
 	}
@@ -95,7 +95,7 @@ public class RosterPlayerAppServiceTest {
 	public void findByPlayerNameBirthdateAsOfDate_notFound() {
 		when(rosterPlayerJpaService.findByLastNameAndFirstNameAndBirthdateAndAsOfDate(anyString(), anyString(), anyObject(), anyObject()))
 			.thenReturn(createMockRosterPlayer("Simmons", "Richard", StatusCodeDAO.NotFound));
-		RosterPlayer rosterPlayer = rosterPlayerAppService.findByPlayerNameBirthdateAsOfDate("Simmons", "Richard", LocalDate.of(1995, 11, 26), LocalDate.of(1995, 11, 26));
+		RosterPlayer rosterPlayer = rosterPlayerAppService.findByPlayerNameBirthdateAsOfDate("Simmons", "Richard", new LocalDate(1995, 11, 26), new LocalDate(1995, 11, 26));
 		Assert.assertTrue(rosterPlayer.isNotFound());
 	}
 
@@ -103,7 +103,7 @@ public class RosterPlayerAppServiceTest {
 	public void findByPlayerNameBirthdateAsOfDate_found() {
 		when(rosterPlayerJpaService.findByLastNameAndFirstNameAndBirthdateAndAsOfDate(anyString(), anyString(), anyObject(), anyObject()))
 			.thenReturn(createMockRosterPlayer("Simmons", "Gene", StatusCodeDAO.Found));
-		RosterPlayer rosterPlayer = rosterPlayerAppService.findByPlayerNameBirthdateAsOfDate("Simmons", "Richard", LocalDate.of(1995, 11, 26), LocalDate.of(1995, 11, 26));
+		RosterPlayer rosterPlayer = rosterPlayerAppService.findByPlayerNameBirthdateAsOfDate("Simmons", "Richard", new LocalDate(1995, 11, 26), new LocalDate(1995, 11, 26));
 		Assert.assertEquals("Gene", rosterPlayer.getPlayer().getFirstName());
 		Assert.assertTrue(rosterPlayer.isFound());
 	}
@@ -112,7 +112,7 @@ public class RosterPlayerAppServiceTest {
 	public void findByTeamKeyAsOfDate_notFound() {
 		when(rosterPlayerJpaService.findByTeamKeyAndAsOfDate(anyString(), anyObject()))
 				.thenReturn(new ArrayList<>());
-		List<RosterPlayer> rosterPlayers = rosterPlayerAppService.findByTeamKeyAsOfDate(LocalDate.of(1995, 11, 26), "sacramento-hornets");
+		List<RosterPlayer> rosterPlayers = rosterPlayerAppService.findByTeamKeyAsOfDate(new LocalDate(1995, 11, 26), "sacramento-hornets");
 		Assert.assertEquals(new ArrayList<RosterPlayer>(), rosterPlayers);
 	}
 
@@ -120,7 +120,7 @@ public class RosterPlayerAppServiceTest {
 	public void findByTeamKeyAsOfDate_found() {
 		when(rosterPlayerJpaService.findByTeamKeyAndAsOfDate(anyString(), anyObject()))
 				.thenReturn(createMockRosterPlayers());
-		List<RosterPlayer> rosterPlayers = rosterPlayerAppService.findByTeamKeyAsOfDate(LocalDate.of(1995, 11, 26), "sacramento-hornets");		Assert.assertEquals(2, rosterPlayers.size());
+		List<RosterPlayer> rosterPlayers = rosterPlayerAppService.findByTeamKeyAsOfDate(new LocalDate(1995, 11, 26), "sacramento-hornets");		Assert.assertEquals(2, rosterPlayers.size());
 		Assert.assertEquals("Simpson", rosterPlayers.get(1).getPlayer().getLastName());
 		Assert.assertEquals("Lisa", rosterPlayers.get(1).getPlayer().getFirstName());
 	}
@@ -208,7 +208,7 @@ public class RosterPlayerAppServiceTest {
 		rosterPlayer.setDisplay_name(firstName + " " + lastName);
 		rosterPlayer.setHeight_in((short)82);
 		rosterPlayer.setWeight_lb((short)200);
-		rosterPlayer.setBirthdate(LocalDate.of(1995, 11, 26));
+		rosterPlayer.setBirthdate(new LocalDate(1995, 11, 26));
 		rosterPlayer.setBirthplace("Kalamazoo, KS");
 		rosterPlayer.setUniform_number("25");
 		rosterPlayer.setPosition("G");
@@ -227,10 +227,10 @@ public class RosterPlayerAppServiceTest {
 		Player player = new Player();
 		rosterPlayer.setPlayer(player);
 		rosterPlayer.setStatusCode(statusCode);
-		rosterPlayer.setFromDate(LocalDate.of(2015, 11, 26));
+		rosterPlayer.setFromDate(new LocalDate(2015, 11, 26));
 		player.setLastName(lastName);
 		player.setFirstName(firstName);
-		player.setBirthdate(LocalDate.of(1995, 11, 26));
+		player.setBirthdate(new LocalDate(1995, 11, 26));
 		return rosterPlayer;
 	}
 

@@ -29,7 +29,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDate;
+import org.joda.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -235,8 +235,8 @@ public class RosterPlayerBusServiceTest {
 
 	private RosterPlayer createMockRosterPlayer(String lastName, String firstName) {
 		RosterPlayer rosterPlayer = new RosterPlayer();
-		rosterPlayer.setFromDate(LocalDate.of(2015, 10, 27));
-		rosterPlayer.setToDate(LocalDate.of(2015, 12, 27));
+		rosterPlayer.setFromDate(new LocalDate(2015, 10, 27));
+		rosterPlayer.setToDate(new LocalDate(2015, 12, 27));
 		rosterPlayer.setTeam(createMockTeam());
 		rosterPlayer.setPlayer(createMockPlayer(lastName, firstName));
 		return rosterPlayer;
@@ -246,7 +246,7 @@ public class RosterPlayerBusServiceTest {
 		Player player = new Player();
 		player.setLastName(lastName);
 		player.setFirstName(firstName);
-		player.setBirthdate(LocalDate.of(1995, 12, 27));
+		player.setBirthdate(new LocalDate(1995, 12, 27));
 		return player;
 	}
 

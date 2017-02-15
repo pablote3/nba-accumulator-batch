@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDate;
+import org.joda.time.LocalDate;
 import java.util.List;
 
 @SuppressWarnings("SpringJavaAutowiredMembersInspection")
@@ -39,14 +39,14 @@ public class PlayerJpaServiceTest {
 
 	@Test
 	public void findByLastNameFirstNameBirthdate_Found() {
-		Player player = playerJpaService.findByLastNameAndFirstNameAndBirthdate("Puzdrakiew'icz", "Luke", LocalDate.of(2002, 2, 20));
+		Player player = playerJpaService.findByLastNameAndFirstNameAndBirthdate("Puzdrakiew'icz", "Luke", new LocalDate(2002, 2, 20));
 		Assert.assertEquals("Sacramento, CA, USA", player.getBirthplace());
 		Assert.assertTrue(player.isFound());
 	}
 
 	@Test
 	public void findByLastNameFirstNameBirthdate_Found_UTF_8() {
-		Player findPlayer = playerJpaService.findByLastNameAndFirstNameAndBirthdate("Valančiūnas", "Jonas", LocalDate.of(1992, 5, 6));
+		Player findPlayer = playerJpaService.findByLastNameAndFirstNameAndBirthdate("Valančiūnas", "Jonas", new LocalDate(1992, 5, 6));
 		Assert.assertEquals("Jonas Valančiūnas", findPlayer.getDisplayName());
 		Assert.assertEquals("Utėnai, Lithuania", findPlayer.getBirthplace());
 		Assert.assertTrue(findPlayer.isFound());
@@ -54,19 +54,19 @@ public class PlayerJpaServiceTest {
 
 	@Test
 	public void findByLastNameFirstNameBirthdate_NotFound_LastName() {
-		Player player = playerJpaService.findByLastNameAndFirstNameAndBirthdate("Puzdrakiew''icz", "Luke", LocalDate.of(2002, 2, 20));
+		Player player = playerJpaService.findByLastNameAndFirstNameAndBirthdate("Puzdrakiew''icz", "Luke", new LocalDate(2002, 2, 20));
 		Assert.assertTrue(player.isNotFound());
 	}
 
 	@Test
 	public void findByLastNameFirstNameBirthdate_NotFound_FirstName() {
-		Player player = playerJpaService.findByLastNameAndFirstNameAndBirthdate("Puzdrakiew'icz", "Like", LocalDate.of(2002, 2, 20));
+		Player player = playerJpaService.findByLastNameAndFirstNameAndBirthdate("Puzdrakiew'icz", "Like", new LocalDate(2002, 2, 20));
 		Assert.assertTrue(player.isNotFound());
 	}
 
 	@Test
 	public void findByLastNameFirstNameBirthdate_NotFound_Birthdate() {
-		Player player = playerJpaService.findByLastNameAndFirstNameAndBirthdate("Puzdrakiew'icz", "Luke", LocalDate.of(2002, 2, 21));
+		Player player = playerJpaService.findByLastNameAndFirstNameAndBirthdate("Puzdrakiew'icz", "Luke", new LocalDate(2002, 2, 21));
 		Assert.assertTrue(player.isNotFound());
 	}
 
@@ -90,40 +90,40 @@ public class PlayerJpaServiceTest {
 
 	@Test
 	public void create_Created() {
-		Player createPlayer = playerJpaService.create(createMockPlayer("Puzdrakiewicz", "Fred", LocalDate.of(1968, 11, 9), "Fred Puzdrakiewicz"));
-		Player findPlayer = playerJpaService.findByLastNameAndFirstNameAndBirthdate("Puzdrakiewicz", "Fred", LocalDate.of(1968, 11, 9));
+		Player createPlayer = playerJpaService.create(createMockPlayer("Puzdrakiewicz", "Fred", new LocalDate(1968, 11, 9), "Fred Puzdrakiewicz"));
+		Player findPlayer = playerJpaService.findByLastNameAndFirstNameAndBirthdate("Puzdrakiewicz", "Fred", new LocalDate(1968, 11, 9));
 		Assert.assertTrue(createPlayer.isCreated());
 		Assert.assertEquals("Fred Puzdrakiewicz", findPlayer.getDisplayName());
 	}
 
 	@Test
 	public void create_Existing() {
-		Player createPlayer = playerJpaService.create(createMockPlayer("Puzdrakiewicz", "Michelle", LocalDate.of(1969, 9, 8), "Michelle Puzdrakiewicz"));
+		Player createPlayer = playerJpaService.create(createMockPlayer("Puzdrakiewicz", "Michelle", new LocalDate(1969, 9, 8), "Michelle Puzdrakiewicz"));
 		Assert.assertTrue(createPlayer.isFound());
 	}
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void create_MissingRequiredData() {
-		Player createPlayer = playerJpaService.create(createMockPlayer("Puzdrakiewicz", "Fred", LocalDate.of(1969, 11, 9), null));
+		Player createPlayer = playerJpaService.create(createMockPlayer("Puzdrakiewicz", "Fred", new LocalDate(1969, 11, 9), null));
 	}
 
 	@Test
 	public void update_Updated() {
-		Player updatePlayer = playerJpaService.update(createMockPlayer("Puzdrakiewicz", "Thad", LocalDate.of(2000, 3, 13), "Thad Puzdrakiewicz2"));
-		Player player = playerJpaService.findByLastNameAndFirstNameAndBirthdate("Puzdrakiewicz", "Thad", LocalDate.of(2000, 3, 13));
+		Player updatePlayer = playerJpaService.update(createMockPlayer("Puzdrakiewicz", "Thad", new LocalDate(2000, 3, 13), "Thad Puzdrakiewicz2"));
+		Player player = playerJpaService.findByLastNameAndFirstNameAndBirthdate("Puzdrakiewicz", "Thad", new LocalDate(2000, 3, 13));
 		Assert.assertEquals("Thad Puzdrakiewicz2", player.getDisplayName());
 		Assert.assertTrue(updatePlayer.isUpdated());
 	}
 
 	@Test
 	public void update_NotFound() {
-		Player player = playerJpaService.update(createMockPlayer("Puzdrakiewicz", "Thad", LocalDate.of(2000, 3, 14), "Thad Puzdrakiewicz"));
+		Player player = playerJpaService.update(createMockPlayer("Puzdrakiewicz", "Thad", new LocalDate(2000, 3, 14), "Thad Puzdrakiewicz"));
 		Assert.assertTrue(player.isNotFound());
 	}
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void update_MissingRequiredData() {
-		Player player = playerJpaService.update(createMockPlayer("Puzdrakiewicz", "Thad", LocalDate.of(2000, 3, 13), null));
+		Player player = playerJpaService.update(createMockPlayer("Puzdrakiewicz", "Thad", new LocalDate(2000, 3, 13), null));
 	}
 
 	@Test

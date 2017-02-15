@@ -1,19 +1,19 @@
 package com.rossotti.basketball.client.dto;
 
-import java.time.ZonedDateTime;
+import org.joda.time.DateTime;
 
 public class EventInfoDTO {
-	private ZonedDateTime start_date_time;
+	private DateTime start_date_time;
 	private String status;
 	private String season_type;
 	private int capacity;
 	private int attendance;
 	private String duration;
 
-	public ZonedDateTime getStart_date_time() {
+	public DateTime getStart_date_time() {
 		return start_date_time;
 	}
-	public void setStart_date_time(ZonedDateTime start_date_time) {
+	public void setStart_date_time(DateTime start_date_time) {
 		this.start_date_time = start_date_time;
 	}
 	public String getStatus() {
