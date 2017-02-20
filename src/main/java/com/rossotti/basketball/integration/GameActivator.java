@@ -3,15 +3,16 @@ package com.rossotti.basketball.integration;
 import com.rossotti.basketball.app.service.GameAppService;
 import com.rossotti.basketball.jpa.model.Game;
 import java.time.LocalDate;
-
 import com.rossotti.basketball.util.function.DateTimeConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.context.annotation.Configuration;
+import org.springframework.integration.annotation.ServiceActivator;
 import java.util.ArrayList;
 import java.util.List;
 
+@Configuration
 public class GameActivator {
 	private final GameAppService gameAppService;
 	private final Logger logger = LoggerFactory.getLogger(GameActivator.class);
@@ -21,6 +22,7 @@ public class GameActivator {
 		this.gameAppService = gameAppService;
 	}
 
+	@ServiceActivator(inputChannel = "inputChannel", outputChannel = "gameFinderChannel")
 	public List<Game> processGames(ServiceProperties properties) {
 		List<Game> games = new ArrayList<Game>();
 		LocalDate gameDate = DateTimeConverter.getLocalDate(properties.getGameDate());
