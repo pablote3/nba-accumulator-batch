@@ -5,14 +5,19 @@ import com.rossotti.basketball.business.model.StatusCodeBusiness.StatusCode;
 import com.rossotti.basketball.jpa.model.Game;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.integration.annotation.Aggregator;
 import org.springframework.messaging.Message;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Configuration
 public class GameAggregator {
 	private final Logger logger = LoggerFactory.getLogger(GameAggregator.class);
+
+	@Aggregator(inputChannel = "gameAggregatorChannel", outputChannel = "outputChannel")
 	public List<Game> aggregate(Collection<Message<?>> games) {
 		logger.debug("begin gameAggregator");
 		List<Game> gameList = new ArrayList<>();
