@@ -1,9 +1,10 @@
 package com.rossotti.basketball.integration;
 
-import com.rossotti.basketball.business.model.StandingsBusiness;
+import com.rossotti.basketball.jpa.model.Game;
 import org.springframework.integration.annotation.MessagingGateway;
+import java.util.List;
 
 @MessagingGateway(defaultRequestChannel = "inputChannel", defaultReplyChannel = "outputChannel")
 public interface GatewayService {
-	StandingsBusiness processGames(ServiceProperties serviceProperties);
+	List<Game> processGames(ServiceProperties serviceProperties);
 }
