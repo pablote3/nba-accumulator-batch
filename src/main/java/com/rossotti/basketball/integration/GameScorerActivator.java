@@ -10,12 +10,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.annotation.ServiceActivator;
 
 @Configuration
-public class GameScorer {
+public class GameScorerActivator {
 	private final GameBusService gameBusService;
-	private final Logger logger = LoggerFactory.getLogger(GameScorer.class);
+	private final Logger logger = LoggerFactory.getLogger(GameScorerActivator.class);
 
 	@Autowired
-	public GameScorer(GameBusService gameBusService) {
+	public GameScorerActivator(GameBusService gameBusService) {
 		this.gameBusService = gameBusService;
 	}
 

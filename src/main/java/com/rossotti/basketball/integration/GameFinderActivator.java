@@ -13,12 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
-public class GameActivator {
+public class GameFinderActivator {
 	private final GameAppService gameAppService;
-	private final Logger logger = LoggerFactory.getLogger(GameActivator.class);
+	private final Logger logger = LoggerFactory.getLogger(GameFinderActivator.class);
 
 	@Autowired
-	public GameActivator(GameAppService gameAppService) {
+	public GameFinderActivator(GameAppService gameAppService) {
 		this.gameAppService = gameAppService;
 	}
 
