@@ -19,23 +19,23 @@ public class IntegrationFlowTest {
     @Autowired
     private GatewayService gatewayService;
 
-//    @Test
-//    public void testFlow_GameNotFound() {
-//        ServiceProperties serviceProperties = new ServiceProperties();
-//        serviceProperties.setGameDate("2016-10-27");
-//        serviceProperties.setGameTeam("chicago-zephyr's");
-//        List<Game> games = gatewayService.processGames(serviceProperties);
-//        Assert.assertTrue(games.size() == 0);
-//    }
-//
-//    @Test
-//    public void testFlow_AsOfDateTeam_Completed() {
-//        ServiceProperties serviceProperties = new ServiceProperties();
-//        serviceProperties.setGameDate("2015-10-27");
-//        serviceProperties.setGameTeam("chicago-zephyr's");
-//        List<Game> games = gatewayService.processGames(serviceProperties);
-//        Assert.assertTrue(games.size() == 1);
-//    }
+    @Test
+    public void testFlow_GameNotFound() {
+        ServiceProperties serviceProperties = new ServiceProperties();
+        serviceProperties.setGameDate("2016-10-27");
+        serviceProperties.setGameTeam("chicago-zephyr's");
+        List<Game> games = gatewayService.processGames(serviceProperties);
+        Assert.assertTrue(games.size() == 0);
+    }
+
+    @Test
+    public void testFlow_AsOfDateTeam_Completed() {
+        ServiceProperties serviceProperties = new ServiceProperties();
+        serviceProperties.setGameDate("2015-10-27");
+        serviceProperties.setGameTeam("chicago-zephyr's");
+        List<Game> games = gatewayService.processGames(serviceProperties);
+        Assert.assertTrue(games.size() == 1);
+    }
 
     @Test
     public void testFlow_AsOfDateTeam_Scheduled() {
@@ -44,5 +44,13 @@ public class IntegrationFlowTest {
         serviceProperties.setGameTeam("st-louis-bomber's");
         List<Game> games = gatewayService.processGames(serviceProperties);
         Assert.assertTrue(games.size() == 1);
+    }
+
+    @Test
+    public void testFlow_AsOfDate() {
+        ServiceProperties serviceProperties = new ServiceProperties();
+        serviceProperties.setGameDate("2016-10-28");
+        List<Game> games = gatewayService.processGames(serviceProperties);
+        Assert.assertTrue(games.size() == 2);
     }
 }
