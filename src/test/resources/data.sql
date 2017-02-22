@@ -43,6 +43,11 @@ insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, positi
 insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, position) VALUES(22, 22, 20, '2014-10-29', '2015-06-30', '41', 'SF');
 insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, position) VALUES(23, 23, 20, '2014-10-29', '2015-06-30', '1', 'PG');
 
+insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, position) VALUES(24, 1, 4, '2016-10-27', '2017-06-30', '31', 'PG');
+insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, position) VALUES(25, 2, 4, '2016-10-27', '2016-10-30', '12', 'C');
+insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, position) VALUES(26, 3, 3, '2016-10-27', '2017-06-30', '12', 'C');
+insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, position) VALUES(27, 4, 3, '2016-10-27', '9999-12-31', '9', 'PG');
+
 insert into official VALUES(1, 'Joe', '2009-07-01', 'LateCa''ll', '96', '2010-06-30');
 insert into official VALUES(2, 'Mike', '2009-07-01', 'MissedCa''ll', '97', '2010-06-30');
 insert into official VALUES(3, 'Mike', '2010-07-01', 'MissedCa''ll', '98', '2011-06-30');
@@ -108,6 +113,10 @@ insert into boxScore (id, gameId, teamId, location) VALUES(22, 11, 21, 'Away');
 insert into game VALUES(12, '2015-01-09 19:00:00.0', 'Regular', 'Scheduled');
 insert into boxScore (id, gameId, teamId, location) VALUES(23, 12, 20, 'Home');
 insert into boxScore (id, gameId, teamId, location) VALUES(24, 12, 21, 'Away');
+
+insert into game VALUES(13, '2016-10-27 21:00:00.0', 'Regular', 'Scheduled');
+insert into boxScore (id, gameId, teamId, location) VALUES(25, 13, 3, 'Home');
+insert into boxScore (id, gameId, teamId, location) VALUES(26, 13, 4, 'Away');
 
 insert into standing (id, teamId, standingDate, rank, ordinalRank, gamesWon, gamesLost, streak, streakType, streakTotal, gamesBack, pointsFor, pointsAgainst, homeWins, homeLosses,
 awayWins, awayLosses, conferenceWins, conferenceLosses, lastFive, lastTen, gamesPlayed, pointsScoredPerGame, PointsAllowedPerGame, WinPercentage, PointDifferential, pointDifferentialPerGame)

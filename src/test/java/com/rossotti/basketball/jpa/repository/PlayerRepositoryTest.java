@@ -29,7 +29,7 @@ public class PlayerRepositoryTest {
 	public void getById() {
 		Player player = playerRepository.findOne(1L);
 		Assert.assertEquals("Puzdrakiew'icz", player.getLastName());
-		Assert.assertEquals(2, player.getRosterPlayers().size());
+		Assert.assertEquals(3, player.getRosterPlayers().size());
 	}
 
 	@Test

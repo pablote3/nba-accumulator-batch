@@ -120,7 +120,7 @@ public class RosterPlayerJpaServiceTest {
 	@Test
 	public void findByLastNameFirstNameBirthdate_Found() {
 		List<RosterPlayer> rosterPlayers = rosterPlayerJpaService.findByLastNameAndFirstNameAndBirthdate("Puzdrakiew'icz", "Luke", LocalDate.of(2002, 2, 20));
-		Assert.assertEquals(2, rosterPlayers.size());
+		Assert.assertEquals(3, rosterPlayers.size());
 	}
 
 	@Test

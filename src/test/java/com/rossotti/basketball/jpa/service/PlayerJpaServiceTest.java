@@ -28,7 +28,7 @@ public class PlayerJpaServiceTest {
 	public void getById() {
 		Player player = playerJpaService.getById(1L);
 		Assert.assertEquals("Puzdrakiew'icz", player.getLastName());
-		Assert.assertEquals(2, player.getRosterPlayers().size());
+		Assert.assertEquals(3, player.getRosterPlayers().size());
 	}
 
 	@Test

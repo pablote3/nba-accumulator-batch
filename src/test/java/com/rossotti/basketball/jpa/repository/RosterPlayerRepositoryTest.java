@@ -38,7 +38,7 @@ public class RosterPlayerRepositoryTest {
 	@Test
 	public void findAll() {
 		List<RosterPlayer> rosterPlayers = rosterPlayerRepository.findAll();
-		Assert.assertEquals(14, rosterPlayers.size());
+		Assert.assertEquals(18, rosterPlayers.size());
 	}
 
 	@Test
@@ -116,7 +116,7 @@ public class RosterPlayerRepositoryTest {
 	@Test
 	public void findByLastNameAndFirstNameAndBirthdate_Found() {
 		List<RosterPlayer> rosterPlayers = rosterPlayerRepository.findByLastNameAndFirstNameAndBirthdate("Puzdrakiew'icz", "Luke", LocalDate.of(2002, 2, 20));
-		Assert.assertEquals(2, rosterPlayers.size());
+		Assert.assertEquals(3, rosterPlayers.size());
 	}
 
 	@Test

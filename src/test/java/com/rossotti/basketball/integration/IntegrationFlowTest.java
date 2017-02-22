@@ -1,8 +1,5 @@
 package com.rossotti.basketball.integration;
 
-import static org.junit.Assert.assertNotNull;
-
-import com.rossotti.basketball.business.model.StandingsBusiness;
 import com.rossotti.basketball.config.IntegrationConfig;
 import com.rossotti.basketball.jpa.model.Game;
 import org.junit.Assert;
@@ -27,16 +24,25 @@ public class IntegrationFlowTest {
 //        ServiceProperties serviceProperties = new ServiceProperties();
 //        serviceProperties.setGameDate("2016-10-27");
 //        serviceProperties.setGameTeam("chicago-zephyr's");
-//        StandingsBusiness standingsBusiness = gatewayService.processGames(serviceProperties);
-//        Assert.assertNull(standingsBusiness);
+//        List<Game> games = gatewayService.processGames(serviceProperties);
+//        Assert.assertTrue(games.size() == 0);
+//    }
+//
+//    @Test
+//    public void testFlow_AsOfDateTeam_Completed() {
+//        ServiceProperties serviceProperties = new ServiceProperties();
+//        serviceProperties.setGameDate("2015-10-27");
+//        serviceProperties.setGameTeam("chicago-zephyr's");
+//        List<Game> games = gatewayService.processGames(serviceProperties);
+//        Assert.assertTrue(games.size() == 1);
 //    }
 
     @Test
-    public void testFlow_AsOfDateTeam() {
+    public void testFlow_AsOfDateTeam_Scheduled() {
         ServiceProperties serviceProperties = new ServiceProperties();
-        serviceProperties.setGameDate("2015-10-27");
-        serviceProperties.setGameTeam("chicago-zephyr's");
+        serviceProperties.setGameDate("2016-10-27");
+        serviceProperties.setGameTeam("st-louis-bomber's");
         List<Game> games = gatewayService.processGames(serviceProperties);
-        System.out.println("done!");
+        Assert.assertTrue(games.size() == 1);
     }
 }
