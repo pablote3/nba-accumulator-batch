@@ -1,11 +1,11 @@
 insert into team VALUES(1, 'CHI', 'Chicago', 'East', 'Central', 'Chicago', '2009-07-01', 'Chicago Zephyr''s', 'Zephyrs', 'Chicago Coliseum', 'IL', 'chicago-zephyr''s', '9999-12-31');
 insert into team VALUES(2, 'HAR', 'Harlem', 'East', 'Atlantic', 'Harlem', '2009-07-01', 'Harlem Globetrotter''s', 'Globetrotter''s', 'Rucker Park', 'NY', 'harlem-globetrotter''s', '2010-06-30');
-insert into team VALUES(3, 'STL', 'St. Louis', 'East', 'Southwest', 'St. Louis', '2009-07-01', 'St. Louis Bomber''s', 'Bomber''s', 'St. Louis Arena', 'MO', 'st-louis-bomber''s', '2010-06-30');
+insert into team VALUES(3, 'STL', 'St. Louis', 'East', 'Southwest', 'St. Louis', '2009-07-01', 'St. Louis Bomber''s', 'Bomber''s', 'St. Louis Arena', 'MO', 'st-louis-bomber''s', '2017-06-30');
 insert into team VALUES(4, 'SAL', 'Salinas', 'West', 'Pacific', 'Salinas', '2010-07-01', 'Salinas Cowboys', 'Cowboys', 'Salinas High School', 'CA', 'salinas-cowboys', '9999-12-31');
 insert into team VALUES(5, 'STL', 'Baltimore', 'East', 'Southeast', 'Baltimore', '2005-07-01', 'Baltimore Bullets', 'Bullets', 'Baltimore Coliseum', 'MD', 'baltimore-bullets', '2006-06-30');
 insert into team VALUES(6, 'CLE', 'Rebels', 'East', 'Central', 'Cleveland', '2010-07-01', 'Cleveland Rebels', 'Rebels', 'Cleveland Arena', 'OH', 'cleveland-rebels', '9999-12-31');
 insert into team VALUES(7, 'ROC', 'Rochester', 'East', 'Atlantic', 'Rochester', '2008-07-01', 'Rochester Royals', 'Royals', 'Edgerton Park Arena', 'NY', 'rochester-royals', '2009-06-30');
-insert into team VALUES(8, 'STL', 'St. Louis', 'East', 'Southwest', 'St. Louis', '2010-07-01', 'St. Louis Bomber''s', 'Bomber''s', 'St. Louis Multiplex', 'MO', 'st-louis-bomber''s', '2011-06-30');
+insert into team VALUES(8, 'STL', 'St. Louis', 'East', 'Southwest', 'St. Louis', '2006-07-01', 'St. Louis Bomber''s', 'Bomber''s', 'St. Louis Multiplex', 'MO', 'st-louis-bomber''s', '2007-06-30');
 insert into team VALUES(9, 'DET', 'Detroit', 'East', 'Central', 'Detroit', '2010-07-01', 'Detroit Pistons', 'Pistons', 'Palace of Auburn Hills', 'MI', 'detroit-pistons', '9999-12-31');
 insert into team VALUES(10, 'ROC', 'Rochester', 'East', 'Atlantic', 'Rochester', '2007-07-01', 'Rochester Royals', 'Royals', 'Edgerton Park Arena', 'NY', 'rochester-royals', '2008-06-30');
 insert into team VALUES(20, 'CHI', 'Chicago', 'East', 'Central', 'Chicago', '2012-07-01', 'Chicago Bulls', 'Bulls', 'United Center', 'IL', 'chicago-bulls', '9999-12-31');
@@ -125,6 +125,10 @@ insert into boxScore (id, gameId, teamId, location) VALUES(28, 14, 4, 'Away');
 insert into game VALUES(15, '2016-10-28 21:00:00.0', 'Regular', 'Postponed');
 insert into boxScore (id, gameId, teamId, location) VALUES(29, 15, 2, 'Home');
 insert into boxScore (id, gameId, teamId, location) VALUES(30, 15, 3, 'Away');
+
+insert into game VALUES(16, '2016-10-29 21:00:00.0', 'Regular', 'Scheduled');
+insert into boxScore (id, gameId, teamId, location) VALUES(31, 16, 3, 'Home');
+insert into boxScore (id, gameId, teamId, location) VALUES(32, 16, 1, 'Away');
 
 insert into standing (id, teamId, standingDate, rank, ordinalRank, gamesWon, gamesLost, streak, streakType, streakTotal, gamesBack, pointsFor, pointsAgainst, homeWins, homeLosses,
 awayWins, awayLosses, conferenceWins, conferenceLosses, lastFive, lastTen, gamesPlayed, pointsScoredPerGame, PointsAllowedPerGame, WinPercentage, PointDifferential, pointDifferentialPerGame)

@@ -38,7 +38,7 @@ public class GameRepositoryTest {
 	@Test
 	public void findAll() {
 		List<Game> games = gameRepository.findAll();
-		Assert.assertEquals(15, games.size());
+		Assert.assertEquals(16, games.size());
 	}
 
 	@Test
