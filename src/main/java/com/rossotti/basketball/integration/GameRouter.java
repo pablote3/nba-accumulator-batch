@@ -21,30 +21,31 @@ public class GameRouter {
 		return "gameScoreChannel";
 	}
 
-//	public String routeGame(GameBusiness gameBusiness) {
-//		if (gameBusiness.isRosterUpdate()) {
-//			logger.info("AppGame " + gameBusiness.getGame().getBoxScoreAway().getTeam().getAbbr() + " at " +
-//				gameBusiness.getGame().getBoxScoreHome().getTeam().getAbbr() + " " +
-//				gameBusiness.getStatusCode() +
-//				": route to rosterLoadChannel"
-//			);
-//			return "rosterLoadChannel";
-//		}
-//		else if(gameBusiness.isRosterComplete()) {
-//			logger.info("AppGame " + gameBusiness.getGame().getBoxScoreAway().getTeam().getAbbr() + " at " +
-//				gameBusiness.getGame().getBoxScoreHome().getTeam().getAbbr() + " " +
-//				gameBusiness.getStatusCode() +
-//				": route to gameScoreChannel"
-//			);
-//			return "gameScoreChannel";
-//		}
-//		else {
-//			logger.info("AppGame " + gameBusiness.getGame().getBoxScoreAway().getTeam().getAbbr() + " at " +
-//				gameBusiness.getGame().getBoxScoreHome().getTeam().getAbbr() + " " +
-//				gameBusiness.getStatusCode() +
-//				": route to gameAggregatorChannel"
-//			);
-//			return "gameAggregatorChannel";
-//		}
-//	}
+//	@Router(inputChannel = "gameRouterChannel")
+	public String routeGame(GameBusiness gameBusiness) {
+		if (gameBusiness.isRosterUpdate()) {
+			logger.info("GameBusiness " + gameBusiness.getGame().getBoxScoreAway().getTeam().getAbbr() + " at " +
+				gameBusiness.getGame().getBoxScoreHome().getTeam().getAbbr() + " " +
+				gameBusiness.getStatusCode() +
+				": route to rosterLoadChannel"
+			);
+			return "rosterLoadChannel";
+		}
+		else if(gameBusiness.isRosterComplete()) {
+			logger.info("GameBusiness " + gameBusiness.getGame().getBoxScoreAway().getTeam().getAbbr() + " at " +
+				gameBusiness.getGame().getBoxScoreHome().getTeam().getAbbr() + " " +
+				gameBusiness.getStatusCode() +
+				": route to gameScoreChannel"
+			);
+			return "gameScoreChannel";
+		}
+		else {
+			logger.info("GameBusiness " + gameBusiness.getGame().getBoxScoreAway().getTeam().getAbbr() + " at " +
+				gameBusiness.getGame().getBoxScoreHome().getTeam().getAbbr() + " " +
+				gameBusiness.getStatusCode() +
+				": route to gameAggregatorChannel"
+			);
+			return "gameAggregatorChannel";
+		}
+	}
 }

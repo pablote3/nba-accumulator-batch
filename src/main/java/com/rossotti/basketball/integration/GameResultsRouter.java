@@ -11,19 +11,19 @@ public class GameResultsRouter {
 	private final Logger logger = LoggerFactory.getLogger(GameResultsRouter.class);
 
 	@Router(inputChannel = "gameResultsChannel")
-	public String routeGame(GameBusiness appGame) {
-		if (appGame.isRosterUpdate()) {
-			logger.info("Game " + appGame.getGame().getBoxScoreAway().getTeam().getAbbr() + " at " + 
-				appGame.getGame().getBoxScoreHome().getTeam().getAbbr() + " " +
-				appGame.getStatusCode() +
+	public String routeGame(GameBusiness gameBusiness) {
+		if (gameBusiness.isRosterUpdate()) {
+			logger.info("Game " + gameBusiness.getGame().getBoxScoreAway().getTeam().getAbbr() + " at " +
+				gameBusiness.getGame().getBoxScoreHome().getTeam().getAbbr() + " " +
+				gameBusiness.getStatusCode() +
 				": route to gameRouterChannel"
 			);
 			return "gameRouterChannel";
 		}
 		else {
-			logger.info("Game " + appGame.getGame().getBoxScoreAway().getTeam().getAbbr() + " at " + 
-				appGame.getGame().getBoxScoreHome().getTeam().getAbbr() + " " +
-				appGame.getStatusCode() +
+			logger.info("Game " + gameBusiness.getGame().getBoxScoreAway().getTeam().getAbbr() + " at " +
+				gameBusiness.getGame().getBoxScoreHome().getTeam().getAbbr() + " " +
+				gameBusiness.getStatusCode() +
 				": route to gameAggregatorChannel"
 			);			
 			return "gameAggregatorChannel";
