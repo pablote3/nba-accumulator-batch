@@ -2,6 +2,7 @@ package com.rossotti.basketball.business.model;
 
 public class StatusCodeBusiness {
 	public enum StatusCode {
+		Initial,
 		Completed,
 		ClientError,
 		ServerError,
@@ -15,6 +16,9 @@ public class StatusCodeBusiness {
 		this.statusCode = statusCode;
 	}
 	public StatusCode getStatusCode() { return statusCode; }
+	public Boolean isInitial() {
+		return statusCode == StatusCode.Initial;
+	}
 	public Boolean isCompleted() {
 		return statusCode == StatusCode.Completed;
 	}

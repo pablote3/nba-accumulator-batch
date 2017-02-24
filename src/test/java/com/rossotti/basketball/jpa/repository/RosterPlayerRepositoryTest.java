@@ -38,7 +38,7 @@ public class RosterPlayerRepositoryTest {
 	@Test
 	public void findAll() {
 		List<RosterPlayer> rosterPlayers = rosterPlayerRepository.findAll();
-		Assert.assertEquals(19, rosterPlayers.size());
+		Assert.assertEquals(20, rosterPlayers.size());
 	}
 
 	@Test

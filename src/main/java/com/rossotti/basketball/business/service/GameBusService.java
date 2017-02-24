@@ -54,7 +54,7 @@ public class GameBusService {
 		this.fileStatsService = fileStatsService;
 	}
 
-	public GameBusiness scoreGame(Game game) {
+	public GameBusiness scoreGame(Game game, String previousUpdateTeam) {
 		GameBusiness gameBusiness = new GameBusiness(game);
 		try {
 			BoxScore awayBoxScore = game.getBoxScoreAway();
@@ -134,8 +134,14 @@ public class GameBusService {
 				gameBusiness.setStatusCode(StatusCode.TeamError);
 			}
 			else if (nse.getEntityClass().equals(RosterPlayer.class)) {
-				logger.info("RosterPlayer not found - need to rebuild active roster");
-				gameBusiness.setStatusCode(StatusCode.RosterUpdate);
+				if (previousUpdateTeam == null || !previousUpdateTeam.equals(gameBusiness.getRosterLastTeam())) {
+					logger.info("RosterPlayer not found - need to rebuild active roster");
+					gameBusiness.setStatusCode(StatusCode.RosterUpdate);
+				}
+				else {
+					logger.info("Roster Player not found - problem between box score and roster");
+					gameBusiness.setStatusCode(StatusCode.RosterUpdate);
+				}
 			}
 		}
 		catch (PropertyException pe) {
@@ -147,5 +153,17 @@ public class GameBusService {
 			gameBusiness.setStatusCode(StatusCode.ServerError);
 		}
 		return gameBusiness;
+	}
+
+	public GameBusiness scoreGame(GameBusiness gameBusiness) {
+		if (gameBusiness.isServerError()) {
+			return gameBusiness;
+		}
+		else if(gameBusiness.isRosterUpdate()) {
+			return scoreGame(gameBusiness.getGame(), gameBusiness.getRosterLastTeam());
+		}
+		else {
+			return scoreGame(gameBusiness.getGame(), null);
+		}
 	}
 }
