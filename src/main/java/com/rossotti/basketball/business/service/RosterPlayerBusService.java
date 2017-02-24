@@ -2,6 +2,7 @@ package com.rossotti.basketball.business.service;
 
 import com.rossotti.basketball.app.service.PlayerAppService;
 import com.rossotti.basketball.app.service.RosterPlayerAppService;
+import com.rossotti.basketball.business.model.GameBusiness;
 import com.rossotti.basketball.business.model.RosterPlayerBusiness;
 import com.rossotti.basketball.business.model.StatusCodeBusiness.StatusCode;
 import com.rossotti.basketball.client.dto.RosterDTO;
@@ -186,11 +187,26 @@ public class RosterPlayerBusService {
 		return rosterPlayerBusiness;
 	}
 
+	public GameBusiness loadRoster(GameBusiness gameBusiness) {
+		logger.info("Load Roster for team = " + gameBusiness.getRosterLastTeam() + " gameDate = " + DateTimeConverter.getStringDate(gameBusiness.getGame().getGameDateTime()));
+		RosterPlayerBusiness rosterPlayerBusiness = loadRoster(DateTimeConverter.getStringDate(gameBusiness.getGame().getGameDateTime()), gameBusiness.getRosterLastTeam());
+		if (rosterPlayerBusiness.isClientError()) {
+			gameBusiness.setStatusCode(StatusCode.ClientError);
+		}
+		else if (rosterPlayerBusiness.isServerError()) {
+			gameBusiness.setStatusCode(StatusCode.ServerError);
+		}
+		else if (rosterPlayerBusiness.isCompleted()) {
+			gameBusiness.setStatusCode(StatusCode.RosterComplete);
+		}
+		return gameBusiness;
+	}
+
 	private String generateLogMessage(String messageType, RosterPlayer rosterPlayer) {
 		return FormatString.padString(messageType, 40) +
-				" fromDate = " + DateTimeConverter.getStringDate(rosterPlayer.getFromDate()) +
-				" toDate = " + DateTimeConverter.getStringDate(rosterPlayer.getToDate()) +
-				" dob = " + DateTimeConverter.getStringDate(rosterPlayer.getPlayer().getBirthdate()) +
-				" name = " + FormatString.padString(rosterPlayer.getPlayer().getFirstName() + " " + rosterPlayer.getPlayer().getLastName(), 35);
+			" fromDate = " + DateTimeConverter.getStringDate(rosterPlayer.getFromDate()) +
+			" toDate = " + DateTimeConverter.getStringDate(rosterPlayer.getToDate()) +
+			" dob = " + DateTimeConverter.getStringDate(rosterPlayer.getPlayer().getBirthdate()) +
+			" name = " + FormatString.padString(rosterPlayer.getPlayer().getFirstName() + " " + rosterPlayer.getPlayer().getLastName(), 35);
 	}
 }

@@ -22,7 +22,7 @@ public class GameScorerActivator {
 	@ServiceActivator(inputChannel = "gameScoreChannel", outputChannel = "gameResultsChannel")
 	public GameBusiness scoreGame(Game game) {
 		GameBusiness gameBusiness = gameBusService.scoreGame(game);
-		logger.info("gameScorer: " + game.getGameDateTime());
+		logger.info("gameScorer: route to gameResultsChannel");
 		return gameBusiness;
 	}
 }
