@@ -6,6 +6,7 @@ import com.rossotti.basketball.app.service.OfficialAppService;
 import com.rossotti.basketball.app.service.RosterPlayerAppService;
 import com.rossotti.basketball.app.service.TeamAppService;
 import com.rossotti.basketball.business.model.GameBusiness;
+import com.rossotti.basketball.business.model.StatusCodeBusiness;
 import com.rossotti.basketball.business.service.GameBusService;
 import com.rossotti.basketball.client.dto.GameDTO;
 import com.rossotti.basketball.client.dto.StatusCodeDTO.StatusCode;
@@ -185,7 +186,7 @@ public class GameBusServiceTest {
 		Assert.assertTrue(game.isCompleted());
 	}
 
-	private Game createMockGame_Scheduled() {
+	private GameBusiness createMockGame_Scheduled() {
 		Game game = new Game();
 		game.setGameDateTime(LocalDateTime.of(2015, 11, 26, 10, 0));
 		game.setStatus(GameStatus.Scheduled);
@@ -201,7 +202,8 @@ public class GameBusServiceTest {
 		boxScoreAway.setLocation(Location.Away);
 		boxScoreAway.setTeam(teamAway);
 		game.addBoxScore(boxScoreAway);
-		return game;
+		GameBusiness gameBusiness = new GameBusiness(game, StatusCodeBusiness.StatusCode.Initial);
+		return gameBusiness;
 	}
 
 	private Game createMockGame_StatusCode(StatusCodeDAO status) {
