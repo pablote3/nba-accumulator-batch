@@ -7,6 +7,11 @@ public class GameBusiness extends StatusCodeBusiness {
 		this.game = game;
 	}
 
+	public GameBusiness(Game game, StatusCode statusCode) {
+		this.game = game;
+		this.setStatusCode(statusCode);
+	}
+
 	private Game game;
 	public Game getGame() {
 		return game;

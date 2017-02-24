@@ -47,10 +47,19 @@ public class IntegrationFlowTest {
     }
 
     @Test
-    public void testFlow_AsOfDate() {
+    public void testFlow_AsOfDate_Mixed_Multiple() {
         ServiceProperties serviceProperties = new ServiceProperties();
         serviceProperties.setGameDate("2016-10-28");
         List<Game> games = gatewayService.processGames(serviceProperties);
         Assert.assertTrue(games.size() == 2);
     }
+
+      @Test
+      public void testFlow_AsOfDateTeam_Roster_Single() {
+          ServiceProperties serviceProperties = new ServiceProperties();
+          serviceProperties.setGameDate("2016-10-29");
+          serviceProperties.setGameTeam("st-louis-bomber's");
+          List<Game> games = gatewayService.processGames(serviceProperties);
+          Assert.assertTrue(games.size() == 1);
+      }
 }

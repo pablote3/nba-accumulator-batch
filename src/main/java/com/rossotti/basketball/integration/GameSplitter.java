@@ -1,5 +1,7 @@
 package com.rossotti.basketball.integration;
 
+import com.rossotti.basketball.business.model.GameBusiness;
+import com.rossotti.basketball.business.model.StatusCodeBusiness;
 import com.rossotti.basketball.jpa.model.Game;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +21,7 @@ public class GameSplitter {
 		for (int i = 0; i < games.size(); i++) {
 			Game game = games.get(i);
 			Message<?> msg = MessageBuilder
-				.withPayload(game)
+				.withPayload(new GameBusiness(game, StatusCodeBusiness.StatusCode.Initial))
 				.setCorrelationId(game.getGameDateTime())
 				.setSequenceNumber(i)
 				.setSequenceSize(games.size())
