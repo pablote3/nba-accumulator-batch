@@ -27,6 +27,7 @@ insert into player VALUES(20, '1992-06-26', 'Saint-Quentin, France', 'Rudy Gober
 insert into player VALUES(21, '1990-03-23', 'Brownsburg, Indiana, USA', 'Gordon Hayward', 'Gordon', 81, 'Hayward', 207);
 insert into player VALUES(22, '1989-09-14', 'Houston, Texas, USA', 'Jimmy Butler', 'Jimmy', 79, 'Butler', 220);
 insert into player VALUES(23, '1988-10-04', 'Chicago, Illinois, USA', 'Derrick Rose', 'Derrick', 75, 'Rose', 190);
+insert into player VALUES(24, '1988-10-04', 'Chicago, Illinois, USA', 'Michael Rose', 'Michael', 75, 'Rose', 190);
 
 insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, position) VALUES(1, 1, 1, '2009-11-30', '9999-12-31', '21', 'SG');
 insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, position) VALUES(2, 1, 4, '2009-10-30', '2009-11-03', '31', 'PG');
@@ -47,6 +48,7 @@ insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, positi
 insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, position) VALUES(26, 3, 3, '2016-10-27', '2017-06-30', '12', 'C');
 insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, position) VALUES(27, 4, 3, '2016-10-27', '9999-12-31', '9', 'PG');
 insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, position) VALUES(28, 5, 1, '2016-10-28', '2017-06-30', '31', 'PG');
+insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, position) VALUES(29, 24, 6, '2016-10-28', '2017-06-30', '31', 'PG');
 
 insert into official VALUES(1, 'Joe', '2009-07-01', 'LateCa''ll', '96', '2010-06-30');
 insert into official VALUES(2, 'Mike', '2009-07-01', 'MissedCa''ll', '97', '2010-06-30');
@@ -129,6 +131,10 @@ insert into boxScore (id, gameId, teamId, location) VALUES(30, 15, 3, 'Away');
 insert into game VALUES(16, '2016-10-29 21:00:00.0', 'Regular', 'Scheduled');
 insert into boxScore (id, gameId, teamId, location) VALUES(31, 16, 3, 'Home');
 insert into boxScore (id, gameId, teamId, location) VALUES(32, 16, 1, 'Away');
+
+insert into game VALUES(17, '2016-10-30 21:00:00.0', 'Regular', 'Scheduled');
+insert into boxScore (id, gameId, teamId, location) VALUES(33, 17, 6, 'Home');
+insert into boxScore (id, gameId, teamId, location) VALUES(34, 17, 9, 'Away');
 
 insert into standing (id, teamId, standingDate, rank, ordinalRank, gamesWon, gamesLost, streak, streakType, streakTotal, gamesBack, pointsFor, pointsAgainst, homeWins, homeLosses,
 awayWins, awayLosses, conferenceWins, conferenceLosses, lastFive, lastTen, gamesPlayed, pointsScoredPerGame, PointsAllowedPerGame, WinPercentage, PointDifferential, pointDifferentialPerGame)
