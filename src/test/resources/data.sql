@@ -1,5 +1,5 @@
 insert into team VALUES(1, 'CHI', 'Chicago', 'East', 'Central', 'Chicago', '2009-07-01', 'Chicago Zephyr''s', 'Zephyrs', 'Chicago Coliseum', 'IL', 'chicago-zephyr''s', '9999-12-31');
-insert into team VALUES(2, 'HAR', 'Harlem', 'East', 'Atlantic', 'Harlem', '2009-07-01', 'Harlem Globetrotter''s', 'Globetrotter''s', 'Rucker Park', 'NY', 'harlem-globetrotter''s', '2010-06-30');
+insert into team VALUES(2, 'HAR', 'Harlem', 'East', 'Atlantic', 'Harlem', '2009-07-01', 'Harlem Globetrotter''s', 'Globetrotter''s', 'Rucker Park', 'NY', 'harlem-globetrotter''s', '2016-06-30');
 insert into team VALUES(3, 'STL', 'St. Louis', 'East', 'Southwest', 'St. Louis', '2009-07-01', 'St. Louis Bomber''s', 'Bomber''s', 'St. Louis Arena', 'MO', 'st-louis-bomber''s', '2017-06-30');
 insert into team VALUES(4, 'SAL', 'Salinas', 'West', 'Pacific', 'Salinas', '2010-07-01', 'Salinas Cowboys', 'Cowboys', 'Salinas High School', 'CA', 'salinas-cowboys', '9999-12-31');
 insert into team VALUES(5, 'STL', 'Baltimore', 'East', 'Southeast', 'Baltimore', '2005-07-01', 'Baltimore Bullets', 'Bullets', 'Baltimore Coliseum', 'MD', 'baltimore-bullets', '2006-06-30');

@@ -36,7 +36,7 @@ public class StandingRepositoryTest {
 	@Test
 	public void findAll() {
 		List<Standing> standings = standingRepository.findAll();
-		Assert.assertEquals(6, standings.size());
+		Assert.assertEquals(22, standings.size());
 	}
 
 	@Test
@@ -72,7 +72,7 @@ public class StandingRepositoryTest {
 	@Test
 	public void findByTeamKey_Found() {
 		List<Standing> standings = standingRepository.findByTeamKey("st-louis-bomber's");
-		Assert.assertEquals(2, standings.size());
+		Assert.assertEquals(7, standings.size());
 	}
 
 	@Test

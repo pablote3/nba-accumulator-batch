@@ -42,7 +42,7 @@ public class StandingJpaServiceTest {
 	@Test
 	public void findByTeamKey_Found() {
 		List<Standing> standings = standingJpaService.findByTeamKey("st-louis-bomber's");
-		Assert.assertEquals(2, standings.size());
+		Assert.assertEquals(7, standings.size());
 	}
 
 	@Test
@@ -98,7 +98,7 @@ public class StandingJpaServiceTest {
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void create_MissingRequiredData() {
-		standingJpaService.create(createMockStanding(1L, "chicago-zephyr's", LocalDate.of(2016, 10, 30), null));
+		standingJpaService.create(createMockStanding(1L, "chicago-zephyr's", LocalDate.of(2016, 11, 1), null));
 	}
 
 	@Test

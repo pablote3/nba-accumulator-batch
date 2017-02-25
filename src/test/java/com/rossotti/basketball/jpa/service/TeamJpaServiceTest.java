@@ -30,7 +30,7 @@ public class TeamJpaServiceTest {
 	public void getById() {
 		Team team = teamJpaService.getById(1L);
 		Assert.assertEquals("Chicago Zephyr's", team.getFullName());
-		Assert.assertEquals(1, team.getStandings().size());
+		Assert.assertEquals(6, team.getStandings().size());
 	}
 
 	@Test
@@ -67,7 +67,7 @@ public class TeamJpaServiceTest {
 
 	@Test
 	public void findByKey_NotFound_AfterAsOfDate() {
-		Team team = teamJpaService.findByTeamKeyAndAsOfDate("harlem-globetrotter's", LocalDate.of(2010, 7, 1));
+		Team team = teamJpaService.findByTeamKeyAndAsOfDate("harlem-globetrotter's", LocalDate.of(2016, 7, 1));
 		Assert.assertTrue(team.isNotFound());
 	}
 
@@ -99,7 +99,7 @@ public class TeamJpaServiceTest {
 
 	@Test
 	public void findByLastName_NotFound_AfterAsOfDate() {
-		Team team = teamJpaService.findByLastNameAndAsOfDate("Globetrotter's", LocalDate.of(2010, 7, 1));
+		Team team = teamJpaService.findByLastNameAndAsOfDate("Globetrotter's", LocalDate.of(2016, 7, 1));
 		Assert.assertTrue(team.isNotFound());
 	}
 
@@ -157,7 +157,7 @@ public class TeamJpaServiceTest {
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void create_MissingRequiredData() {
-		Team createTeam = teamJpaService.create(createMockTeam("chavo-del-ocho", LocalDate.of(2010, 7, 1), LocalDate.of(2010, 7, 1), null));
+		teamJpaService.create(createMockTeam("chavo-del-ocho", LocalDate.of(2010, 7, 1), LocalDate.of(2010, 7, 1), null));
 	}
 
 	@Test

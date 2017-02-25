@@ -30,7 +30,7 @@ public class TeamRepositoryTest {
 	public void getById() {
 		Team team = teamRepository.findOne(1L);
 		Assert.assertEquals("Chicago Zephyr's", team.getFullName());
-		Assert.assertEquals(1, team.getStandings().size());
+		Assert.assertEquals(6, team.getStandings().size());
 	}
 
 	@Test
@@ -65,7 +65,7 @@ public class TeamRepositoryTest {
 
 	@Test
 	public void findByKey_NotFound_AfterAsOfDate() {
-		Team team = teamRepository.findByTeamKeyAndFromDateAndToDate("harlem-globetrotter's", LocalDate.of(2010, 7, 1), LocalDate.of(2010, 7, 1));
+		Team team = teamRepository.findByTeamKeyAndFromDateAndToDate("harlem-globetrotter's", LocalDate.of(2016, 7, 1), LocalDate.of(2016, 7, 1));
 		Assert.assertNull(team);
 	}
 
@@ -95,7 +95,7 @@ public class TeamRepositoryTest {
 
 	@Test
 	public void findByLastName_NotFound_AfterAsOfDate() {
-		Team team = teamRepository.findByLastNameAndFromDateAndToDate("Globetrotter's", LocalDate.of(2010, 7, 1), LocalDate.of(2010, 7, 1));
+		Team team = teamRepository.findByLastNameAndFromDateAndToDate("Globetrotter's", LocalDate.of(2016, 7, 1), LocalDate.of(2016, 7, 1));
 		Assert.assertNull(team);
 	}
 
