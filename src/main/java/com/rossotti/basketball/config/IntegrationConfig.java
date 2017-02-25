@@ -52,6 +52,11 @@ public class IntegrationConfig {
     }
 
     @Bean
+    public MessageChannel standingsRouterChannel() {
+        return new DirectChannel();
+    }
+
+    @Bean
     public MessageChannel outputChannel() {
         return new DirectChannel();
     }

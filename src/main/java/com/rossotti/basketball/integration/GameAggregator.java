@@ -17,7 +17,7 @@ import java.util.List;
 public class GameAggregator {
 	private final Logger logger = LoggerFactory.getLogger(GameAggregator.class);
 
-	@Aggregator(inputChannel = "gameAggregatorChannel", outputChannel = "outputChannel")
+	@Aggregator(inputChannel = "gameAggregatorChannel", outputChannel = "standingsRouterChannel")
 	public List<Game> aggregate(Collection<Message<?>> games) {
 		logger.debug("begin gameAggregator");
 		List<Game> gameList = new ArrayList<>();

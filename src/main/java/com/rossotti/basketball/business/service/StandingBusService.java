@@ -94,9 +94,8 @@ public class StandingBusService {
 							throw new Exception("Unknown");
 						}
 					}
-
-					logger.info("StandingsCount: " + standings.size() + " Completed: route to outputChannel");
 					standingsBusiness.setStandings(standingAppService.findStandings(asOfDate));
+					logger.info("StandingsCount: " + standings.size() + " Completed: route to outputChannel");
 					standingsBusiness.setStatusCode(StatusCode.Completed);
 				}
 				else {
