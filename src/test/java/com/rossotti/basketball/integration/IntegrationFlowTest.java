@@ -54,12 +54,21 @@ public class IntegrationFlowTest {
         Assert.assertTrue(games.size() == 2);
     }
 
-      @Test
-      public void testFlow_AsOfDateTeam_Roster_Single() {
-          ServiceProperties serviceProperties = new ServiceProperties();
-          serviceProperties.setGameDate("2016-10-29");
-          serviceProperties.setGameTeam("st-louis-bomber's");
-          List<Game> games = gatewayService.processGames(serviceProperties);
-          Assert.assertTrue(games.size() == 1);
-      }
+    @Test
+    public void testFlow_AsOfDateTeam_Roster_OneTeam() {
+        ServiceProperties serviceProperties = new ServiceProperties();
+        serviceProperties.setGameDate("2016-10-29");
+        serviceProperties.setGameTeam("st-louis-bomber's");
+        List<Game> games = gatewayService.processGames(serviceProperties);
+        Assert.assertTrue(games.size() == 1);
+    }
+
+    @Test
+    public void testFlow_AsOfDateTeam_Roster_TwoTeam() {
+        ServiceProperties serviceProperties = new ServiceProperties();
+        serviceProperties.setGameDate("2016-10-30");
+        serviceProperties.setGameTeam("detroit-pistons");
+        List<Game> games = gatewayService.processGames(serviceProperties);
+        Assert.assertTrue(games.size() == 1);
+    }
 }
