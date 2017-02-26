@@ -24,7 +24,7 @@ public class GameFinderActivator {
 
 	@ServiceActivator(inputChannel = "inputChannel", outputChannel = "gameFinderChannel")
 	public List<Game> processGames(ServiceProperties properties) {
-		List<Game> games = new ArrayList<Game>();
+		List<Game> games = new ArrayList<>();
 		LocalDate gameDate = DateTimeConverter.getLocalDate(properties.getGameDate());
 		if (properties.getGameTeam() == null || properties.getGameTeam().isEmpty()) {
 			games = gameAppService.findByAsOfDate(gameDate);

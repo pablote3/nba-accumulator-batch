@@ -17,7 +17,7 @@ public class GameSplitter {
 
 	@Splitter(inputChannel = "gameSplitterChannel", outputChannel = "gameRouterChannel")
 	public List<Message<?>> splitMessage(List<Game> games) {
-		List<Message<?>> messages = new ArrayList<Message<?>>();
+		List<Message<?>> messages = new ArrayList<>();
 		for (int i = 0; i < games.size(); i++) {
 			Game game = games.get(i);
 			Message<?> msg = MessageBuilder
