@@ -1,5 +1,4 @@
 /.idea/
-/.mvn/
 /target/
 *.iml
 /src/main/resources/service.properties
