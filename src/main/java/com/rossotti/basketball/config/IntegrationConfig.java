@@ -52,7 +52,17 @@ public class IntegrationConfig {
     }
 
     @Bean
+    public MessageChannel rosterLoadChannel() {
+        return new DirectChannel();
+    }
+
+    @Bean
     public MessageChannel standingsRouterChannel() {
+        return new DirectChannel();
+    }
+
+    @Bean
+    public MessageChannel standingsRankChannel() {
         return new DirectChannel();
     }
 
