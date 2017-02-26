@@ -54,7 +54,7 @@ public class GameBusService {
 		this.fileStatsService = fileStatsService;
 	}
 
-	public GameBusiness scoreGame(Game game, String previousUpdateTeam) {
+	private GameBusiness scoreGame(Game game, String previousUpdateTeam) {
 		GameBusiness gameBusiness = new GameBusiness(game);
 		try {
 			BoxScore awayBoxScore = game.getBoxScoreAway();
