@@ -5,6 +5,7 @@ import javax.persistence.Converter;
 import java.sql.Date;
 import java.time.LocalDate;
 
+@SuppressWarnings("WeakerAccess")
 @Converter(autoApply = true)
 public class LocalDateConverter implements AttributeConverter<LocalDate, Date> {
 
