@@ -2,7 +2,6 @@ package com.rossotti.basketball.integration;
 
 import com.rossotti.basketball.business.model.GameBusiness;
 import com.rossotti.basketball.business.service.GameBusService;
-import com.rossotti.basketball.jpa.model.Game;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
