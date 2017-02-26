@@ -34,7 +34,7 @@ public class GameJpaServiceTest {
 
 	@Test
 	public void listAll() {
-		List<Game> games = (List<Game>) gameJpaService.listAll();
+		@SuppressWarnings("unchecked") List<Game> games = (List<Game>) gameJpaService.listAll();
 		Assert.assertTrue(games.size() >= 9);
 	}
 

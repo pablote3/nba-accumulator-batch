@@ -35,7 +35,7 @@ public class StandingJpaServiceTest {
 
 	@Test
 	public void listAll() {
-		List<Standing> standings = (List<Standing>) standingJpaService.listAll();
+		@SuppressWarnings("unchecked") List<Standing> standings = (List<Standing>) standingJpaService.listAll();
 		Assert.assertTrue(standings.size() >= 4);
 	}
 

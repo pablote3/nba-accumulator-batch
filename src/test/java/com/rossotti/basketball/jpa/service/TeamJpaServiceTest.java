@@ -35,7 +35,7 @@ public class TeamJpaServiceTest {
 
 	@Test
 	public void listAll() {
-		List<Team> teams = (List<Team>) teamJpaService.listAll();
+		@SuppressWarnings("unchecked") List<Team> teams = (List<Team>) teamJpaService.listAll();
 		Assert.assertTrue(teams.size() >= 11);
 	}
 

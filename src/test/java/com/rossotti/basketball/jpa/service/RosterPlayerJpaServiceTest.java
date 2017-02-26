@@ -37,7 +37,7 @@ public class RosterPlayerJpaServiceTest {
 
 	@Test
 	public void listAll() {
-		List<RosterPlayer> rosterPlayers = (List<RosterPlayer>) rosterPlayerJpaService.listAll();
+		@SuppressWarnings("unchecked") List<RosterPlayer> rosterPlayers = (List<RosterPlayer>) rosterPlayerJpaService.listAll();
 		Assert.assertTrue(rosterPlayers.size() >= 12);
 	}
 

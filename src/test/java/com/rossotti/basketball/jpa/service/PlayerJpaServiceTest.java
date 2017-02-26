@@ -33,7 +33,7 @@ public class PlayerJpaServiceTest {
 
 	@Test
 	public void listAll() {
-		List<Player> players = (List<Player>) playerJpaService.listAll();
+		@SuppressWarnings("unchecked") List<Player> players = (List<Player>) playerJpaService.listAll();
 		Assert.assertTrue(players.size() >= 14);
 	}
 
