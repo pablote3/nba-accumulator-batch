@@ -88,7 +88,7 @@ public class StandingBusService {
 							logger.debug("    OpptOppt Games Won/Played = " + standingRecord.getOpptGamesWon() + "-" + standingRecord.getOpptGamesPlayed());
 							logger.debug("    Opponent Record = " + opponentRecord);
 							logger.debug("    OpptOppt Record = " + opponentOpponentRecord);
-							logger.info("  Strenghth Of Schedule  " + standing.getTeam().getAbbr() + ": " + opponentRecord.multiply(new BigDecimal(2)).add(opponentOpponentRecord).divide(new BigDecimal(3), 4, RoundingMode.HALF_UP));
+							logger.info("  Strength Of Schedule  " + standing.getTeam().getAbbr() + ": " + opponentRecord.multiply(new BigDecimal(2)).add(opponentOpponentRecord).divide(new BigDecimal(3), 4, RoundingMode.HALF_UP));
 						} else {
 							logger.info("Unable to create standing");
 							throw new Exception("Unknown");

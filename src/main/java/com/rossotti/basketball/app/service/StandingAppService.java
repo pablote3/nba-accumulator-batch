@@ -199,7 +199,7 @@ public class StandingAppService {
 		logger.debug('\n' + "  OpptOppt Games Won/Played = " + opptOpptGamesWon + "-" + opptOpptGamesPlayed);
 		logger.debug('\n' + "  Opponent Record = " + opptRecord);
 		logger.debug('\n' + "  OpptOppt Record = " + opptOpptRecord);
-		logger.debug('\n' + "  Strenghth Of Schedule " + teamKey + " " + opptRecord.multiply(new BigDecimal(2)).add(opptOpptRecord).divide(new BigDecimal(3), 4, RoundingMode.HALF_UP));
+		logger.debug('\n' + "  Strength Of Schedule " + teamKey + " " + opptRecord.multiply(new BigDecimal(2)).add(opptOpptRecord).divide(new BigDecimal(3), 4, RoundingMode.HALF_UP));
 
 		return new StandingRecord(opptGamesWon, opptGamesPlayed, opptOpptGamesWon, opptOpptGamesPlayed);
 	}

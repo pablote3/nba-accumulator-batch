@@ -202,7 +202,7 @@ public class DateTimeConverterTest {
 		Assert.assertEquals(LocalDate.of(2013, 6, 29), date);
 	}
 	@Test
-	public void createDateMinusOneDay_BeginingOfMonth() {
+	public void createDateMinusOneDay_BeginningOfMonth() {
 		LocalDate date = DateTimeConverter.getDateMinusOneDay(LocalDate.of(2013, 7, 1));
 		Assert.assertEquals(LocalDate.of(2013, 6, 30), date);
 	}
