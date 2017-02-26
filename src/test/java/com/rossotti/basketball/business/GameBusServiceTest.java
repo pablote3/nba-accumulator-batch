@@ -202,8 +202,7 @@ public class GameBusServiceTest {
 		boxScoreAway.setLocation(Location.Away);
 		boxScoreAway.setTeam(teamAway);
 		game.addBoxScore(boxScoreAway);
-		GameBusiness gameBusiness = new GameBusiness(game, StatusCodeBusiness.StatusCode.Initial);
-		return gameBusiness;
+		return new GameBusiness(game, StatusCodeBusiness.StatusCode.Initial);
 	}
 
 	private Game createMockGame_StatusCode(StatusCodeDAO status) {
