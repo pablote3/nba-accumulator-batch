@@ -21,7 +21,7 @@ public class GameScorerActivator {
 	@ServiceActivator(inputChannel = "gameScoreChannel", outputChannel = "gameResultsChannel")
 	public GameBusiness scoreGame(GameBusiness gameBusiness) {
 		gameBusiness = gameBusService.scoreGame(gameBusiness);
-		logger.info("gameScorer: route to gameResultsChannel");
+		logger.info(gameBusiness.getStatusCode() + ": route to gameResultsChannel");
 		return gameBusiness;
 	}
 }
