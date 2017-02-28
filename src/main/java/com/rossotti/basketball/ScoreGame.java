@@ -73,5 +73,6 @@ public class ScoreGame {
 		else {
 			System.out.println("end gatewayService, no games processed");
 		}
+		ctx.close();
 	}
 }
