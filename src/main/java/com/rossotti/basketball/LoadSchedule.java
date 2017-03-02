@@ -20,16 +20,16 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.StringTokenizer;
 
-@SpringBootApplication
+//@SpringBootApplication
 public class LoadSchedule {
 	private final Logger logger = LoggerFactory.getLogger(LoadSchedule.class);
 
 	public static void main(String[] args) {
 		ConfigurableApplicationContext ctx = SpringApplication.run(LoadSchedule.class, args);
 
-		TeamAppService teamService = (TeamAppService) ctx.getBean("teamService");
-		GameAppService gameService = (GameAppService) ctx.getBean("gameService");
-		PropertyService propertyService = (PropertyService) ctx.getBean("propertyService");
+		TeamAppService teamService = (TeamAppService) ctx.getBean(TeamAppService.class);
+		GameAppService gameService = (GameAppService) ctx.getBean(GameAppService.class);
+		PropertyService propertyService = (PropertyService) ctx.getBean(PropertyService.class);
 
 		Path path =  Paths.get(propertyService.getProperty_Path("loader.fileSchedule")).resolve(System.getProperty("fileName"));
 		File file = path.toFile();
@@ -70,11 +70,13 @@ public class LoadSchedule {
 				boxScoreAway = new BoxScore();
 				boxScoreAway.setLocation(BoxScore.Location.Away);
 				boxScoreAway.setTeam(teamAway);
+				boxScoreAway.setGame(game);
 				game.addBoxScore(boxScoreAway);
 
 				boxScoreHome = new BoxScore();
 				boxScoreHome.setLocation(BoxScore.Location.Home);
 				boxScoreHome.setTeam(teamHome);
+				boxScoreHome.setGame(game);
 				game.addBoxScore(boxScoreHome);
 
 				gameService.createGame(game);
@@ -90,5 +92,6 @@ public class LoadSchedule {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+        ctx.close();
 	}
 }
