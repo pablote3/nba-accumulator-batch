@@ -20,8 +20,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.StringTokenizer;
 
-//@SpringBootApplication
+@SpringBootApplication
 public class LoadSchedule {
+    //  swap extensions with ScoreGame to activate
+
 	private final Logger logger = LoggerFactory.getLogger(LoadSchedule.class);
 
 	public static void main(String[] args) {
