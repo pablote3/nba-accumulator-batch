@@ -187,7 +187,8 @@ public class StandingAppService {
 
 			if (opptGamesWon > opptGamesPlayed) {
 				//head to head wins exceed opponent wins, should only occur until wins start to occur
-				//observed occurrence when loading standings before entire day's games were loaded
+				//1. observed occurrence when loading standings before entire day's games were loaded
+				//2. observed occurrence when to first game played on losing team
 				logger.info('\n' + "Crazy opptGamesWon more than opptGamesPlayed!");
 				opptGamesWon = opptGamesPlayed;
 			}
