@@ -112,10 +112,16 @@ public class GameBusService {
 					awayBoxScore.setDaysOff((short)DateTimeConverter.getDaysBetweenTwoDateTimes(gameAppService.findPreviousByTeamKeyAsOfDate(awayTeamKey, gameDate), gameDateTime));
 					homeBoxScore.setDaysOff((short)DateTimeConverter.getDaysBetweenTwoDateTimes(gameAppService.findPreviousByTeamKeyAsOfDate(homeTeamKey, gameDate), gameDateTime));
 					game.setStatus(GameStatus.Completed);
-					logger.info(gameBusiness.getGame().getBoxScoreAway().getTeam().getAbbr() + " " +
+					Game updatedGame = gameAppService.updateGame(game);
+					if (updatedGame.isUpdated()) {
+						logger.info(gameBusiness.getGame().getBoxScoreAway().getTeam().getAbbr() + " " +
 								gameBusiness.getGame().getBoxScoreAway().getBoxScoreStats().getPoints() + " " +
 								gameBusiness.getGame().getBoxScoreHome().getTeam().getAbbr() + " " +
 								gameBusiness.getGame().getBoxScoreHome().getBoxScoreStats().getPoints());
+					}
+					else {
+						logger.info("Unable to update game : status = " + updatedGame.getStatus());
+					}
 					gameBusiness.setStatusCode(StatusCode.Completed);
 				}
 				else if (gameDTO.isClientException()) {
