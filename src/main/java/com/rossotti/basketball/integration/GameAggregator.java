@@ -26,7 +26,7 @@ public class GameAggregator {
 			logger.debug("msg.sequenceNumber = " + msg.getHeaders().get("sequenceNumber"));
 			logger.debug("msg.sequenceSize = " + msg.getHeaders().get("sequenceSize"));			
 			GameBusiness gameBusiness = (GameBusiness)msg.getPayload();
-			if (gameBusiness.getStatusCode().equals(StatusCode.ServerError) || gameBusiness.getStatusCode().equals(StatusCode.ClientError)) {
+			if (null == gameBusiness.getStatusCode() || gameBusiness.getStatusCode().equals(StatusCode.ServerError) || gameBusiness.getStatusCode().equals(StatusCode.ClientError)) {
 				gameList.add(null);
 			}
 			else {

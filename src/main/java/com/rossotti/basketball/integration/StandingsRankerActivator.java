@@ -25,7 +25,11 @@ public class StandingsRankerActivator {
 	@ServiceActivator(inputChannel = "standingsRankChannel", outputChannel = "outputChannel")
 	public List<Game> rankStandings(List<Game> games) {
 		StandingsBusiness standingBusiness = standingBusService.rankStandings(DateTimeConverter.getStringDate(games.get(0).getGameDateTime()));
-		logger.info("standingsRanker: standingsCount: " + standingBusiness.getStandings().size() + " Completed: route to outputChannel");
+		int result = 0;
+		if (null != standingBusiness.getStandings() ) {
+			result = standingBusiness.getStandings().size();
+		}
+		logger.info("standingsRanker: standingsCount: " + result + " Completed: route to outputChannel");
 		return games;
 	}
 }
