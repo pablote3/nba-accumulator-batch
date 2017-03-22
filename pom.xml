@@ -5,7 +5,7 @@
 
 	<groupId>com.rossotti.basketball</groupId>
 	<artifactId>nba-accumulator-batch</artifactId>
-	<version>4.0</version>
+	<version>4.1</version>
 	<packaging>jar</packaging>
 	<name>nba-accumulator-batch</name>
 
