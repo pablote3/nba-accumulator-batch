@@ -6,67 +6,81 @@ The nba-accumulator application retrieves game, roster, and standings statistics
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-### Prerequisites
+### Installing
+
+Clone project into favorite IDE.
 
 Unit tests can be run by simply cloning the project.  System testing requires a MySQL database.
-
-### Installing
 
 A step by step series of examples that tell you have to get a development env running
 
 
 End with an example of getting some data out of the system or using it for a little demo
 
-## Running the tests
+## Running Unit Tests
 
-Explain how to run the automated tests for this system
+Unit tests will complete without additional configuration, but Spring Integration tests require file system to supply JSON input files to execute code.
 
-### Break down into end to end tests
+Copy testIntegration folder to directory on local file system
 
-Explain what these tests test and why
+    https://drive.google.com/open?id=0ByBsbTluZmwKa3NFTENYcWlDSDQ
 
-```
-Give an example
-```
+Update test/resources/service.properties
 
-### And coding style tests
+    xmlstats.fileBoxScore: replace "/home/pablote/pdrive/pwork/batch/accumulator" with file location of testIntegration folder
+    
+    xmlStats.fileRoster: replace "/home/pablote/pdrive/pwork/batch/accumulator" with file location of testIntegration folder
+    
+    xmlstats.fileStandings: replace "/home/pablote/pdrive/pwork/batch/accumulator" with file location of testIntegration folder
 
-Explain what these tests test and why
+## Running System Tests
 
-```
-Give an example
-```
+System tests require MySQL database to persist data and file system to supply JSON input files.
 
+Install MySQL on Linux based system using command
+
+    sudo apt-get install mysql-server
+
+Create database schema using mysql command
+
+    mysql -u root -p CREATE SCHEMA `accumulate_test` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+Update main/resources/application.properties
+
+    hibernate.hbm2ddl.auto= to hibernate.hbm2ddl.auto=create
+    
+Create tables by running command from project directory
+
+    mvn clean install
+ 
+Reset main/resources/application.properties
+
+    hibernate.hbm2ddl.auto=create to hibernate.hbm2ddl.auto=
+
+Copy testSystem folder to directory on local file system
+
+    https://drive.google.com/open?id=0ByBsbTluZmwKa3NFTENYcWlDSDQ
+
+Load database by running mysql command from testSystem directory
+
+    mysql -u root -p accumulate_test < accumulate_systemTest_20161026.sql
+
+Update main/resources/service.properties
+
+    xmlstats.fileBoxScore: replace "/home/pablote/pdrive/pwork/batch/accumulator" with file location of testSystem folder
+    
+    xmlStats.fileRoster: replace "/home/pablote/pdrive/pwork/batch/accumulator" with file location of testSystem folder
+    
+    xmlstats.fileStandings: replace "/home/pablote/pdrive/pwork/batch/accumulator" with file location of testSystem folder
+    
+Package application by running command from project directory
+
+    mvn package
+    
+Launch system tests by running command from project target directory
+    
+    java -DgameDate="2016-10-27" -DgameTeam="" -jar nba-accumulator-batch.jar
+    
 ## Deployment
 
 Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
