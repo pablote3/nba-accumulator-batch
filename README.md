@@ -6,16 +6,11 @@ The nba-accumulator application retrieves game, roster, and standings statistics
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-### Installing
+## Installing
 
 Clone project into favorite IDE.
 
 Unit tests can be run by simply cloning the project.  System testing requires a MySQL database.
-
-A step by step series of examples that tell you have to get a development env running
-
-
-End with an example of getting some data out of the system or using it for a little demo
 
 ## Running Unit Tests
 
